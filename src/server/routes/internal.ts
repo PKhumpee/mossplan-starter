@@ -11,6 +11,7 @@ import { fail, ok } from '../http/respond';
 import type { AppEnv } from '../http/types';
 import { SnapshotSchema, type Snapshot } from '../../shared/snapshot';
 import { getSiteSettings, runtimeOrigin } from '../db/site-settings';
+import { resolveSecret } from '../services/secrets';
 
 /**
  * Constant-time comparison using SHA-256 digests.
@@ -71,7 +72,7 @@ function hasActiveAffiliateMark(content: unknown, activeLinkIds: Set<string>): b
 export const internalRoutes = new Hono<AppEnv>()
   // ---------------------------------------------------------------- Authentication guard
   .use('/internal/*', async (c, next) => {
-    const expected = c.env.BUILD_CALLBACK_TOKEN?.trim();
+    const expected = (await resolveSecret(c.env, 'BUILD_CALLBACK_TOKEN').catch(() => null))?.trim();
     if (!expected) {
       return fail(
         c,
@@ -386,7 +387,16 @@ export const internalRoutes = new Hono<AppEnv>()
       );
     }
 
-    const [existing] = await db.select().from(schema.build).where(eq(schema.build.id, id)).limit(1);
+    // Workers Builds has no build id to pass along, so it reports against the newest running build.
+    const [existing] =
+      id === 'latest'
+        ? await db
+            .select()
+            .from(schema.build)
+            .where(eq(schema.build.status, 'running'))
+            .orderBy(desc(schema.build.requestedAt))
+            .limit(1)
+        : await db.select().from(schema.build).where(eq(schema.build.id, id)).limit(1);
 
     if (!existing) {
       return fail(c, 404, 'NOT_FOUND', 'ไม่พบข้อมูลการอัปเดตเว็บไซต์');
@@ -414,7 +424,7 @@ export const internalRoutes = new Hono<AppEnv>()
       }
     }
 
-    await db.update(schema.build).set(updateData).where(eq(schema.build.id, id));
+    await db.update(schema.build).set(updateData).where(eq(schema.build.id, existing.id));
 
     return ok(c, { success: true });
   });

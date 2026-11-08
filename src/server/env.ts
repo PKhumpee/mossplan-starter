@@ -26,6 +26,7 @@ export interface Env {
   GITHUB_DISPATCH_TOKEN?: string;
   CF_ANALYTICS_API_TOKEN?: string;
   BUILD_CALLBACK_TOKEN?: string;
+  BUILD_DEPLOY_HOOK_URL?: string;
   CLICK_HASH_SECRET?: string;
   SETUP_TOKEN?: string;
   MOSS_SECRET_KEY?: string;
@@ -57,6 +58,7 @@ export const envSchema = z.object({
   GITHUB_DISPATCH_TOKEN: optionalString,
   CF_ANALYTICS_API_TOKEN: optionalString,
   BUILD_CALLBACK_TOKEN: optionalString,
+  BUILD_DEPLOY_HOOK_URL: optionalString,
   CLICK_HASH_SECRET: optionalString,
   SETUP_TOKEN: optionalString,
   MOSS_SECRET_KEY: optionalString,

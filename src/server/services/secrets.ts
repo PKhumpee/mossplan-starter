@@ -79,14 +79,19 @@ export async function getSecret(
 /** Worker-provided secrets take precedence over encrypted runtime values (D-005). */
 export async function resolveSecret(
   env: Env,
-  name: 'RESEND_API_KEY' | 'TURNSTILE_SECRET_KEY',
+  name:
+    'RESEND_API_KEY' | 'TURNSTILE_SECRET_KEY' | 'BUILD_CALLBACK_TOKEN' | 'BUILD_DEPLOY_HOOK_URL',
 ): Promise<string | null> {
   const configured = env[name];
   return configured?.trim() ? configured : getSecret(env, name);
 }
 
 /** Secrets the customer never sees: generated once at setup and stored encrypted. */
-export const GENERATED_SECRET_NAMES = ['BETTER_AUTH_SECRET', 'CLICK_HASH_SECRET'] as const;
+export const GENERATED_SECRET_NAMES = [
+  'BETTER_AUTH_SECRET',
+  'CLICK_HASH_SECRET',
+  'BUILD_CALLBACK_TOKEN',
+] as const;
 export type GeneratedSecretName = (typeof GENERATED_SECRET_NAMES)[number];
 
 const storedGenerated = new WeakMap<D1Database, Map<GeneratedSecretName, string>>();

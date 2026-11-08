@@ -38,7 +38,7 @@ export async function fetchMedia(options: FetchMediaOptions = {}): Promise<Fetch
   const siteConfig = readSiteConfig();
 
   // Determine if fixture snapshot is in use
-  const envSnapshotPath = process.env.SNAPSHOT_PATH;
+  const envSnapshotPath = process.env.SNAPSHOT_PATH || '.cache/content-snapshot.json';
   const sampleFixturePath = resolve(root, 'fixtures/content-snapshot.sample.json');
   let isFixture = options.forceFixture ?? false;
 
@@ -106,7 +106,7 @@ export async function fetchMedia(options: FetchMediaOptions = {}): Promise<Fetch
         fetchedCount++;
       } else {
         const token = process.env.BUILD_CALLBACK_TOKEN;
-        const siteUrl = process.env.SITE_URL || siteConfig.SITE_URL;
+        const siteUrl = process.env.BUILD_SITE_URL || process.env.SITE_URL || siteConfig.SITE_URL;
         const url = `${siteUrl.replace(/\/+$/, '')}/api/internal/media/${item.id}`;
         const headers: Record<string, string> = {};
         if (token) {

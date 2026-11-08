@@ -11,7 +11,7 @@
     "moss": "node packages/cli/src/index.js",
     "dev": "astro dev",
     "build:og": "tsx scripts/build-og.ts",
-    "build": "pnpm fetch-media && pnpm build:og && astro build && pnpm redirects && pnpm well-known && pnpm pagefind && pnpm check:seo && pnpm check:assets && pnpm check:affiliate && pnpm check:media",
+    "build": "tsx scripts/build-content.ts start && pnpm fetch-media && pnpm build:og && astro build && pnpm redirects && pnpm well-known && pnpm pagefind && pnpm check:seo && pnpm check:assets && pnpm check:affiliate && pnpm check:media && tsx scripts/build-content.ts done",
     "preview": "astro preview",
     "typecheck": "astro check",
     "lint": "oxlint && prettier --check .",

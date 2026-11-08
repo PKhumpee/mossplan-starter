@@ -2,6 +2,7 @@ import { and, desc, eq, gt } from 'drizzle-orm';
 import { getDb } from '../db/client';
 import * as schema from '../db/schema';
 import type { Env } from '../env';
+import { isValidDeployHookUrl, resolveDeployHook } from './deploy-hook';
 
 export interface BuildRequest {
   reason: string;
@@ -9,6 +10,42 @@ export interface BuildRequest {
 }
 
 const COLLAPSE_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+
+/**
+ * Starts a Workers Build. The build begins right away and reads content when it starts, so the row
+ * leaves `queued` here: a later publish must not collapse into a build that already read its content.
+ * Errors never include the hook URL, which is a credential.
+ */
+async function triggerDeployHook(
+  db: ReturnType<typeof getDb>,
+  buildId: string,
+  hookUrl: string,
+): Promise<void> {
+  const markFailed = (error: string) =>
+    db
+      .update(schema.build)
+      .set({ status: 'failed', finishedAt: Date.now(), error })
+      .where(eq(schema.build.id, buildId));
+
+  if (!isValidDeployHookUrl(hookUrl)) {
+    await markFailed('Deploy Hook URL is invalid');
+    return;
+  }
+  try {
+    // A redirect would send the request outside the validated endpoint, so it counts as a failure.
+    const response = await fetch(hookUrl, { method: 'POST', redirect: 'manual' });
+    if (!response.ok) {
+      await markFailed(`Deploy Hook rejected with HTTP ${response.status}`);
+      return;
+    }
+    await db
+      .update(schema.build)
+      .set({ status: 'running', startedAt: Date.now() })
+      .where(eq(schema.build.id, buildId));
+  } catch {
+    await markFailed('Deploy Hook network failure');
+  }
+}
 
 /**
  * Requests a site rebuild (CONTRACTS §5, §8, T12).
@@ -45,13 +82,20 @@ export async function requestBuild(env: Env, req: BuildRequest): Promise<{ build
     requestedAt: now,
   });
 
-  // 3. Dispatch GitHub workflow
+  // 3. Customer installs build through a Workers Builds Deploy Hook (D-002, D-010)
+  const deployHook = await resolveDeployHook(env);
+  if (deployHook) {
+    await triggerDeployHook(db, buildId, deployHook);
+    return { buildId };
+  }
+
+  // 4. Otherwise dispatch the GitHub workflow used by development installs
   const token = env.GITHUB_DISPATCH_TOKEN?.trim();
   const repo = env.GITHUB_REPO?.trim();
   const workflow = env.GITHUB_DEPLOY_WORKFLOW?.trim() || 'deploy.yml';
 
   if (!token) {
-    const errorMsg = 'GITHUB_DISPATCH_TOKEN is not configured';
+    const errorMsg = 'Deploy Hook or GITHUB_DISPATCH_TOKEN is not configured';
     await db
       .update(schema.build)
       .set({

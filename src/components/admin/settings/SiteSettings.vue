@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { api, ApiError } from '../../../admin-client/api';
 import { toast } from '../../../admin-client/toast';
 import Button from '../ui/Button.vue';
+import BuildConnection from './BuildConnection.vue';
 import ConfirmDialog from '../ui/ConfirmDialog.vue';
 import Modal from '../ui/Modal.vue';
 
@@ -197,6 +198,8 @@ function confirmDisable() {
         </div>
       </div>
     </div>
+
+    <BuildConnection />
 
     <!-- Pre-launch Checklist Modal (When enabling indexing) -->
     <Modal
