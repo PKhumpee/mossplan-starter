@@ -39,10 +39,6 @@
     "PUBLIC_NOINDEX": "false",
     // HSTS max-age in seconds. 300 (5 min) during testing; raise at launch (T17/T20).
     "HSTS_MAX_AGE": "300",
-    "CF_WEB_ANALYTICS_SITE_TAG": "",
-    "PUBLIC_TURNSTILE_SITE_KEY": "",
-    "CF_ACCESS_TEAM_DOMAIN": "",
-    "CF_ACCESS_AUD": "",
   },
 
   // Secrets (never here): BETTER_AUTH_SECRET, RESEND_API_KEY, TURNSTILE_SECRET_KEY, GITHUB_DISPATCH_TOKEN,

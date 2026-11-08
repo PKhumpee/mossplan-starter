@@ -17,7 +17,7 @@ Mossplan is under active development. New websites start with search indexing di
 > **Not yet tested:** the button points to the public `PKhumpee/mossplan-starter` repository, but no real Cloudflare deployment has been tested.
 
 1. Select **Deploy to Cloudflare** and follow the deployment form.
-2. Set `SETUP_TOKEN` and `MOSS_SECRET_KEY` as secrets in the deploy form. If the form does not offer these fields, add them in the Worker dashboard under **Settings > Variables and Secrets**. Do not add them as plain-text variables or commit their values.
+2. Set `SETUP_TOKEN` and `MOSS_SECRET_KEY` as secrets in the deploy form. If the form does not offer these fields, add them in the Worker dashboard under **Settings > Variables and Secrets**. Do not add them as plain-text variables or commit their values. `MOSS_SECRET_KEY` must be the base64 of 32 random bytes. Create it with `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` and do not change it after setup, because it decrypts the saved keys. `SETUP_TOKEN` can be any long random string.
 3. Open `https://<your-worker-domain>/admin/setup` and complete the setup.
 
 Keep both values private. `SETUP_TOKEN` protects initial setup; `MOSS_SECRET_KEY` encrypts secrets saved during setup. For manual Wrangler deployments, add secrets interactively with `pnpm exec wrangler secret put SETUP_TOKEN` and `pnpm exec wrangler secret put MOSS_SECRET_KEY`; Wrangler prompts for each value, so do not put secret values in commands or logs.
@@ -57,7 +57,7 @@ Mossplan อยู่ระหว่างการพัฒนา เว็บ�
 > **ยังไม่ได้ทดสอบ:** ปุ่มนี้ชี้ไปที่ `PKhumpee/mossplan-starter` ซึ่งเป็น Public แล้ว แต่ยังไม่ได้ทดสอบ deploy จริงบน Cloudflare
 
 1. กด **Deploy to Cloudflare** แล้วทำตามแบบฟอร์ม
-2. ตั้ง `SETUP_TOKEN` และ `MOSS_SECRET_KEY` เป็น Secret ในแบบฟอร์ม Deploy หากไม่มีช่องให้กรอก ให้เพิ่มใน Cloudflare Dashboard ที่ **Settings > Variables and Secrets** ห้ามใส่เป็นตัวแปรข้อความธรรมดาหรือ commit ค่าเหล่านี้
+2. ตั้ง `SETUP_TOKEN` และ `MOSS_SECRET_KEY` เป็น Secret ในแบบฟอร์ม Deploy หากไม่มีช่องให้กรอก ให้เพิ่มใน Cloudflare Dashboard ที่ **Settings > Variables and Secrets** ห้ามใส่เป็นตัวแปรข้อความธรรมดาหรือ commit ค่าเหล่านี้ `MOSS_SECRET_KEY` ต้องเป็น base64 ของข้อมูลสุ่ม 32 ไบต์ สร้างได้ด้วย `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` และห้ามเปลี่ยนหลังตั้งค่าแล้ว เพราะใช้ถอดรหัส key ที่บันทึกไว้ ส่วน `SETUP_TOKEN` ใช้ข้อความสุ่มยาว ๆ ได้
 3. เปิด `https://<โดเมน-worker>/admin/setup` แล้วตั้งค่าต่อให้เสร็จ
 
 เก็บค่าทั้งสองเป็นความลับ `SETUP_TOKEN` ใช้ป้องกันการตั้งค่าครั้งแรก ส่วน `MOSS_SECRET_KEY` ใช้เข้ารหัส Secret ที่บันทึกจากหน้า setup

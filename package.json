@@ -80,5 +80,15 @@
     "typescript": "^6.0.3",
     "vitest": "^4.1.11",
     "wrangler": "^4.149.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "SETUP_TOKEN": {
+        "description": "Any long random string. You enter it once at `/admin/setup`. Keep it private."
+      },
+      "MOSS_SECRET_KEY": {
+        "description": "Base64 of 32 random bytes, used to encrypt saved keys. Create it with `node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\"` and do not change it after setup."
+      }
+    }
   }
 }
