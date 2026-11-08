@@ -1,7 +1,18 @@
 import type { Env } from './env';
 import { run as runAffiliateJobs } from './jobs/affiliate-jobs';
+import { run as expireStaleBuilds } from './jobs/expire-stale-builds';
 import { run as publishScheduled } from './jobs/publish-scheduled';
 import { run as syncStats } from './jobs/sync-stats';
+
+/** Five-minute cron: build status upkeep must never stop scheduled publishing. */
+export async function runFiveMinuteCron(env: Env): Promise<void> {
+  try {
+    await expireStaleBuilds(env);
+  } catch (err) {
+    console.error('[scheduled] expireStaleBuilds failed:', err);
+  }
+  await publishScheduled(env);
+}
 
 /**
  * Daily cron handler (15 0 * * *).
@@ -25,7 +36,7 @@ export async function runDailyCron(env: Env): Promise<void> {
 
 /** Cron strings from `wrangler.jsonc` (CONTRACTS §2) mapped to their jobs. */
 export const CRON_JOBS: Record<string, (env: Env) => Promise<void>> = {
-  '*/5 * * * *': publishScheduled,
+  '*/5 * * * *': runFiveMinuteCron,
   '15 0 * * *': runDailyCron,
 };
 
