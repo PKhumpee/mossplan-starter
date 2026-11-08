@@ -14,6 +14,7 @@ Mossplan is under active development. New websites start with search indexing di
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/PKhumpee/mossplan-starter)
 
+> **Not yet tested:** the button points to the public `PKhumpee/mossplan-starter` repository, but no real Cloudflare deployment has been tested.
 
 1. Select **Deploy to Cloudflare** and follow the deployment form.
 2. Set `SETUP_TOKEN` and `MOSS_SECRET_KEY` as secrets in the deploy form. If the form does not offer these fields, add them in the Worker dashboard under **Settings > Variables and Secrets**. Do not add them as plain-text variables or commit their values.
@@ -53,6 +54,7 @@ Mossplan อยู่ระหว่างการพัฒนา เว็บ�
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/PKhumpee/mossplan-starter)
 
+> **ยังไม่ได้ทดสอบ:** ปุ่มนี้ชี้ไปที่ `PKhumpee/mossplan-starter` ซึ่งเป็น Public แล้ว แต่ยังไม่ได้ทดสอบ deploy จริงบน Cloudflare
 
 1. กด **Deploy to Cloudflare** แล้วทำตามแบบฟอร์ม
 2. ตั้ง `SETUP_TOKEN` และ `MOSS_SECRET_KEY` เป็น Secret ในแบบฟอร์ม Deploy หากไม่มีช่องให้กรอก ให้เพิ่มใน Cloudflare Dashboard ที่ **Settings > Variables and Secrets** ห้ามใส่เป็นตัวแปรข้อความธรรมดาหรือ commit ค่าเหล่านี้

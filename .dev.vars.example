@@ -1,6 +1,7 @@
 # Copy to .dev.vars (git-ignored) for local `pnpm dev`. Names only here; never store real values in the repo.
 # Generate random secrets locally, e.g.:
 #   node -e "process.stdout.write(require('crypto').randomBytes(32).toString('hex'))"
+# BETTER_AUTH_SECRET and CLICK_HASH_SECRET are optional: /admin/setup generates them when unset.
 BETTER_AUTH_SECRET=
 RESEND_API_KEY=
 TURNSTILE_SECRET_KEY=

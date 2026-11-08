@@ -6,6 +6,7 @@ import { getDb } from '../db/client';
 import * as schema from '../db/schema';
 import type { Env } from '../env';
 import type { AppEnv } from '../http/types';
+import { resolveGeneratedSecret } from '../services/secrets';
 
 // Slug regex per AFFILIATE §3: ^/go/([a-z0-9]+(?:-[a-z0-9]+)*)/?$
 export const GO_SLUG_REGEX = /^\/go\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/;
@@ -139,7 +140,7 @@ goRoutes.all('*', async (c) => {
 
     const logPromise = (async () => {
       try {
-        const hashSecret = c.env.CLICK_HASH_SECRET ?? 'dev-click-hash-secret';
+        const hashSecret = await resolveGeneratedSecret(c.env, 'CLICK_HASH_SECRET');
         const hash = await ipHash(hashSecret, day, rawIp);
         await db.insert(schema.affiliateClick).values({
           id: crypto.randomUUID(),

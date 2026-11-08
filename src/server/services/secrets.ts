@@ -85,4 +85,56 @@ export async function resolveSecret(
   return configured?.trim() ? configured : getSecret(env, name);
 }
 
+/** Secrets the customer never sees: generated once at setup and stored encrypted. */
+export const GENERATED_SECRET_NAMES = ['BETTER_AUTH_SECRET', 'CLICK_HASH_SECRET'] as const;
+export type GeneratedSecretName = (typeof GENERATED_SECRET_NAMES)[number];
+
+const storedGenerated = new WeakMap<D1Database, Map<GeneratedSecretName, string>>();
+const isolateFallback = new Map<GeneratedSecretName, string>();
+
+export function newGeneratedSecret(): string {
+  return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+export function clearGeneratedSecretCache(db: D1Database): void {
+  storedGenerated.delete(db);
+}
+
+/**
+ * Resolves a generated secret: Worker secret first (D-005), then the stored value. Before setup, or
+ * if the stored value cannot be read, it falls back to a random value private to this isolate, so
+ * there is never a shared default. Only stored values are cached, so setup takes effect at once.
+ */
+export async function resolveGeneratedSecret(env: Env, name: GeneratedSecretName): Promise<string> {
+  const configured = env[name];
+  if (configured?.trim()) return configured;
+
+  const cached = storedGenerated.get(env.DB)?.get(name);
+  if (cached) return cached;
+
+  try {
+    const stored = await getSecret(env, name);
+    if (stored) {
+      let values = storedGenerated.get(env.DB);
+      if (!values) {
+        values = new Map();
+        storedGenerated.set(env.DB, values);
+      }
+      values.set(name, stored);
+      return stored;
+    }
+  } catch {
+    console.error('[secrets] could not read generated secret', name);
+  }
+
+  let fallback = isolateFallback.get(name);
+  if (!fallback) {
+    fallback = newGeneratedSecret();
+    isolateFallback.set(name, fallback);
+  }
+  return fallback;
+}
+
 export { fromBase64, toBase64 };

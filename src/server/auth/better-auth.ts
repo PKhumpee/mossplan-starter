@@ -10,7 +10,7 @@ import { recordAudit } from '../db/audit';
 import { getDb } from '../db/client';
 import { getSiteSettings, runtimeOrigin } from '../db/site-settings';
 import { getSetting } from '../db/settings';
-import { resolveSecret } from '../services/secrets';
+import { resolveGeneratedSecret, resolveSecret } from '../services/secrets';
 import * as schema from '../db/schema';
 
 // Export schema map covering both camelCase and snake_case for Better Auth adapter
@@ -76,12 +76,12 @@ async function sendOtpEmail(options: {
   }
 }
 
-export function createAuth(env: Env, baseURL: string) {
+export function createAuth(env: Env, baseURL: string, secret: string) {
   const db = getDb(env);
 
   return betterAuth({
     baseURL,
-    secret: env.BETTER_AUTH_SECRET,
+    secret,
     trustedOrigins: [baseURL],
     database: drizzleAdapter(db, {
       provider: 'sqlite',
@@ -241,20 +241,23 @@ export async function resolveAuthOrigin(env: Env, requestUrl: string): Promise<s
   }
 }
 
-// Cache by binding and origin because the fallback origin is request-specific before setup.
+// Cache by binding, origin and secret: before setup both the origin and the secret can differ from
+// their final values, and an instance built with the pre-setup secret must not survive setup.
 const authCache = new WeakMap<D1Database, Map<string, ReturnType<typeof createAuth>>>();
 
 export async function getAuth(env: Env, requestUrl: string) {
   const origin = await resolveAuthOrigin(env, requestUrl);
+  const secret = await resolveGeneratedSecret(env, 'BETTER_AUTH_SECRET');
   let instances = authCache.get(env.DB);
   if (!instances) {
     instances = new Map();
     authCache.set(env.DB, instances);
   }
-  let instance = instances.get(origin);
+  const key = `${origin}\n${secret}`;
+  let instance = instances.get(key);
   if (!instance) {
-    instance = createAuth(env, origin);
-    instances.set(origin, instance);
+    instance = createAuth(env, origin, secret);
+    instances.set(key, instance);
   }
   return instance;
 }

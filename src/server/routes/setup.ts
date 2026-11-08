@@ -7,7 +7,12 @@ import type { Env } from '../env';
 import { isAllowedSiteProtocol } from '../../shared/site';
 import { invalidateSiteSettings } from '../db/site-settings';
 import type { AppEnv } from '../http/types';
-import { encryptValue } from '../services/secrets';
+import {
+  clearGeneratedSecretCache,
+  encryptValue,
+  GENERATED_SECRET_NAMES,
+  newGeneratedSecret,
+} from '../services/secrets';
 import { prepareSetupSettingsWrite } from '../services/settings';
 import {
   constantTimeEqual,
@@ -278,6 +283,13 @@ export const setupRoutes = new Hono<AppEnv>()
     const userId = crypto.randomUUID();
     const resendSecret = await encryptValue(c.env.MOSS_SECRET_KEY, draft.resendApiKey);
     const turnstileSecret = await encryptValue(c.env.MOSS_SECRET_KEY, draft.turnstileSecretKey);
+    const masterKey = c.env.MOSS_SECRET_KEY;
+    const generatedSecrets = await Promise.all(
+      GENERATED_SECRET_NAMES.map(async (name) => ({
+        name,
+        ...(await encryptValue(masterKey, newGeneratedSecret())),
+      })),
+    );
     const [claim] = await c.env.DB.batch([
       c.env.DB.prepare(
         `UPDATE setup_state SET consumed_at = ? WHERE id = 1 AND consumed_at IS NULL
@@ -300,6 +312,13 @@ export const setupRoutes = new Hono<AppEnv>()
         now,
         consumeNonce,
       ),
+      ...generatedSecrets.map((secret) =>
+        c.env.DB.prepare(
+          `INSERT INTO secrets (name, iv, ciphertext, updated_at)
+         SELECT ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM setup_state WHERE id = 1 AND consumed_at = ?)
+         ON CONFLICT(name) DO UPDATE SET iv = excluded.iv, ciphertext = excluded.ciphertext, updated_at = excluded.updated_at`,
+        ).bind(secret.name, secret.iv, secret.ciphertext, now, consumeNonce),
+      ),
       c.env.DB.prepare(
         `INSERT INTO user (id, name, email, email_verified, created_at, updated_at, role)
          SELECT ?, ?, ?, 1, ?, ?, 'admin' WHERE EXISTS (SELECT 1 FROM setup_state WHERE id = 1 AND consumed_at = ?)`,
@@ -311,6 +330,7 @@ export const setupRoutes = new Hono<AppEnv>()
 
     if (claim?.meta.changes !== 1) return c.notFound();
     invalidateSiteSettings(c.env.DB);
+    clearGeneratedSecretCache(c.env.DB);
     deleteCookie(c, COOKIE, {
       path: '/api/setup',
       secure: true,
