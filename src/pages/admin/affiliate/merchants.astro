@@ -1,0 +1,16 @@
+---
+// Admin Affiliate Merchants page (AFFILIATE §6, T22).
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import MerchantManager from '../../../components/admin/affiliate/MerchantManager.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+---
+
+<AdminLayout title="ร้านค้า affiliate" active="affiliate">
+  <MerchantManager client:only="vue" userRole={user.role} />
+</AdminLayout>

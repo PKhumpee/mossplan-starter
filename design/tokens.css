@@ -1,0 +1,49 @@
+/* Mossplan design tokens. Generated from design/tokens.json by scripts/build-tokens.mjs; do not edit. */
+:root {
+  color-scheme: light;
+  --moss-bg: #F6F8F7;
+  --moss-surface: #FFFFFF;
+  --moss-grid: #DDE5E0;
+  --moss-primary: #3F6B3A;
+  --moss-secondary: #1E3A5F;
+  --moss-text: #14201A;
+  --moss-muted: #5B6B62;
+
+  --moss-font-sans: Inter, 'IBM Plex Sans Thai', 'Noto Sans Thai', system-ui, sans-serif;
+  --moss-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --moss-space-0: 0px;
+  --moss-space-1: 4px;
+  --moss-space-2: 8px;
+  --moss-space-3: 12px;
+  --moss-space-4: 16px;
+  --moss-space-5: 24px;
+  --moss-space-6: 32px;
+  --moss-space-7: 48px;
+  --moss-space-8: 64px;
+  --moss-radius: 6px;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --moss-bg: #0E1726;
+  --moss-surface: #152033;
+  --moss-grid: #1E3A5F;
+  --moss-primary: #7FB069;
+  --moss-secondary: #8FB3D9;
+  --moss-text: #E8EEF2;
+  --moss-muted: #9AA8B5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --moss-bg: #0E1726;
+    --moss-surface: #152033;
+    --moss-grid: #1E3A5F;
+    --moss-primary: #7FB069;
+    --moss-secondary: #8FB3D9;
+    --moss-text: #E8EEF2;
+    --moss-muted: #9AA8B5;
+  }
+}

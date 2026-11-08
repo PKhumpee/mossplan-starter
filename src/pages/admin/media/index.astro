@@ -1,0 +1,27 @@
+---
+// Admin media library page (DESIGN §10.3, CONTRACTS §5).
+// Prerender = false; wrapped by AdminLayout.
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import MediaManager from '../../../components/admin/media/MediaManager.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+---
+
+<AdminLayout title="คลังสื่อและรูปภาพ" active="media">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-h2 font-bold text-text">คลังสื่อและรูปภาพ (Media Library)</h1>
+      <p class="text-caption text-muted mt-1">
+        จัดการรูปภาพสำหรับบทความและโปรไฟล์ จัดเก็บไฟล์ต้นฉบับบน Cloudflare R2
+        พร้อมระบบย่อขนาดและลบพิกัด GPS อัตโนมัติ
+      </p>
+    </div>
+
+    <MediaManager client:only="vue" />
+  </div>
+</AdminLayout>

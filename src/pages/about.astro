@@ -1,0 +1,68 @@
+---
+// About page (DESIGN §5.5, D28, CONTRACTS §7):
+// Draft Thai copy awaiting owner review before launch (T20).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
+import Prose from '../components/public/ui/Prose.astro';
+import { getAllCategories, getSiteInfo } from '../lib/content/queries';
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+export const LAST_UPDATED = '14 ต.ค. 2569';
+
+const canonical = '/about/';
+const title = `เกี่ยวกับเรา — ${site.name}`;
+const description = `ทำความรู้จักกับ ${site.name} พันธกิจในการนำเสนอเนื้อหาที่อ่านง่าย ถูกต้อง และตรวจสอบได้`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'เกี่ยวกับเรา' }]} />
+    </div>
+
+    <header class="mb-8 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">เกี่ยวกับเรา</h1>
+      <p class="mt-2 text-caption text-muted tabular-nums">ปรับปรุงล่าสุด {LAST_UPDATED}</p>
+    </header>
+
+    <Prose>
+      <p>
+        <strong>{site.name}</strong> คือเว็บไซต์บทความ ข่าวสาร และคู่มือภาษาไทย
+        ที่มุ่งเน้นการให้ข้อมูลที่ถูกต้อง อธิบายเข้าใจง่าย และตรวจสอบแหล่งที่มาได้
+        เพื่อประโยชน์สูงสุดของผู้อ่านในยุคดิจิทัล
+      </p>
+
+      <h2>พันธกิจและสิ่งที่เรานำเสนอ</h2>
+      <p>
+        เราเชื่อมั่นว่าเนื้อหาที่ดีต้องเริ่มจากข้อเท็จจริง
+        ทีมงานของเราทำการค้นคว้าและทดสอบข้อมูลจากแหล่งปฐมภูมิ
+        ก่อนนำมาเรียบเรียงให้อ่านง่ายสำหรับผู้ใช้งานทุกระดับ ไม่ว่าจะเป็นเรื่องเทคโนโลยี การเงิน
+        ไลฟ์สไตล์ หรือข่าวสารรอบตัว
+      </p>
+
+      <h2>ทีมผู้เขียนและกองบรรณาธิการ</h2>
+      <p>
+        บทความทุกชิ้นบนเว็บไซต์ผลิตโดยทีมงานที่มีตัวตนจริงและมีความเชี่ยวชาญเฉพาะทาง
+        คุณสามารถดูรายชื่อ ประวัติ และผลงานของทีมงานทุกคนได้ที่หน้า
+        <a href="/authors/">ทีมผู้เขียนของเรา</a>
+      </p>
+
+      <h2>มาตรฐานความโปร่งใส</h2>
+      <p>
+        เรายึดมั่นในความโปร่งใสต่อผู้อ่านอย่างสูงสุด โดยปฏิบัติตาม
+        <a href="/editorial-policy/">นโยบายบรรณาธิการ</a> อย่างเคร่งครัด
+        และเปิดเผยแนวทางการหารายได้ผ่าน
+        <a href="/disclosure/">หน้านโยบายการเปิดเผยข้อมูล</a>
+      </p>
+    </Prose>
+  </div>
+</BaseLayout>

@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mossplan Brand Assets Preview (P1)</title>
+  <style>
+    /* Zero external dependencies. System & mono fonts only. */
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      
+      /* Light tokens */
+      --light-bg: #F6F8F7;
+      --light-surface: #FFFFFF;
+      --light-grid: #DDE5E0;
+      --light-primary: #3F6B3A;
+      --light-secondary: #1E3A5F;
+      --light-text: #14201A;
+      --light-muted: #5B6B62;
+
+      /* Dark tokens */
+      --dark-bg: #0E1726;
+      --dark-surface: #152033;
+      --dark-grid: #1E3A5F;
+      --dark-primary: #7FB069;
+      --dark-secondary: #8FB3D9;
+      --dark-text: #E8EEF2;
+      --dark-muted: #9AA8B5;
+
+      /* CLI Accent */
+      --cli-accent: #7FB069;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: #E5E9E7;
+      color: #14201A;
+      padding: 32px 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    header {
+      background: #FFFFFF;
+      padding: 24px 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    header p {
+      color: #5B6B62;
+      font-size: 14px;
+    }
+
+    /* Theme Containers */
+    .theme-panel {
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .theme-panel.light {
+      background: var(--light-bg);
+      color: var(--light-text);
+    }
+    .theme-panel.dark {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .theme-title {
+      font-size: 20px;
+      font-weight: 700;
+      border-bottom: 2px solid currentColor;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .theme-title span {
+      font-size: 13px;
+      font-family: var(--font-mono);
+      font-weight: normal;
+      opacity: 0.8;
+    }
+
+    .card {
+      border-radius: 10px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .light .card {
+      background: var(--light-surface);
+      border: 1px solid var(--light-grid);
+    }
+    .dark .card {
+      background: var(--dark-surface);
+      border: 1px solid var(--dark-grid);
+    }
+
+    .card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+    }
+
+    .size-grid {
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .size-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .size-item .asset-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+    }
+    .size-item .label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      opacity: 0.7;
+    }
+
+    .warning-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 4px;
+      background: #FFF3CD;
+      color: #856404;
+      border: 1px solid #FFEEBA;
+    }
+    .dark .warning-badge {
+      background: #3E2C00;
+      color: #FFD97D;
+      border: 1px solid #664D03;
+    }
+
+    .primary-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 4px;
+      background: #D4EDDA;
+      color: #155724;
+      border: 1px solid #C3E6CB;
+    }
+    .dark .primary-badge {
+      background: #14351B;
+      color: #7FB069;
+      border: 1px solid #23582D;
+    }
+
+    /* Pixel Magnifier */
+    .magnifier-wrap {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .pixel-zoom {
+      image-rendering: pixelated;
+      width: 128px;
+      height: 128px;
+      border: 1px dashed rgba(128,128,128,0.4);
+    }
+
+    /* Terminal CLI Box */
+    .terminal-box {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.25;
+      background: #0B1015;
+      color: var(--cli-accent);
+      padding: 18px 24px;
+      border-radius: 8px;
+      overflow-x: auto;
+      white-space: pre;
+      border: 1px solid #1E293B;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      font-family: var(--font-mono);
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(128,128,128,0.2);
+    }
+    th { font-weight: 600; opacity: 0.8; }
+    .pass { color: #28a745; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>Mossplan Design Assets & Verification (P1)</h1>
+    <p>Role: UI + Visual (Vision) &middot; Branch: <code>antigravity/P1-logo-mossbit</code> &middot; Coordinator: Claude Code</p>
+  </header>
+
+  <!-- ==================== LIGHT THEME ==================== -->
+  <section class="theme-panel light" id="theme-light">
+    <div class="theme-title">
+      Light Theme Preview
+      <span>bg: #F6F8F7 &middot; surface: #FFFFFF &middot; primary: #3F6B3A &middot; grid: #DDE5E0</span>
+    </div>
+
+    <!-- 1. Full Logo -->
+    <div class="card">
+      <h3>1. Full Logo (Option B - Primary)</h3>
+      <div style="padding: 12px 0;">
+        <img src="logo/logo-light.svg" alt="Mossplan Logo Light" height="54">
+      </div>
+    </div>
+
+    <!-- 2. Mark Comparison: Option B vs Option A -->
+    <div class="card">
+      <h3>2. Mark Comparison: Option B (Primary) vs Option A</h3>
+      <p style="font-size: 13px; color: var(--light-muted);">
+        เปรียบเทียบรูปทรงที่ขนาด 16, 32, 64 และ 128 px:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <!-- Option B -->
+        <div>
+          <div style="margin-bottom: 8px;">
+            <strong>Option B: Directional Downward V Chevron</strong>
+            <span class="primary-badge">Primary Asset</span>
+          </div>
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-light.svg" width="16" height="16"></div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-light.svg" width="32" height="32"></div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-light.svg" width="64" height="64"></div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-light.svg" width="128" height="128"></div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Option A -->
+        <div>
+          <div style="margin-bottom: 8px;">
+            <strong>Option A: Canonical 7 Squares [X][.][X] / [X][X][X] / [X][.][X]</strong>
+            <span class="warning-badge">อ่านเป็น H เมื่อไม่มีคำกำกับ</span>
+          </div>
+          <!-- Option A SVG inline for direct comparison -->
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="16" height="16" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                </svg>
+              </div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="32" height="32" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                </svg>
+              </div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="64" height="64" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                </svg>
+              </div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="128" height="128" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#DDE5E0"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#3F6B3A"/>
+                </svg>
+              </div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Favicon & 16px Stepped Alignment -->
+    <div class="card">
+      <h3>3. Favicon 16×16 (Pixel-Aligned, Zero Blur)</h3>
+      <div class="magnifier-wrap">
+        <div>
+          <div style="font-size: 12px; margin-bottom: 6px;">1:1 Real Size (16px)</div>
+          <img src="logo/favicon.svg" width="16" height="16" style="border: 1px solid #DDE5E0; padding: 2px;">
+        </div>
+        <div>
+          <div style="font-size: 12px; margin-bottom: 6px;">16x Magnification (Stepped Integer Grid)</div>
+          <img src="logo/favicon.svg" class="pixel-zoom">
+        </div>
+        <p style="font-size: 13px; color: var(--light-muted); max-width: 500px;">
+          จัดวางพิกเซลแบบขั้นบันไดตรงพิกัดจำนวนเต็ม (integer coordinates) แถวกลาง x=6,9 (y=6) และ x=7..8 (y=7..8) ไม่มีขอบเบลอ และอ่านเป็นตัว M ได้ชัดเจนที่ 16px
+        </p>
+      </div>
+    </div>
+
+    <!-- 4. Mossbit Mascot (Light) -->
+    <div class="card">
+      <h3>4. Mossbit Mascot (8×8 Pixels)</h3>
+      <div style="display: flex; gap: 48px; flex-wrap: wrap;">
+        <div>
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Mossbit Normal</div>
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="16" height="16"></div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="32" height="32"></div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="64" height="64"></div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="128" height="128"></div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Mossbit 404 (Confused / Lost)</div>
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="16" height="16"></div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="32" height="32"></div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="64" height="64"></div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="128" height="128"></div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== DARK THEME ==================== -->
+  <section class="theme-panel dark" id="theme-dark">
+    <div class="theme-title">
+      Dark Theme Preview
+      <span>bg: #0E1726 &middot; surface: #152033 &middot; primary: #7FB069 &middot; grid: #1E3A5F</span>
+    </div>
+
+    <!-- 1. Full Logo -->
+    <div class="card">
+      <h3>1. Full Logo (Option B - Primary)</h3>
+      <div style="padding: 12px 0;">
+        <img src="logo/logo-dark.svg" alt="Mossplan Logo Dark" height="54">
+      </div>
+    </div>
+
+    <!-- 2. Mark Comparison: Option B vs Option A -->
+    <div class="card">
+      <h3>2. Mark Comparison: Option B (Primary) vs Option A</h3>
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <!-- Option B -->
+        <div>
+          <div style="margin-bottom: 8px;">
+            <strong>Option B: Directional Downward V Chevron</strong>
+            <span class="primary-badge">Primary Asset</span>
+          </div>
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-dark.svg" width="16" height="16"></div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-dark.svg" width="32" height="32"></div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-dark.svg" width="64" height="64"></div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="logo/mark-dark.svg" width="128" height="128"></div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Option A -->
+        <div>
+          <div style="margin-bottom: 8px;">
+            <strong>Option A: Canonical 7 Squares</strong>
+            <span class="warning-badge">อ่านเป็น H เมื่อไม่มีคำกำกับ</span>
+          </div>
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="16" height="16" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                </svg>
+              </div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="32" height="32" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                </svg>
+              </div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="64" height="64" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                </svg>
+              </div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box">
+                <svg viewBox="0 0 68 68" width="128" height="128" fill="none">
+                  <rect x="0" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="0" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="0" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="48" y="24" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="0" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                  <rect x="24" y="48" width="20" height="20" rx="6" fill="#1E3A5F"/>
+                  <rect x="48" y="48" width="20" height="20" rx="6" fill="#7FB069"/>
+                </svg>
+              </div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Mossbit Mascot (Dark) -->
+    <div class="card">
+      <h3>3. Mossbit Mascot (8×8 Pixels)</h3>
+      <div style="display: flex; gap: 48px; flex-wrap: wrap;">
+        <div>
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Mossbit Normal</div>
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="16" height="16"></div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="32" height="32"></div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="64" height="64"></div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit.svg" width="128" height="128"></div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Mossbit 404 (Confused / Lost)</div>
+          <div class="size-grid">
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="16" height="16"></div>
+              <span class="label">16px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="32" height="32"></div>
+              <span class="label">32px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="64" height="64"></div>
+              <span class="label">64px</span>
+            </div>
+            <div class="size-item">
+              <div class="asset-box"><img src="mossbit/mossbit-404.svg" width="128" height="128"></div>
+              <span class="label">128px</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== CLI ASSETS ==================== -->
+  <section class="theme-panel dark">
+    <div class="theme-title">
+      CLI Text Representations
+      <span>design/logo/logo.txt &middot; design/mossbit/mossbit.txt &middot; #7FB069</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+      <div>
+        <h3 style="font-size: 14px; margin-bottom: 8px;">CLI Logo (design/logo/logo.txt - width &le; 20 cols)</h3>
+        <div class="terminal-box">██    ██  mossplan
+██ \/ ██
+██    ██</div>
+      </div>
+
+      <div>
+        <h3 style="font-size: 14px; margin-bottom: 8px;">CLI Mossbit (design/mossbit/mossbit.txt)</h3>
+        <div class="terminal-box">[Normal]
+      ████      
+      ██        
+  ████████████  
+████████████████
+████  ████  ████
+████████████████
+  ██        ██  
+  ████    ████  
+
+[404 Not Found]
+      ████      
+  ████████████  
+██████████████  
+██    ██  ████  
+██████    ████  
+████████████████
+  ████████████  
+  ████    ████  </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== CONTRAST REPORT ==================== -->
+  <section class="theme-panel light">
+    <div class="theme-title">
+      WCAG Contrast Verification Summary
+      <span>scripts/check-logo-contrast.mjs</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Requirement</th>
+          <th>Light Theme</th>
+          <th>Dark Theme</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Logo Mark (primary) vs Background</td>
+          <td>&ge; 3.0:1 (WCAG 1.4.11)</td>
+          <td>5.83:1 (#3F6B3A on #F6F8F7)</td>
+          <td>7.11:1 (#7FB069 on #0E1726)</td>
+          <td class="pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Logo Mark (primary) vs Card Surface</td>
+          <td>&ge; 3.0:1 (WCAG 1.4.11)</td>
+          <td>6.22:1 (#3F6B3A on #FFFFFF)</td>
+          <td>6.47:1 (#7FB069 on #152033)</td>
+          <td class="pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Logo Mark (primary) vs Inactive Grid Cell</td>
+          <td>&ge; 3.0:1 (WCAG 1.4.11)</td>
+          <td>4.85:1 (#3F6B3A on #DDE5E0)</td>
+          <td>4.56:1 (#7FB069 on #1E3A5F)</td>
+          <td class="pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Wordmark "mossplan" vs Background</td>
+          <td>&ge; 4.5:1 (WCAG 1.4.3)</td>
+          <td>15.73:1 (#14201A on #F6F8F7)</td>
+          <td>15.35:1 (#E8EEF2 on #0E1726)</td>
+          <td class="pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Wordmark "mossplan" vs Surface</td>
+          <td>&ge; 4.5:1 (WCAG 1.4.3)</td>
+          <td>16.78:1 (#14201A on #FFFFFF)</td>
+          <td>13.95:1 (#E8EEF2 on #152033)</td>
+          <td class="pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Mossbit Body vs Background</td>
+          <td>&ge; 3.0:1 (WCAG 1.4.11)</td>
+          <td>5.83:1 (#3F6B3A on #F6F8F7)</td>
+          <td>7.11:1 (#7FB069 on #0E1726)</td>
+          <td class="pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Mossbit Body vs Surface</td>
+          <td>&ge; 3.0:1 (WCAG 1.4.11)</td>
+          <td>6.22:1 (#3F6B3A on #FFFFFF)</td>
+          <td>6.47:1 (#7FB069 on #152033)</td>
+          <td class="pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Mossbit Features on Body</td>
+          <td>&ge; 3.0:1 (WCAG 1.4.11)</td>
+          <td>6.22:1 (#FFFFFF on #3F6B3A)</td>
+          <td>7.11:1 (#0E1726 on #7FB069)</td>
+          <td class="pass">PASS</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+</body>
+</html>

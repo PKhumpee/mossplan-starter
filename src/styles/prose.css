@@ -1,0 +1,295 @@
+/*
+ * Styles for rendered article content (DESIGN §4.5 "Prose"). Plain CSS on the shared semantic
+ * tokens (§4.3), deliberately free of Tailwind directives: T08 imports this exact file into the
+ * admin editor so what the editor sees is what the published page looks like.
+ * Line heights stay ≥ 1.7 for stacked Thai marks; `word-break` stays `normal`.
+ * Styled with Mossplan design tokens: ink text, primary links,
+ * crisp hairlines, and clean monospace blocks.
+ */
+
+.prose {
+  color: var(--text);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  letter-spacing: normal;
+}
+
+@media (min-width: 768px) {
+  .prose {
+    font-size: 1.1875rem;
+  }
+}
+
+/* Text selection matching editor design */
+.prose ::selection {
+  background-color: var(--moss-grid);
+  color: var(--moss-text);
+}
+
+/* Remove excessive top margin on the first element and bottom margin on the last element */
+.prose > :first-child,
+.tiptap > :first-child,
+.tiptap .ProseMirror > :first-child,
+.ProseMirror > :first-child {
+  margin-top: 0 !important;
+}
+
+.prose > :last-child,
+.tiptap > :last-child,
+.tiptap .ProseMirror > :last-child,
+.ProseMirror > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.prose p {
+  margin: 1.15em 0;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--text);
+  line-height: 1.3; /* never below 1.25: lower values clip Thai marks */
+  font-weight: 700;
+  text-wrap: balance;
+  scroll-margin-top: 5rem;
+}
+
+.prose h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.35em;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
+.prose h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose h4 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 1.3em;
+  margin-bottom: 0.4em;
+}
+
+@media (min-width: 768px) {
+  .prose h2 {
+    font-size: 2rem;
+  }
+
+  .prose h3 {
+    font-size: 1.5rem;
+  }
+
+  .prose h4 {
+    font-size: 1.25rem;
+  }
+}
+
+.prose ul,
+.prose ol {
+  margin: 1em 0;
+  padding-inline-start: 1.5em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  margin: 0.375em 0;
+}
+
+.prose li p,
+.tiptap li p {
+  margin: 0;
+}
+
+/* Left rule in brand indigo, no italics: italic Thai is fake-slanted and hard to read. */
+.prose blockquote {
+  margin: 1.5em 0;
+  padding: 0.5em 0 0.5em 1.25em;
+  border-inline-start: 3px solid var(--brand);
+  background: var(--surface);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-secondary);
+}
+
+.prose code,
+.prose pre {
+  font-family: var(--moss-font-mono);
+  font-size: 0.875em;
+}
+
+.prose code {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15em 0.35em;
+}
+
+.prose pre {
+  margin: 1.5em 0;
+  padding: 1.1em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+  box-shadow: var(--shadow-sm);
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+.prose hr {
+  margin: 2.25em 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.prose figure {
+  margin: 1.75em 0;
+}
+
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+.prose figcaption {
+  margin-top: 0.6em;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.prose a,
+.tiptap a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.prose a:hover,
+.tiptap a:hover {
+  color: var(--brand-deep);
+  text-decoration: none;
+}
+
+/* Tiptap Editor Surface Enhancements (matching Image 1 & 2) */
+.tiptap {
+  color: var(--text);
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+@media (min-width: 768px) {
+  .tiptap {
+    font-size: 1.1875rem;
+  }
+}
+
+.tiptap:focus {
+  outline: none;
+}
+
+.tiptap,
+.tiptap * {
+  caret-color: var(--brand);
+}
+
+.prose h1,
+.tiptap h1 {
+  font-size: 2.25rem; /* ~36px */
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+  margin-top: 1.8em;
+  margin-bottom: 0.5em;
+}
+
+.prose h2,
+.tiptap h2 {
+  font-size: 1.875rem; /* ~30px */
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+  margin-top: 1.75em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3em;
+}
+
+.prose h3,
+.tiptap h3 {
+  font-size: 1.45rem; /* ~23px */
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
+}
+
+.prose h4,
+.tiptap h4 {
+  font-size: 1.2rem; /* ~19px */
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+  margin-top: 1.25em;
+  margin-bottom: 0.4em;
+}
+
+.prose h5,
+.tiptap h5 {
+  font-size: 1.05rem; /* ~17px */
+  font-weight: 600;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-top: 1.1em;
+  margin-bottom: 0.3em;
+}
+
+.prose h6,
+.tiptap h6 {
+  font-size: 0.95rem; /* ~15px */
+  font-weight: 600;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-top: 1em;
+  margin-bottom: 0.3em;
+}
+
+.prose p,
+.tiptap p {
+  margin: 1.15em 0;
+  color: var(--text);
+}
+
+.tiptap ::selection,
+.prose ::selection {
+  background-color: var(--moss-grid);
+  color: var(--moss-text);
+}

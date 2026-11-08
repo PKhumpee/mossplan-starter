@@ -1,0 +1,15 @@
+---
+// JSON-LD script renderer (DESIGN §11.2, T14).
+// Renders structured data graphs into the HTML <head>.
+interface Props {
+  graph: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const { graph } = Astro.props;
+const data = {
+  '@context': 'https://schema.org',
+  '@graph': Array.isArray(graph) ? graph : [graph],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

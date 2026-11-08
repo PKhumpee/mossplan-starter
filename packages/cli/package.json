@@ -1,0 +1,13 @@
+{
+  "name": "@mossplan/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "moss": "./src/index.js"
+  },
+  "scripts": {
+    "lint": "oxlint src test && prettier --check src test vitest.config.js package.json",
+    "test": "vitest run --config vitest.config.js"
+  }
+}

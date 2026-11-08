@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": { "correctness": "error" },
+  "ignorePatterns": [
+    "dist/**",
+    ".astro/**",
+    ".cache/**",
+    ".wrangler/**",
+    "node_modules/**",
+    "spikes/**",
+    "public/pagefind/**"
+  ]
+}

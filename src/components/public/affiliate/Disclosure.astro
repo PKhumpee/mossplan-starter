@@ -1,0 +1,27 @@
+---
+// Affiliate disclosure banner (DESIGN §5.2, AFFILIATE §5, T23).
+// Rendered after the article lead and before the article body whenever hasAffiliate is true.
+// Must appear before the first /go/* link on the page.
+---
+
+<aside
+  class="affiliate-disclosure my-6 rounded-xl border border-border/80 bg-surface/60 p-4 text-caption text-text-secondary leading-relaxed"
+  aria-label="การเปิดเผยข้อมูลลิงก์พันธมิตร"
+>
+  <div class="flex items-start gap-2.5">
+    <span class="text-base select-none shrink-0" aria-hidden="true">
+      💡
+    </span>
+    <div>
+      <span class="font-bold text-text">เปิดเผยข้อมูล:</span> บทความนี้มีลิงก์ affiliate
+      หากคุณซื้อหรือสมัครผ่านลิงก์ เราอาจได้รับค่าตอบแทนโดยคุณไม่ต้องจ่ายเพิ่ม
+      ความเห็นในบทความเป็นของทีมงาน อ่าน
+      <a
+        href="/disclosure/"
+        class="font-semibold text-brand underline underline-offset-2 hover:text-brand-deep ml-1"
+      >
+        นโยบายการเปิดเผยข้อมูล
+      </a>
+    </div>
+  </div>
+</aside>

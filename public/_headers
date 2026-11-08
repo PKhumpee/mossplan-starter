@@ -1,0 +1,12 @@
+# Static responses only. Worker responses get their headers from code (src/server/http/security.ts, T17),
+# so no header is ever sent twice. CSP (per-request nonce) and HSTS (custom domain only) are set ONLY
+# by the Worker (finalizeSecurity in src/server/http/security.ts), never here.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/admin/*
+  X-Robots-Tag: noindex

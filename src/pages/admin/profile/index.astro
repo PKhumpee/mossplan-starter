@@ -1,0 +1,39 @@
+---
+// Admin author profile page (DESIGN §10.5, CONTRACTS §5).
+// Prerender = false; wrapped by AdminLayout.
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ProfileEditor from '../../../components/admin/team/ProfileEditor.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+
+const targetUserId = Astro.url.searchParams.get('userId') ?? undefined;
+const pageTitle = targetUserId ? 'แก้ไขโปรไฟล์สมาชิก' : 'โปรไฟล์ของฉัน';
+---
+
+<AdminLayout title={pageTitle}>
+  <div class="space-y-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-h2 font-bold text-text">{pageTitle}</h1>
+        <p class="text-caption text-muted mt-1">
+          จัดการข้อมูลผู้เขียนสำหรับแสดงผลบนเว็บไซต์และสร้างความน่าเชื่อถือตามมาตรฐาน E-E-A-T
+        </p>
+      </div>
+      {targetUserId && (
+        <a
+          href="/admin/team/"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-surface text-body-sm text-text hover:border-brand transition-colors"
+        >
+          ← กลับหน้ารายการทีม
+        </a>
+      )}
+    </div>
+
+    <ProfileEditor client:only="vue" targetUserId={targetUserId} />
+  </div>
+</AdminLayout>

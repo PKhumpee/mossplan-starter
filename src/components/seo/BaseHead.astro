@@ -1,0 +1,96 @@
+---
+// Head basics for every public page (DESIGN §11.1). JSON-LD goes in the named slot; T14's builders
+// feed it. The indexing switch comes only from buildSite() (CONTRACTS §2a, D37) — never
+// import.meta.env.
+import { buildSite } from '../../shared/site';
+import tokens from '../../../design/tokens.json';
+
+interface OgImage {
+  /** Site-relative URL, e.g. `/og/my-article.png`. */
+  url: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  /** Site-relative canonical path (trailing slash). `null` renders no canonical (the 404 page). */
+  canonical: string | null;
+  /** Per-page noindex (styleguide, 404, search, preview, thin tag pages add `follow`). */
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+  ogImage?: OgImage;
+  siteName: string;
+  alternateLinks?: { lang: string; href: string }[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  noindex = false,
+  ogType = 'website',
+  ogImage,
+  siteName,
+  alternateLinks = [],
+} = Astro.props;
+const site = buildSite();
+const runtimeSiteName = siteName ? '__MOSS_SITE_NAME__' : 'Mossplan';
+
+// While "ไม่ให้ Search engine เก็บเว็บเข้า index" is on, every page is noindex, nofollow.
+// Otherwise indexable pages carry the Discover-friendly directives; noindex pages say noindex only.
+const robots = site.noindex
+  ? 'noindex, nofollow'
+  : noindex
+    ? 'noindex'
+    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+const canonicalUrl = canonical === null ? null : site.absolute(canonical);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+{alternateLinks.map((alternate) => (
+  <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />
+))}
+<meta name="robots" content={robots} />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content={tokens.color.light.bg} />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content={tokens.color.dark.bg} />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`RSS — ${runtimeSiteName}`}
+  href="/rss.xml"
+/>
+<!-- Preload the Thai subset only: Thai text is the LCP text on this site (DESIGN §4.1). -->
+<link
+  rel="preload"
+  href="/fonts/noto-sans-thai-thai-wght-normal.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={runtimeSiteName} />
+<meta property="og:locale" content="th_TH" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+{ogImage && (
+  <>
+    <meta property="og:image" content={site.absolute(ogImage.url)} />
+    <meta property="og:image:width" content={String(ogImage.width)} />
+    <meta property="og:image:height" content={String(ogImage.height)} />
+    <meta property="og:image:alt" content={ogImage.alt} />
+  </>
+)}
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<slot name="jsonld" />

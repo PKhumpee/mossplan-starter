@@ -1,0 +1,195 @@
+﻿---
+// Author profile page 1 (DESIGN §5.6, D25, CONTRACTS §7):
+// Full bio, knowsAbout chips, sameAs links, author articles grid (12/page), reviewed section.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleCard from '../../../components/public/ui/ArticleCard.astro';
+import Pagination from '../../../components/public/ui/Pagination.astro';
+import Breadcrumbs from '../../../components/public/ui/Breadcrumbs.astro';
+import ResponsiveImage from '../../../lib/media/ResponsiveImage.astro';
+import {
+  getAllAuthors,
+  getAllCategories,
+  getArticlesByAuthor,
+  getArticlesReviewedByAuthor,
+  getCategoryById,
+  getMediaById,
+  getSiteInfo,
+  paginate,
+  PAGE_SIZE,
+} from '../../../lib/content/queries';
+import { formatThaiDate } from '../../../lib/format/date';
+import { readingTimeMinutes, truncateThai } from '../../../lib/format/thai';
+import { extractNodeText } from '../../../lib/content/render';
+import type { TiptapNode } from '../../../shared/snapshot';
+
+export async function getStaticPaths() {
+  const authors = getAllAuthors();
+  return authors.map((author) => ({
+    params: { slug: author.slug },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+const authorArticles = getArticlesByAuthor(author.id);
+const paginated = paginate(authorArticles, 1, PAGE_SIZE);
+
+const reviewedArticles = getArticlesReviewedByAuthor(author.id).slice(0, 6);
+const avatar = author.avatarMediaId ? getMediaById(author.avatarMediaId) : undefined;
+
+const canonical = `/authors/${author.slug}/`;
+const title = `${author.name} — ทีมผู้เขียน — ${site.name}`;
+const description = truncateThai(author.bio, 155);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
+    <!-- Breadcrumbs -->
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'ทีมผู้เขียน', href: '/authors/' }, { label: author.name }]} />
+    </div>
+
+    <!-- Author Profile Header -->
+    <header class="mb-12 rounded-2xl border border-border bg-surface p-6 md:p-8 shadow-card">
+      <div class="flex flex-col sm:flex-row gap-6 items-start">
+        {avatar && (
+          <ResponsiveImage
+            mediaId={avatar.id}
+            alt={author.name}
+            isAvatar
+            class="size-24 rounded-full object-cover border-2 border-border shadow-sm shrink-0"
+          />
+        )}
+        <div class="flex-1">
+          <h1 class="text-h1 md:text-[2.25rem] font-bold text-text">{author.name}</h1>
+          <p class="text-body-sm font-semibold text-brand mt-1">{author.jobTitle}</p>
+          <p class="mt-4 text-body text-text-secondary leading-relaxed">{author.bio}</p>
+
+          <!-- knowsAbout expertise chips (plain text per DESIGN §5.6) -->
+          {author.knowsAbout.length > 0 && (
+            <div class="mt-5 flex flex-wrap items-center gap-2">
+              <span class="text-caption font-semibold text-muted">ความเชี่ยวชาญ:</span>
+              {author.knowsAbout.map((topic) => (
+                <span class="inline-flex items-center rounded-full border border-border bg-bg px-3 py-0.5 text-caption text-text-secondary">
+                  {topic}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <!-- sameAs profile links -->
+          {author.sameAs.length > 0 && (
+            <div class="mt-4 flex flex-wrap items-center gap-4 text-caption border-t border-border/80 pt-4">
+              <span class="font-semibold text-muted">โปรไฟล์:</span>
+              {author.sameAs.map((url) => {
+                const host = new URL(url).hostname.replace('www.', '');
+                return (
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="me noopener"
+                    class="inline-flex min-h-[28px] items-center text-brand hover:underline underline-offset-2"
+                  >
+                    {host} ↗
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <!-- Articles written by author -->
+    <section aria-labelledby="author-articles" class="mb-16">
+      <div class="mb-6 flex items-center justify-between border-b border-border pb-3">
+        <h2 id="author-articles" class="text-h2 md:text-[1.75rem] font-bold text-text">
+          บทความโดย {author.name}
+        </h2>
+        <span class="text-caption text-muted tabular-nums">
+          ทั้งหมด {authorArticles.length} บทความ
+        </span>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {paginated.items.map((article) => {
+          const media = article.coverMediaId ? getMediaById(article.coverMediaId) : undefined;
+          const category = getCategoryById(article.categoryId);
+          const readingTime = readingTimeMinutes(
+            `${article.excerpt} ${extractNodeText(article.content as TiptapNode)}`,
+          );
+
+          return (
+            <ArticleCard
+              href={`/${article.slug}/`}
+              title={article.title}
+              excerpt={article.excerpt}
+              categoryLabel={category?.name}
+              dateMs={article.publishedAt}
+              readingMinutes={readingTime}
+              image={
+                media
+                  ? {
+                      mediaId: media.id,
+                      src: `/media/${media.id}.webp`,
+                      width: media.width ?? 640,
+                      height: media.height ?? 360,
+                      alt: media.alt || article.title,
+                    }
+                  : undefined
+              }
+            />
+          );
+        })}
+      </div>
+
+      {paginated.totalPages > 1 && (
+        <div class="mt-12">
+          <Pagination
+            page={1}
+            totalPages={paginated.totalPages}
+            hrefFor={(p) =>
+              p === 1 ? `/authors/${author.slug}/` : `/authors/${author.slug}/page/${p}/`
+            }
+          />
+        </div>
+      )}
+    </section>
+
+    <!-- Articles reviewed by author (if any, up to 6 per DESIGN §5.6) -->
+    {reviewedArticles.length > 0 && (
+      <section aria-labelledby="reviewed-articles" class="border-t border-border pt-12">
+        <h2 id="reviewed-articles" class="text-h2 md:text-[1.75rem] font-bold text-text mb-6">
+          บทความที่ตรวจทานโดย {author.name}
+        </h2>
+        <div class="rounded-xl border border-border bg-surface p-6 shadow-sm">
+          <ul class="divide-y divide-border/80">
+            {reviewedArticles.map((art) => (
+              <li class="py-3.5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <a
+                  href={`/${art.slug}/`}
+                  class="text-body-sm font-semibold text-text hover:text-brand"
+                >
+                  {art.title}
+                </a>
+                <span class="text-caption text-muted tabular-nums shrink-0">
+                  ตรวจทานเมื่อ {formatThaiDate(art.reviewedAt || art.publishedAt)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>

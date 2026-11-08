@@ -1,0 +1,16 @@
+---
+// Admin Affiliate Performance Report (EPC / RPM) page (AFFILIATE §6, T22).
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import AffiliateReport from '../../../components/admin/affiliate/AffiliateReport.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+---
+
+<AdminLayout title="รายงาน affiliate" active="affiliate">
+  <AffiliateReport client:only="vue" userRole={user.role} />
+</AdminLayout>

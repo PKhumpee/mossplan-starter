@@ -1,0 +1,16 @@
+---
+// Admin Affiliate Links list page (CONTRACTS §5, AFFILIATE §6, T22).
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import LinkList from '../../../components/admin/affiliate/LinkList.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+---
+
+<AdminLayout title="ลิงก์ affiliate" active="affiliate">
+  <LinkList client:only="vue" userRole={user.role} />
+</AdminLayout>

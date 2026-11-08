@@ -1,0 +1,21 @@
+---
+// Add affiliate link (3-step paste flow, admins only, AFFILIATE §6, T22).
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import LinkPasteFlow from '../../../components/admin/affiliate/LinkPasteFlow.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+
+// Write actions are restricted to admins (AFFILIATE §6, D35)
+if (user.role !== 'admin') {
+  return Astro.redirect('/admin/affiliate/');
+}
+---
+
+<AdminLayout title="เพิ่มลิงก์ affiliate" active="affiliate">
+  <LinkPasteFlow client:only="vue" />
+</AdminLayout>

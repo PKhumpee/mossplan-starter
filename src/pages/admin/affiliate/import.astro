@@ -1,0 +1,21 @@
+---
+// Admin Affiliate Conversions CSV Import page (AFFILIATE §6, T22).
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ConversionImporter from '../../../components/admin/affiliate/ConversionImporter.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+
+// Write actions and import are admin-only (AFFILIATE §6, D35)
+if (user.role !== 'admin') {
+  return Astro.redirect('/admin/affiliate/');
+}
+---
+
+<AdminLayout title="นำเข้ายอดขาย affiliate" active="affiliate">
+  <ConversionImporter client:only="vue" userRole={user.role} />
+</AdminLayout>

@@ -1,0 +1,3708 @@
+{
+  "version": 2,
+  "generatedAt": 1792033200000,
+  "site": {
+    "name": "Mossplan",
+    "description": "บทความและข่าวสารที่อ่านง่าย เขียนด้วยข้อมูลที่ตรวจสอบได้",
+    "url": "https://mossplan.example.workers.dev"
+  },
+  "categories": [
+    {
+      "id": "cat-technology",
+      "slug": "technology",
+      "name": "เทคโนโลยี",
+      "sortOrder": 1,
+      "description": "หมวดเทคโนโลยีรวบรวมบทความที่อธิบายเรื่องอุปกรณ์ดิจิทัลและบริการออนไลน์ด้วยภาษาที่เข้าใจง่าย ตั้งแต่การใช้สมาร์ตโฟนให้คุ้มค่า การสำรองข้อมูลอย่างปลอดภัย การตั้งรหัสผ่านและยืนยันตัวตนสองขั้นตอน ไปจนถึงการใช้ปัญญาประดิษฐ์ช่วยทำงานอย่างมีวิจารณญาณ เราเขียนจากประสบการณ์ใช้งานจริง ทดลองก่อนแนะนำ และบอกข้อจำกัดของแต่ละวิธีตรง ๆ เพื่อให้ผู้อ่านตัดสินใจได้เอง ไม่ว่าคุณจะเป็นมือใหม่ที่เพิ่งเริ่มใช้คอมพิวเตอร์ หรือคนทำงานที่อยากจัดระเบียบเครื่องมือประจำวัน ที่นี่มีขั้นตอนที่ทำตามได้ทันที พร้อมเหตุผลว่าทำไมแต่ละขั้นตอนจึงสำคัญ และเมื่อมีข่าวหรือการเปลี่ยนแปลงที่กระทบผู้ใช้ทั่วไป เราจะอัปเดตบทความและระบุวันที่แก้ไขไว้ชัดเจน"
+    },
+    {
+      "id": "cat-lifestyle",
+      "slug": "lifestyle",
+      "name": "ไลฟ์สไตล์",
+      "sortOrder": 2,
+      "description": "เรื่องราวชีวิตประจำวัน สุขภาพ บ้าน อาหาร และการท่องเที่ยวที่ทำได้จริง"
+    },
+    {
+      "id": "cat-finance",
+      "slug": "personal-finance",
+      "name": "การเงินส่วนบุคคล",
+      "sortOrder": 3,
+      "description": null
+    }
+  ],
+  "tags": [
+    {
+      "id": "tag-security",
+      "slug": "security",
+      "name": "ความปลอดภัย"
+    },
+    {
+      "id": "tag-ai",
+      "slug": "ai",
+      "name": "ปัญญาประดิษฐ์"
+    },
+    {
+      "id": "tag-gadgets",
+      "slug": "gadgets",
+      "name": "อุปกรณ์"
+    },
+    {
+      "id": "tag-health",
+      "slug": "health",
+      "name": "สุขภาพ"
+    },
+    {
+      "id": "tag-home",
+      "slug": "home",
+      "name": "บ้านและครัว"
+    },
+    {
+      "id": "tag-travel",
+      "slug": "travel",
+      "name": "ท่องเที่ยว"
+    },
+    {
+      "id": "tag-saving",
+      "slug": "saving",
+      "name": "การออม"
+    },
+    {
+      "id": "tag-investing",
+      "slug": "investing",
+      "name": "การลงทุน"
+    }
+  ],
+  "media": [
+    {
+      "id": "media-cover-1",
+      "key": "fixtures/cover-1.jpg",
+      "mime": "image/jpeg",
+      "width": 1600,
+      "height": 900,
+      "alt": "โต๊ะทำงานพร้อมโน้ตบุ๊ก"
+    },
+    {
+      "id": "media-cover-2",
+      "key": "fixtures/cover-2.jpg",
+      "mime": "image/jpeg",
+      "width": 1600,
+      "height": 900,
+      "alt": "ทางเดินในสวนยามเช้า"
+    },
+    {
+      "id": "media-cover-3",
+      "key": "fixtures/cover-3.jpg",
+      "mime": "image/jpeg",
+      "width": 1600,
+      "height": 900,
+      "alt": "ห้องครัวเล็กที่จัดเรียบร้อย"
+    },
+    {
+      "id": "media-cover-4",
+      "key": "fixtures/cover-4.jpg",
+      "mime": "image/jpeg",
+      "width": 1600,
+      "height": 900,
+      "alt": "สมุดบัญชีและเครื่องคิดเลข"
+    },
+    {
+      "id": "media-cover-5",
+      "key": "fixtures/cover-5.jpg",
+      "mime": "image/jpeg",
+      "width": 1600,
+      "height": 900,
+      "alt": "ไฟเมืองยามค่ำคืน"
+    },
+    {
+      "id": "media-cover-6",
+      "key": "fixtures/cover-6.jpg",
+      "mime": "image/jpeg",
+      "width": 1600,
+      "height": 900,
+      "alt": "ต้นไม้เล็กบนระเบียง"
+    },
+    {
+      "id": "media-avatar-1",
+      "key": "fixtures/avatar-1.jpg",
+      "mime": "image/jpeg",
+      "width": 400,
+      "height": 400,
+      "alt": "ณัฐวุฒิ แสงทอง"
+    },
+    {
+      "id": "media-avatar-2",
+      "key": "fixtures/avatar-2.jpg",
+      "mime": "image/jpeg",
+      "width": 400,
+      "height": 400,
+      "alt": "พิมพ์ลดา วงศ์สว่าง"
+    }
+  ],
+  "authors": [
+    {
+      "id": "user-nattawut",
+      "slug": "nattawut-saengthong",
+      "name": "ณัฐวุฒิ แสงทอง",
+      "jobTitle": "บรรณาธิการข่าวเทคโนโลยี",
+      "bio": "ณัฐวุฒิเขียนเรื่องเทคโนโลยีสำหรับคนทั่วไปมากว่าสิบปี เริ่มจากงานซ่อมคอมพิวเตอร์ก่อนย้ายมาทำงานข่าวและบทความแนะนำ เขาชอบอธิบายเรื่องซับซ้อนให้เหลือขั้นตอนสั้น ๆ ที่ทำตามได้ และมักทดลองทุกวิธีด้วยตัวเองก่อนเขียน บทความทุกชิ้นของเขาระบุข้อจำกัดไว้เสมอ ในเวลาว่างเขาเดินป่าและถ่ายภาพ",
+      "avatarMediaId": "media-avatar-1",
+      "sameAs": [
+        "https://www.example.com/nattawut",
+        "https://www.linkedin.com/in/example-nattawut"
+      ],
+      "knowsAbout": ["ความปลอดภัยทางไซเบอร์", "สมาร์ตโฟน", "ปัญญาประดิษฐ์"]
+    },
+    {
+      "id": "user-pimlada",
+      "slug": "pimlada-wongsawang",
+      "name": "พิมพ์ลดา วงศ์สว่าง",
+      "jobTitle": "นักเขียนไลฟ์สไตล์และการเงินส่วนบุคคล",
+      "bio": "พิมพ์ลดาเคยทำงานวางแผนการเงินในสถาบันการเงินก่อนผันตัวมาเป็นนักเขียนอิสระ เธอสนใจเรื่องการใช้ชีวิตเรียบง่าย การออม และสุขภาพที่ดูแลได้ด้วยนิสัยเล็ก ๆ ทุกวัน เธอตรวจสอบตัวเลขและแหล่งอ้างอิงทุกครั้งก่อนเผยแพร่ และไม่เขียนคำแนะนำการลงทุนเฉพาะบุคคล นอกงานเขียนเธอชอบทำอาหารและปลูกผักบนระเบียงบ้าน",
+      "avatarMediaId": "media-avatar-2",
+      "sameAs": ["https://www.example.com/pimlada"],
+      "knowsAbout": ["การวางแผนการเงิน", "การออม", "สุขภาพ", "การทำอาหาร"]
+    }
+  ],
+  "articles": [
+    {
+      "id": "art-001",
+      "slug": "backup-smartphone-data",
+      "title": "วิธีสำรองข้อมูลในสมาร์ตโฟนให้ปลอดภัยแบบไม่ยุ่งยาก",
+      "excerpt": "สำรองรูปและเอกสารสำคัญได้ในสิบนาที พร้อมวิธีตั้งให้ทำงานอัตโนมัติ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทุกวันนี้เราพึ่งพาสมาร์ตโฟนในแทบทุกเรื่อง ตั้งแต่ตื่นนอนจนถึงเข้านอน การเข้าใจว่าเครื่องทำงานอย่างไรจึงช่วยให้เราเลือกใช้ได้คุ้มค่าและปลอดภัยมากขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การสำรองข้อมูลเป็นนิสัยที่ดูเหมือนเรื่องเล็ก แต่เมื่อเครื่องหายหรือเสียกะทันหัน ภาพถ่ายและเอกสารสำคัญที่มีอยู่เพียงชุดเดียวอาจกู้คืนไม่ได้อีกเลย"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตรวจสอบก่อนทำทุกครั้ง"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำทีละขั้นตอน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "จดสิ่งที่เปลี่ยนไว้เผื่อย้อนกลับ"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "หากต้องการความสะดวกในการเชื่อมต่ออุปกรณ์ คุณอาจพิจารณา "
+              },
+              {
+                "type": "text",
+                "text": "คีย์บอร์ดไร้สาย Keychron K2",
+                "marks": [
+                  {
+                    "type": "affiliateLink",
+                    "attrs": {
+                      "linkId": "aff-keychron-k2"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": " ที่รองรับการสลับอุปกรณ์ได้หลายเครื่องพร้อมกัน"
+              }
+            ]
+          },
+          {
+            "type": "image",
+            "attrs": {
+              "mediaId": "media-cover-2",
+              "alt": "ภาพประกอบเนื้อหา",
+              "caption": "ภาพประกอบ"
+            }
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-1",
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-security", "tag-gadgets"],
+      "authorId": "user-nattawut",
+      "reviewerId": "user-pimlada",
+      "reviewedAt": 1791687600000,
+      "publishedAt": 1791601200000,
+      "updatedAt": 1791601200000,
+      "seo": {
+        "title": "วิธีสำรองข้อมูลในสมาร์ตโฟนให้ปลอดภัยแบบไม่ยุ่งยาก | คู่มือฉบับย่อ",
+        "description": "สำรองรูปและเอกสารสำคัญได้ในสิบนาที พร้อมวิธีตั้งให้ทำงานอัตโนมัติ"
+      },
+      "hasAffiliate": true
+    },
+    {
+      "id": "art-002",
+      "slug": "strong-passwords",
+      "title": "ตั้งรหัสผ่านอย่างไรให้แข็งแรงและจำได้จริง",
+      "excerpt": "หลักการตั้งรหัสผ่านที่ยาว ไม่ซ้ำ และจัดการได้ง่าย",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การสำรองข้อมูลเป็นนิสัยที่ดูเหมือนเรื่องเล็ก แต่เมื่อเครื่องหายหรือเสียกะทันหัน ภาพถ่ายและเอกสารสำคัญที่มีอยู่เพียงชุดเดียวอาจกู้คืนไม่ได้อีกเลย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "รหัสผ่านที่ยาวและไม่ซ้ำกันในแต่ละบริการปลอดภัยกว่ารหัสสั้นที่จำง่าย ตัวจัดการรหัสผ่านช่วยให้เราไม่ต้องจำทั้งหมดด้วยตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เครือข่าย Wi-Fi ที่บ้านมักถูกวางไว้ผิดตำแหน่ง ทำให้สัญญาณอ่อนในห้องที่ใช้งานบ่อย การย้ายเราเตอร์มาไว้กลางบ้านและให้พ้นจากสิ่งกีดขวางช่วยได้มากกว่าที่คิด"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ปัญญาประดิษฐ์ช่วยร่างข้อความและสรุปเอกสารได้รวดเร็ว แต่ผู้ใช้ยังต้องตรวจสอบข้อเท็จจริงทุกครั้งก่อนนำไปใช้ต่อ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "แบตเตอรี่ลิเทียมไอออนเสื่อมตามจำนวนรอบการชาร์จและอุณหภูมิ การหลีกเลี่ยงความร้อนจัดและไม่ปล่อยให้แบตหมดเกลี้ยงบ่อย ๆ ช่วยยืดอายุการใช้งานได้"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-security"],
+      "authorId": "user-nattawut",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1791428400000,
+      "updatedAt": 1791946800000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-003",
+      "slug": "editor-showcase",
+      "title": "คู่มือการจัดรูปแบบบทความด้วยตัวแก้ไขของเรา",
+      "excerpt": "รวมทุกรูปแบบที่ตัวแก้ไขรองรับ ตั้งแต่หัวข้อ รายการ คำพูด โค้ด ไปจนถึงรูปภาพและวิดีโอ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ตัวแก้ไขของเราจัดรูปแบบข้อความได้ครบตามที่เว็บไซต์รองรับ บทความนี้ใช้ทุกรูปแบบเพื่อทดสอบการแสดงผล"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดรูปแบบข้อความ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อความ"
+              },
+              {
+                "type": "text",
+                "text": "ตัวหนา",
+                "marks": [
+                  {
+                    "type": "bold"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "ตัวเอียง",
+                "marks": [
+                  {
+                    "type": "italic"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "ขีดเส้นใต้",
+                "marks": [
+                  {
+                    "type": "underline"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "text": "ขีดฆ่า",
+                "marks": [
+                  {
+                    "type": "strike"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": " และโค้ด "
+              },
+              {
+                "type": "text",
+                "text": "npm install",
+                "marks": [
+                  {
+                    "type": "code"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": " รวมถึงลิงก์ไปยัง "
+              },
+              {
+                "type": "text",
+                "text": "เว็บไซต์ตัวอย่าง",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "https://www.example.com/"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "รายการ"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "รายการที่หนึ่ง"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "รายการที่สอง"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "orderedList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ขั้นตอนแรก"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ขั้นตอนที่สอง"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ขั้นตอนสุดท้าย"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 4
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "คำพูดและโค้ด"
+              }
+            ]
+          },
+          {
+            "type": "blockquote",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "ข้อมูลที่ดีเริ่มจากการตั้งคำถามที่ถูกต้อง"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "codeBlock",
+            "attrs": {
+              "language": "bash"
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "pnpm install\npnpm build"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "บรรทัดแรก"
+              },
+              {
+                "type": "hardBreak"
+              },
+              {
+                "type": "text",
+                "text": "บรรทัดที่สองในย่อหน้าเดียวกัน"
+              }
+            ]
+          },
+          {
+            "type": "horizontalRule"
+          },
+          {
+            "type": "image",
+            "attrs": {
+              "mediaId": "media-cover-3",
+              "alt": "ห้องครัวเล็กที่จัดเรียบร้อย",
+              "caption": "ภาพประกอบพร้อมคำบรรยาย"
+            }
+          },
+          {
+            "type": "youtube",
+            "attrs": {
+              "videoId": "dQw4w9WgXcQ"
+            }
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทั้งหมดนี้คือรูปแบบที่ตัวแก้ไขและหน้าเว็บรองรับ"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-3",
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-gadgets"],
+      "authorId": "user-nattawut",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1791255600000,
+      "updatedAt": 1791255600000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-004",
+      "slug": "improve-home-wifi",
+      "title": "ปรับ Wi-Fi ที่บ้านให้เร็วขึ้นโดยไม่ต้องซื้อเราเตอร์ใหม่",
+      "excerpt": "ย้ายตำแหน่ง เปลี่ยนช่องสัญญาณ และตรวจอุปกรณ์ที่แย่งแบนด์วิดท์",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "รหัสผ่านที่ยาวและไม่ซ้ำกันในแต่ละบริการปลอดภัยกว่ารหัสสั้นที่จำง่าย ตัวจัดการรหัสผ่านช่วยให้เราไม่ต้องจำทั้งหมดด้วยตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เครือข่าย Wi-Fi ที่บ้านมักถูกวางไว้ผิดตำแหน่ง ทำให้สัญญาณอ่อนในห้องที่ใช้งานบ่อย การย้ายเราเตอร์มาไว้กลางบ้านและให้พ้นจากสิ่งกีดขวางช่วยได้มากกว่าที่คิด"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตรวจสอบก่อนทำทุกครั้ง"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำทีละขั้นตอน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "จดสิ่งที่เปลี่ยนไว้เผื่อย้อนกลับ"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ปัญญาประดิษฐ์ช่วยร่างข้อความและสรุปเอกสารได้รวดเร็ว แต่ผู้ใช้ยังต้องตรวจสอบข้อเท็จจริงทุกครั้งก่อนนำไปใช้ต่อ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "แบตเตอรี่ลิเทียมไอออนเสื่อมตามจำนวนรอบการชาร์จและอุณหภูมิ การหลีกเลี่ยงความร้อนจัดและไม่ปล่อยให้แบตหมดเกลี้ยงบ่อย ๆ ช่วยยืดอายุการใช้งานได้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนอัปเดตระบบปฏิบัติการ ควรอ่านรายละเอียดของการอัปเดตสั้น ๆ และตรวจสอบว่าพื้นที่เก็บข้อมูลเพียงพอ เพื่อลดโอกาสที่เครื่องจะค้างระหว่างติดตั้ง"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "อีเมลหลอกลวงมักสร้างความเร่งรีบ เช่น แจ้งว่าบัญชีจะถูกระงับภายในไม่กี่ชั่วโมง หากรู้สึกว่าถูกเร่ง ให้หยุดและเข้าสู่ระบบผ่านแอปทางการแทนการกดลิงก์"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทุกวันนี้เราพึ่งพาสมาร์ตโฟนในแทบทุกเรื่อง ตั้งแต่ตื่นนอนจนถึงเข้านอน การเข้าใจว่าเครื่องทำงานอย่างไรจึงช่วยให้เราเลือกใช้ได้คุ้มค่าและปลอดภัยมากขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การสำรองข้อมูลเป็นนิสัยที่ดูเหมือนเรื่องเล็ก แต่เมื่อเครื่องหายหรือเสียกะทันหัน ภาพถ่ายและเอกสารสำคัญที่มีอยู่เพียงชุดเดียวอาจกู้คืนไม่ได้อีกเลย"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-4",
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-gadgets", "tag-home"],
+      "authorId": "user-nattawut",
+      "reviewerId": "user-pimlada",
+      "reviewedAt": 1791169200000,
+      "publishedAt": 1791082800000,
+      "updatedAt": 1791082800000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-005",
+      "slug": "use-ai-at-work",
+      "title": "ใช้ AI ช่วยทำงานอย่างไรให้ได้ผลและไม่พลาด",
+      "excerpt": "ตัวอย่างงานที่ AI ช่วยได้ดี และจุดที่ต้องตรวจซ้ำทุกครั้ง",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เครือข่าย Wi-Fi ที่บ้านมักถูกวางไว้ผิดตำแหน่ง ทำให้สัญญาณอ่อนในห้องที่ใช้งานบ่อย การย้ายเราเตอร์มาไว้กลางบ้านและให้พ้นจากสิ่งกีดขวางช่วยได้มากกว่าที่คิด"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ปัญญาประดิษฐ์ช่วยร่างข้อความและสรุปเอกสารได้รวดเร็ว แต่ผู้ใช้ยังต้องตรวจสอบข้อเท็จจริงทุกครั้งก่อนนำไปใช้ต่อ"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "แบตเตอรี่ลิเทียมไอออนเสื่อมตามจำนวนรอบการชาร์จและอุณหภูมิ การหลีกเลี่ยงความร้อนจัดและไม่ปล่อยให้แบตหมดเกลี้ยงบ่อย ๆ ช่วยยืดอายุการใช้งานได้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนอัปเดตระบบปฏิบัติการ ควรอ่านรายละเอียดของการอัปเดตสั้น ๆ และตรวจสอบว่าพื้นที่เก็บข้อมูลเพียงพอ เพื่อลดโอกาสที่เครื่องจะค้างระหว่างติดตั้ง"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-ai"],
+      "authorId": "user-nattawut",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1790910000000,
+      "updatedAt": 1790910000000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-006",
+      "slug": "phone-battery-care",
+      "title": "ยืดอายุแบตเตอรี่โทรศัพท์ด้วยนิสัยง่าย ๆ ห้าข้อ",
+      "excerpt": "ความร้อนและการชาร์จจนเกลี้ยงคือศัตรูหลักของแบตเตอรี่",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ปัญญาประดิษฐ์ช่วยร่างข้อความและสรุปเอกสารได้รวดเร็ว แต่ผู้ใช้ยังต้องตรวจสอบข้อเท็จจริงทุกครั้งก่อนนำไปใช้ต่อ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "แบตเตอรี่ลิเทียมไอออนเสื่อมตามจำนวนรอบการชาร์จและอุณหภูมิ การหลีกเลี่ยงความร้อนจัดและไม่ปล่อยให้แบตหมดเกลี้ยงบ่อย ๆ ช่วยยืดอายุการใช้งานได้"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตรวจสอบก่อนทำทุกครั้ง"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำทีละขั้นตอน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "จดสิ่งที่เปลี่ยนไว้เผื่อย้อนกลับ"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนอัปเดตระบบปฏิบัติการ ควรอ่านรายละเอียดของการอัปเดตสั้น ๆ และตรวจสอบว่าพื้นที่เก็บข้อมูลเพียงพอ เพื่อลดโอกาสที่เครื่องจะค้างระหว่างติดตั้ง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "อีเมลหลอกลวงมักสร้างความเร่งรีบ เช่น แจ้งว่าบัญชีจะถูกระงับภายในไม่กี่ชั่วโมง หากรู้สึกว่าถูกเร่ง ให้หยุดและเข้าสู่ระบบผ่านแอปทางการแทนการกดลิงก์"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทุกวันนี้เราพึ่งพาสมาร์ตโฟนในแทบทุกเรื่อง ตั้งแต่ตื่นนอนจนถึงเข้านอน การเข้าใจว่าเครื่องทำงานอย่างไรจึงช่วยให้เราเลือกใช้ได้คุ้มค่าและปลอดภัยมากขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การสำรองข้อมูลเป็นนิสัยที่ดูเหมือนเรื่องเล็ก แต่เมื่อเครื่องหายหรือเสียกะทันหัน ภาพถ่ายและเอกสารสำคัญที่มีอยู่เพียงชุดเดียวอาจกู้คืนไม่ได้อีกเลย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "รหัสผ่านที่ยาวและไม่ซ้ำกันในแต่ละบริการปลอดภัยกว่ารหัสสั้นที่จำง่าย ตัวจัดการรหัสผ่านช่วยให้เราไม่ต้องจำทั้งหมดด้วยตัวเอง"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-6",
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-gadgets"],
+      "authorId": "user-nattawut",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1790737200000,
+      "updatedAt": 1792292400000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-007",
+      "slug": "spot-phishing-emails",
+      "title": "รู้ทันอีเมลหลอกลวงก่อนกดลิงก์",
+      "excerpt": "สัญญาณเตือนห้าอย่างที่บอกว่าอีเมลฉบับนี้ไม่น่าไว้ใจ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "แบตเตอรี่ลิเทียมไอออนเสื่อมตามจำนวนรอบการชาร์จและอุณหภูมิ การหลีกเลี่ยงความร้อนจัดและไม่ปล่อยให้แบตหมดเกลี้ยงบ่อย ๆ ช่วยยืดอายุการใช้งานได้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนอัปเดตระบบปฏิบัติการ ควรอ่านรายละเอียดของการอัปเดตสั้น ๆ และตรวจสอบว่าพื้นที่เก็บข้อมูลเพียงพอ เพื่อลดโอกาสที่เครื่องจะค้างระหว่างติดตั้ง"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "อีเมลหลอกลวงมักสร้างความเร่งรีบ เช่น แจ้งว่าบัญชีจะถูกระงับภายในไม่กี่ชั่วโมง หากรู้สึกว่าถูกเร่ง ให้หยุดและเข้าสู่ระบบผ่านแอปทางการแทนการกดลิงก์"
+              }
+            ]
+          },
+          {
+            "type": "image",
+            "attrs": {
+              "mediaId": "media-cover-2",
+              "alt": "ภาพประกอบเนื้อหา",
+              "caption": "ภาพประกอบ"
+            }
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-1",
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-security"],
+      "authorId": "user-nattawut",
+      "reviewerId": "user-pimlada",
+      "reviewedAt": 1790650800000,
+      "publishedAt": 1790564400000,
+      "updatedAt": 1790564400000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-008",
+      "slug": "safe-system-update",
+      "title": "อัปเดตระบบอย่างไรไม่ให้เครื่องค้าง",
+      "excerpt": "เตรียมพื้นที่ สำรองข้อมูล และเลือกเวลาที่เหมาะก่อนอัปเดต",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนอัปเดตระบบปฏิบัติการ ควรอ่านรายละเอียดของการอัปเดตสั้น ๆ และตรวจสอบว่าพื้นที่เก็บข้อมูลเพียงพอ เพื่อลดโอกาสที่เครื่องจะค้างระหว่างติดตั้ง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "อีเมลหลอกลวงมักสร้างความเร่งรีบ เช่น แจ้งว่าบัญชีจะถูกระงับภายในไม่กี่ชั่วโมง หากรู้สึกว่าถูกเร่ง ให้หยุดและเข้าสู่ระบบผ่านแอปทางการแทนการกดลิงก์"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตรวจสอบก่อนทำทุกครั้ง"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำทีละขั้นตอน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "จดสิ่งที่เปลี่ยนไว้เผื่อย้อนกลับ"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทุกวันนี้เราพึ่งพาสมาร์ตโฟนในแทบทุกเรื่อง ตั้งแต่ตื่นนอนจนถึงเข้านอน การเข้าใจว่าเครื่องทำงานอย่างไรจึงช่วยให้เราเลือกใช้ได้คุ้มค่าและปลอดภัยมากขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การสำรองข้อมูลเป็นนิสัยที่ดูเหมือนเรื่องเล็ก แต่เมื่อเครื่องหายหรือเสียกะทันหัน ภาพถ่ายและเอกสารสำคัญที่มีอยู่เพียงชุดเดียวอาจกู้คืนไม่ได้อีกเลย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "รหัสผ่านที่ยาวและไม่ซ้ำกันในแต่ละบริการปลอดภัยกว่ารหัสสั้นที่จำง่าย ตัวจัดการรหัสผ่านช่วยให้เราไม่ต้องจำทั้งหมดด้วยตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เครือข่าย Wi-Fi ที่บ้านมักถูกวางไว้ผิดตำแหน่ง ทำให้สัญญาณอ่อนในห้องที่ใช้งานบ่อย การย้ายเราเตอร์มาไว้กลางบ้านและให้พ้นจากสิ่งกีดขวางช่วยได้มากกว่าที่คิด"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-gadgets", "tag-security"],
+      "authorId": "user-nattawut",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1790391600000,
+      "updatedAt": 1790391600000,
+      "seo": {
+        "title": "อัปเดตระบบอย่างไรไม่ให้เครื่องค้าง | คู่มือฉบับย่อ",
+        "description": "เตรียมพื้นที่ สำรองข้อมูล และเลือกเวลาที่เหมาะก่อนอัปเดต"
+      }
+    },
+    {
+      "id": "art-009",
+      "slug": "choose-backup-drive",
+      "title": "เลือกซื้อฮาร์ดดิสก์สำรองข้อมูลให้เหมาะกับการใช้งาน",
+      "excerpt": "เปรียบเทียบฮาร์ดดิสก์ เอสเอสดี และบริการคลาวด์ตามลักษณะข้อมูลของคุณ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "อีเมลหลอกลวงมักสร้างความเร่งรีบ เช่น แจ้งว่าบัญชีจะถูกระงับภายในไม่กี่ชั่วโมง หากรู้สึกว่าถูกเร่ง ให้หยุดและเข้าสู่ระบบผ่านแอปทางการแทนการกดลิงก์"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทุกวันนี้เราพึ่งพาสมาร์ตโฟนในแทบทุกเรื่อง ตั้งแต่ตื่นนอนจนถึงเข้านอน การเข้าใจว่าเครื่องทำงานอย่างไรจึงช่วยให้เราเลือกใช้ได้คุ้มค่าและปลอดภัยมากขึ้น"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-3",
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-gadgets"],
+      "authorId": "user-nattawut",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1790218800000,
+      "updatedAt": 1790218800000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-010",
+      "slug": "two-factor-authentication",
+      "title": "ทำความรู้จักการยืนยันตัวตนสองขั้นตอน",
+      "excerpt": "ทำไมรหัสผ่านอย่างเดียวจึงไม่พอ และเปิดใช้งานอย่างไร",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทุกวันนี้เราพึ่งพาสมาร์ตโฟนในแทบทุกเรื่อง ตั้งแต่ตื่นนอนจนถึงเข้านอน การเข้าใจว่าเครื่องทำงานอย่างไรจึงช่วยให้เราเลือกใช้ได้คุ้มค่าและปลอดภัยมากขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การสำรองข้อมูลเป็นนิสัยที่ดูเหมือนเรื่องเล็ก แต่เมื่อเครื่องหายหรือเสียกะทันหัน ภาพถ่ายและเอกสารสำคัญที่มีอยู่เพียงชุดเดียวอาจกู้คืนไม่ได้อีกเลย"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตรวจสอบก่อนทำทุกครั้ง"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำทีละขั้นตอน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "จดสิ่งที่เปลี่ยนไว้เผื่อย้อนกลับ"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "รหัสผ่านที่ยาวและไม่ซ้ำกันในแต่ละบริการปลอดภัยกว่ารหัสสั้นที่จำง่าย ตัวจัดการรหัสผ่านช่วยให้เราไม่ต้องจำทั้งหมดด้วยตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เครือข่าย Wi-Fi ที่บ้านมักถูกวางไว้ผิดตำแหน่ง ทำให้สัญญาณอ่อนในห้องที่ใช้งานบ่อย การย้ายเราเตอร์มาไว้กลางบ้านและให้พ้นจากสิ่งกีดขวางช่วยได้มากกว่าที่คิด"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ปัญญาประดิษฐ์ช่วยร่างข้อความและสรุปเอกสารได้รวดเร็ว แต่ผู้ใช้ยังต้องตรวจสอบข้อเท็จจริงทุกครั้งก่อนนำไปใช้ต่อ"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-4",
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-security"],
+      "authorId": "user-nattawut",
+      "reviewerId": "user-pimlada",
+      "reviewedAt": 1790132400000,
+      "publishedAt": 1790046000000,
+      "updatedAt": 1792638000000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-011",
+      "slug": "organize-computer-files",
+      "title": "จัดระเบียบไฟล์ในคอมพิวเตอร์ให้ค้นหาง่าย",
+      "excerpt": "โครงสร้างโฟลเดอร์และการตั้งชื่อไฟล์ที่ใช้ได้นานหลายปี",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การสำรองข้อมูลเป็นนิสัยที่ดูเหมือนเรื่องเล็ก แต่เมื่อเครื่องหายหรือเสียกะทันหัน ภาพถ่ายและเอกสารสำคัญที่มีอยู่เพียงชุดเดียวอาจกู้คืนไม่ได้อีกเลย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "รหัสผ่านที่ยาวและไม่ซ้ำกันในแต่ละบริการปลอดภัยกว่ารหัสสั้นที่จำง่าย ตัวจัดการรหัสผ่านช่วยให้เราไม่ต้องจำทั้งหมดด้วยตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เครือข่าย Wi-Fi ที่บ้านมักถูกวางไว้ผิดตำแหน่ง ทำให้สัญญาณอ่อนในห้องที่ใช้งานบ่อย การย้ายเราเตอร์มาไว้กลางบ้านและให้พ้นจากสิ่งกีดขวางช่วยได้มากกว่าที่คิด"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ปัญญาประดิษฐ์ช่วยร่างข้อความและสรุปเอกสารได้รวดเร็ว แต่ผู้ใช้ยังต้องตรวจสอบข้อเท็จจริงทุกครั้งก่อนนำไปใช้ต่อ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "แบตเตอรี่ลิเทียมไอออนเสื่อมตามจำนวนรอบการชาร์จและอุณหภูมิ การหลีกเลี่ยงความร้อนจัดและไม่ปล่อยให้แบตหมดเกลี้ยงบ่อย ๆ ช่วยยืดอายุการใช้งานได้"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนอัปเดตระบบปฏิบัติการ ควรอ่านรายละเอียดของการอัปเดตสั้น ๆ และตรวจสอบว่าพื้นที่เก็บข้อมูลเพียงพอ เพื่อลดโอกาสที่เครื่องจะค้างระหว่างติดตั้ง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "อีเมลหลอกลวงมักสร้างความเร่งรีบ เช่น แจ้งว่าบัญชีจะถูกระงับภายในไม่กี่ชั่วโมง หากรู้สึกว่าถูกเร่ง ให้หยุดและเข้าสู่ระบบผ่านแอปทางการแทนการกดลิงก์"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ทุกวันนี้เราพึ่งพาสมาร์ตโฟนในแทบทุกเรื่อง ตั้งแต่ตื่นนอนจนถึงเข้านอน การเข้าใจว่าเครื่องทำงานอย่างไรจึงช่วยให้เราเลือกใช้ได้คุ้มค่าและปลอดภัยมากขึ้น"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-technology",
+      "tagIds": ["tag-home"],
+      "authorId": "user-nattawut",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1789873200000,
+      "updatedAt": 1789873200000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-012",
+      "slug": "better-sleep-shift-workers",
+      "title": "เคล็ดลับนอนหลับลึกสำหรับคนทำงานเข้ากะ",
+      "excerpt": "จัดห้อง แสง และเวลาพักให้ร่างกายปรับตัวได้ง่ายขึ้น",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ห้องครัวเล็ก ๆ ก็ทำอาหารอร่อยได้ หากวางแผนเมนูล่วงหน้าและเตรียมวัตถุดิบพื้นฐานไว้ เช่น ไข่ ข้าว ผักสด และเครื่องปรุงที่ใช้บ่อย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดบ้านให้โล่งไม่ได้หมายถึงการทิ้งของทั้งหมด แต่คือการเก็บเฉพาะสิ่งที่ใช้จริงและให้ทุกอย่างมีที่อยู่ชัดเจน เพื่อให้หาง่ายและทำความสะอาดสะดวก"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "เริ่มจากสิ่งเล็ก ๆ"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำให้เป็นกิจวัตร"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ไม่เปรียบเทียบกับคนอื่น"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินทางท่องเที่ยวในประเทศช่วงนอกฤดูกาลมีข้อดีหลายอย่าง ทั้งราคาที่พักถูกลง คนน้อยลง และได้เห็นบรรยากาศอีกแบบของสถานที่คุ้นเคย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การดื่มน้ำให้เพียงพอตลอดวันช่วยให้ร่างกายทำงานได้ดี ลองวางขวดน้ำไว้ใกล้มือ เพื่อให้จิบได้บ่อยโดยไม่ต้องคอยเตือนตัวเอง"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-6",
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-health"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1789700400000,
+      "updatedAt": 1789700400000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-013",
+      "slug": "daily-walking-habit",
+      "title": "เดินวันละครึ่งชั่วโมง เริ่มต้นอย่างไรให้ไม่ท้อ",
+      "excerpt": "แผนสี่สัปดาห์สำหรับคนที่ไม่เคยออกกำลังกายมาก่อน",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดบ้านให้โล่งไม่ได้หมายถึงการทิ้งของทั้งหมด แต่คือการเก็บเฉพาะสิ่งที่ใช้จริงและให้ทุกอย่างมีที่อยู่ชัดเจน เพื่อให้หาง่ายและทำความสะอาดสะดวก"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินทางท่องเที่ยวในประเทศช่วงนอกฤดูกาลมีข้อดีหลายอย่าง ทั้งราคาที่พักถูกลง คนน้อยลง และได้เห็นบรรยากาศอีกแบบของสถานที่คุ้นเคย"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การดื่มน้ำให้เพียงพอตลอดวันช่วยให้ร่างกายทำงานได้ดี ลองวางขวดน้ำไว้ใกล้มือ เพื่อให้จิบได้บ่อยโดยไม่ต้องคอยเตือนตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "งานอดิเรกช่วยให้ใจได้พักจากเรื่องงาน ไม่ว่าจะเป็นปลูกต้นไม้ ถ่ายภาพ หรือประดิษฐ์ของเล็ก ๆ สิ่งสำคัญคือทำเพราะสนุก ไม่ใช่เพราะต้องเก่ง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การใช้เวลากับครอบครัวโดยไม่มีโทรศัพท์บนโต๊ะอาหารอาจฟังดูเรียบง่าย แต่ช่วยให้บทสนทนาลึกขึ้นและทุกคนรู้สึกว่าได้รับความสนใจ"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การนอนหลับเพียงพอเป็นรากฐานของสุขภาพที่ดี ผู้ใหญ่ส่วนใหญ่ต้องการราว 7 ถึง 9 ชั่วโมงต่อคืน และการเข้านอนเป็นเวลาสม่ำเสมอช่วยให้หลับลึกขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินวันละสามสิบนาทีไม่ต้องใช้อุปกรณ์พิเศษ แต่ช่วยให้หัวใจแข็งแรงและอารมณ์ดีขึ้น เริ่มจากเดินรอบหมู่บ้านหลังมื้อเย็นก็เพียงพอสำหรับคนที่ไม่เคยออกกำลังกาย"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-1",
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-health"],
+      "authorId": "user-pimlada",
+      "reviewerId": "user-nattawut",
+      "reviewedAt": 1789614000000,
+      "publishedAt": 1789527600000,
+      "updatedAt": 1789527600000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-014",
+      "slug": "small-kitchen-meals",
+      "title": "เมนูง่ายสำหรับห้องครัวเล็ก",
+      "excerpt": "วัตถุดิบพื้นฐานไม่กี่อย่างที่ทำอาหารได้หลายมื้อ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินทางท่องเที่ยวในประเทศช่วงนอกฤดูกาลมีข้อดีหลายอย่าง ทั้งราคาที่พักถูกลง คนน้อยลง และได้เห็นบรรยากาศอีกแบบของสถานที่คุ้นเคย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การดื่มน้ำให้เพียงพอตลอดวันช่วยให้ร่างกายทำงานได้ดี ลองวางขวดน้ำไว้ใกล้มือ เพื่อให้จิบได้บ่อยโดยไม่ต้องคอยเตือนตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "เริ่มจากสิ่งเล็ก ๆ"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำให้เป็นกิจวัตร"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ไม่เปรียบเทียบกับคนอื่น"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "งานอดิเรกช่วยให้ใจได้พักจากเรื่องงาน ไม่ว่าจะเป็นปลูกต้นไม้ ถ่ายภาพ หรือประดิษฐ์ของเล็ก ๆ สิ่งสำคัญคือทำเพราะสนุก ไม่ใช่เพราะต้องเก่ง"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-home"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1789354800000,
+      "updatedAt": 1792983600000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-015",
+      "slug": "declutter-home",
+      "title": "จัดบ้านให้โล่งโดยไม่ต้องทิ้งทุกอย่าง",
+      "excerpt": "หลักคิดการจัดบ้านที่เก็บของจำเป็นไว้และตัดความรกออก",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การดื่มน้ำให้เพียงพอตลอดวันช่วยให้ร่างกายทำงานได้ดี ลองวางขวดน้ำไว้ใกล้มือ เพื่อให้จิบได้บ่อยโดยไม่ต้องคอยเตือนตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "งานอดิเรกช่วยให้ใจได้พักจากเรื่องงาน ไม่ว่าจะเป็นปลูกต้นไม้ ถ่ายภาพ หรือประดิษฐ์ของเล็ก ๆ สิ่งสำคัญคือทำเพราะสนุก ไม่ใช่เพราะต้องเก่ง"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การใช้เวลากับครอบครัวโดยไม่มีโทรศัพท์บนโต๊ะอาหารอาจฟังดูเรียบง่าย แต่ช่วยให้บทสนทนาลึกขึ้นและทุกคนรู้สึกว่าได้รับความสนใจ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การนอนหลับเพียงพอเป็นรากฐานของสุขภาพที่ดี ผู้ใหญ่ส่วนใหญ่ต้องการราว 7 ถึง 9 ชั่วโมงต่อคืน และการเข้านอนเป็นเวลาสม่ำเสมอช่วยให้หลับลึกขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินวันละสามสิบนาทีไม่ต้องใช้อุปกรณ์พิเศษ แต่ช่วยให้หัวใจแข็งแรงและอารมณ์ดีขึ้น เริ่มจากเดินรอบหมู่บ้านหลังมื้อเย็นก็เพียงพอสำหรับคนที่ไม่เคยออกกำลังกาย"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ห้องครัวเล็ก ๆ ก็ทำอาหารอร่อยได้ หากวางแผนเมนูล่วงหน้าและเตรียมวัตถุดิบพื้นฐานไว้ เช่น ไข่ ข้าว ผักสด และเครื่องปรุงที่ใช้บ่อย"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-3",
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-home"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1789182000000,
+      "updatedAt": 1789182000000,
+      "seo": {
+        "title": "จัดบ้านให้โล่งโดยไม่ต้องทิ้งทุกอย่าง | คู่มือฉบับย่อ",
+        "description": "หลักคิดการจัดบ้านที่เก็บของจำเป็นไว้และตัดความรกออก"
+      }
+    },
+    {
+      "id": "art-016",
+      "slug": "off-season-thai-travel",
+      "title": "เที่ยวไทยนอกฤดูกาล คุ้มกว่าที่คิด",
+      "excerpt": "ข้อดี ข้อควรระวัง และการเตรียมตัวสำหรับการเที่ยวช่วงคนน้อย",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "งานอดิเรกช่วยให้ใจได้พักจากเรื่องงาน ไม่ว่าจะเป็นปลูกต้นไม้ ถ่ายภาพ หรือประดิษฐ์ของเล็ก ๆ สิ่งสำคัญคือทำเพราะสนุก ไม่ใช่เพราะต้องเก่ง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การใช้เวลากับครอบครัวโดยไม่มีโทรศัพท์บนโต๊ะอาหารอาจฟังดูเรียบง่าย แต่ช่วยให้บทสนทนาลึกขึ้นและทุกคนรู้สึกว่าได้รับความสนใจ"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "เริ่มจากสิ่งเล็ก ๆ"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำให้เป็นกิจวัตร"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ไม่เปรียบเทียบกับคนอื่น"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-4",
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-travel"],
+      "authorId": "user-pimlada",
+      "reviewerId": "user-nattawut",
+      "reviewedAt": 1789095600000,
+      "publishedAt": 1789009200000,
+      "updatedAt": 1789009200000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-017",
+      "slug": "drink-enough-water",
+      "title": "ดื่มน้ำให้พอในแต่ละวันด้วยวิธีเล็ก ๆ",
+      "excerpt": "นิสัยง่าย ๆ ที่ช่วยให้ดื่มน้ำสม่ำเสมอโดยไม่ต้องฝืน",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การใช้เวลากับครอบครัวโดยไม่มีโทรศัพท์บนโต๊ะอาหารอาจฟังดูเรียบง่าย แต่ช่วยให้บทสนทนาลึกขึ้นและทุกคนรู้สึกว่าได้รับความสนใจ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การนอนหลับเพียงพอเป็นรากฐานของสุขภาพที่ดี ผู้ใหญ่ส่วนใหญ่ต้องการราว 7 ถึง 9 ชั่วโมงต่อคืน และการเข้านอนเป็นเวลาสม่ำเสมอช่วยให้หลับลึกขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินวันละสามสิบนาทีไม่ต้องใช้อุปกรณ์พิเศษ แต่ช่วยให้หัวใจแข็งแรงและอารมณ์ดีขึ้น เริ่มจากเดินรอบหมู่บ้านหลังมื้อเย็นก็เพียงพอสำหรับคนที่ไม่เคยออกกำลังกาย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ห้องครัวเล็ก ๆ ก็ทำอาหารอร่อยได้ หากวางแผนเมนูล่วงหน้าและเตรียมวัตถุดิบพื้นฐานไว้ เช่น ไข่ ข้าว ผักสด และเครื่องปรุงที่ใช้บ่อย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดบ้านให้โล่งไม่ได้หมายถึงการทิ้งของทั้งหมด แต่คือการเก็บเฉพาะสิ่งที่ใช้จริงและให้ทุกอย่างมีที่อยู่ชัดเจน เพื่อให้หาง่ายและทำความสะอาดสะดวก"
+              }
+            ]
+          },
+          {
+            "type": "image",
+            "attrs": {
+              "mediaId": "media-cover-2",
+              "alt": "ภาพประกอบเนื้อหา",
+              "caption": "ภาพประกอบ"
+            }
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-health"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1788836400000,
+      "updatedAt": 1788836400000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-018",
+      "slug": "relaxing-hobbies",
+      "title": "งานอดิเรกที่ช่วยให้ใจได้พัก",
+      "excerpt": "เลือกงานอดิเรกที่เหมาะกับเวลาและงบประมาณของคุณ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การนอนหลับเพียงพอเป็นรากฐานของสุขภาพที่ดี ผู้ใหญ่ส่วนใหญ่ต้องการราว 7 ถึง 9 ชั่วโมงต่อคืน และการเข้านอนเป็นเวลาสม่ำเสมอช่วยให้หลับลึกขึ้น"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินวันละสามสิบนาทีไม่ต้องใช้อุปกรณ์พิเศษ แต่ช่วยให้หัวใจแข็งแรงและอารมณ์ดีขึ้น เริ่มจากเดินรอบหมู่บ้านหลังมื้อเย็นก็เพียงพอสำหรับคนที่ไม่เคยออกกำลังกาย"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "เริ่มจากสิ่งเล็ก ๆ"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำให้เป็นกิจวัตร"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ไม่เปรียบเทียบกับคนอื่น"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ห้องครัวเล็ก ๆ ก็ทำอาหารอร่อยได้ หากวางแผนเมนูล่วงหน้าและเตรียมวัตถุดิบพื้นฐานไว้ เช่น ไข่ ข้าว ผักสด และเครื่องปรุงที่ใช้บ่อย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดบ้านให้โล่งไม่ได้หมายถึงการทิ้งของทั้งหมด แต่คือการเก็บเฉพาะสิ่งที่ใช้จริงและให้ทุกอย่างมีที่อยู่ชัดเจน เพื่อให้หาง่ายและทำความสะอาดสะดวก"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินทางท่องเที่ยวในประเทศช่วงนอกฤดูกาลมีข้อดีหลายอย่าง ทั้งราคาที่พักถูกลง คนน้อยลง และได้เห็นบรรยากาศอีกแบบของสถานที่คุ้นเคย"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การดื่มน้ำให้เพียงพอตลอดวันช่วยให้ร่างกายทำงานได้ดี ลองวางขวดน้ำไว้ใกล้มือ เพื่อให้จิบได้บ่อยโดยไม่ต้องคอยเตือนตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "งานอดิเรกช่วยให้ใจได้พักจากเรื่องงาน ไม่ว่าจะเป็นปลูกต้นไม้ ถ่ายภาพ หรือประดิษฐ์ของเล็ก ๆ สิ่งสำคัญคือทำเพราะสนุก ไม่ใช่เพราะต้องเก่ง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การใช้เวลากับครอบครัวโดยไม่มีโทรศัพท์บนโต๊ะอาหารอาจฟังดูเรียบง่าย แต่ช่วยให้บทสนทนาลึกขึ้นและทุกคนรู้สึกว่าได้รับความสนใจ"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-6",
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-health", "tag-home"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1788663600000,
+      "updatedAt": 1793329200000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-019",
+      "slug": "phone-free-dinner",
+      "title": "มื้อเย็นไร้โทรศัพท์ของครอบครัว",
+      "excerpt": "กติกาเรียบง่ายที่ทำให้มื้อเย็นกลับมาเป็นเวลาคุยกัน",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินวันละสามสิบนาทีไม่ต้องใช้อุปกรณ์พิเศษ แต่ช่วยให้หัวใจแข็งแรงและอารมณ์ดีขึ้น เริ่มจากเดินรอบหมู่บ้านหลังมื้อเย็นก็เพียงพอสำหรับคนที่ไม่เคยออกกำลังกาย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ห้องครัวเล็ก ๆ ก็ทำอาหารอร่อยได้ หากวางแผนเมนูล่วงหน้าและเตรียมวัตถุดิบพื้นฐานไว้ เช่น ไข่ ข้าว ผักสด และเครื่องปรุงที่ใช้บ่อย"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดบ้านให้โล่งไม่ได้หมายถึงการทิ้งของทั้งหมด แต่คือการเก็บเฉพาะสิ่งที่ใช้จริงและให้ทุกอย่างมีที่อยู่ชัดเจน เพื่อให้หาง่ายและทำความสะอาดสะดวก"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินทางท่องเที่ยวในประเทศช่วงนอกฤดูกาลมีข้อดีหลายอย่าง ทั้งราคาที่พักถูกลง คนน้อยลง และได้เห็นบรรยากาศอีกแบบของสถานที่คุ้นเคย"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-1",
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-home"],
+      "authorId": "user-pimlada",
+      "reviewerId": "user-nattawut",
+      "reviewedAt": 1788577200000,
+      "publishedAt": 1788490800000,
+      "updatedAt": 1788490800000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-020",
+      "slug": "balcony-vegetable-garden",
+      "title": "เริ่มปลูกผักในระเบียงคอนโด",
+      "excerpt": "ผักโตเร็วห้าชนิดที่เหมาะกับพื้นที่เล็กและแดดรำไร",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ห้องครัวเล็ก ๆ ก็ทำอาหารอร่อยได้ หากวางแผนเมนูล่วงหน้าและเตรียมวัตถุดิบพื้นฐานไว้ เช่น ไข่ ข้าว ผักสด และเครื่องปรุงที่ใช้บ่อย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดบ้านให้โล่งไม่ได้หมายถึงการทิ้งของทั้งหมด แต่คือการเก็บเฉพาะสิ่งที่ใช้จริงและให้ทุกอย่างมีที่อยู่ชัดเจน เพื่อให้หาง่ายและทำความสะอาดสะดวก"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "เริ่มจากสิ่งเล็ก ๆ"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทำให้เป็นกิจวัตร"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ไม่เปรียบเทียบกับคนอื่น"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินทางท่องเที่ยวในประเทศช่วงนอกฤดูกาลมีข้อดีหลายอย่าง ทั้งราคาที่พักถูกลง คนน้อยลง และได้เห็นบรรยากาศอีกแบบของสถานที่คุ้นเคย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การดื่มน้ำให้เพียงพอตลอดวันช่วยให้ร่างกายทำงานได้ดี ลองวางขวดน้ำไว้ใกล้มือ เพื่อให้จิบได้บ่อยโดยไม่ต้องคอยเตือนตัวเอง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "งานอดิเรกช่วยให้ใจได้พักจากเรื่องงาน ไม่ว่าจะเป็นปลูกต้นไม้ ถ่ายภาพ หรือประดิษฐ์ของเล็ก ๆ สิ่งสำคัญคือทำเพราะสนุก ไม่ใช่เพราะต้องเก่ง"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การใช้เวลากับครอบครัวโดยไม่มีโทรศัพท์บนโต๊ะอาหารอาจฟังดูเรียบง่าย แต่ช่วยให้บทสนทนาลึกขึ้นและทุกคนรู้สึกว่าได้รับความสนใจ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การนอนหลับเพียงพอเป็นรากฐานของสุขภาพที่ดี ผู้ใหญ่ส่วนใหญ่ต้องการราว 7 ถึง 9 ชั่วโมงต่อคืน และการเข้านอนเป็นเวลาสม่ำเสมอช่วยให้หลับลึกขึ้น"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-home", "tag-health"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1788318000000,
+      "updatedAt": 1788318000000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-021",
+      "slug": "weekly-schedule-rest",
+      "title": "จัดตารางสัปดาห์ให้มีเวลาพักจริง",
+      "excerpt": "วางเวลาพักไว้ในตารางก่อนงานอื่น แล้วรักษาให้ได้",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจัดบ้านให้โล่งไม่ได้หมายถึงการทิ้งของทั้งหมด แต่คือการเก็บเฉพาะสิ่งที่ใช้จริงและให้ทุกอย่างมีที่อยู่ชัดเจน เพื่อให้หาง่ายและทำความสะอาดสะดวก"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การเดินทางท่องเที่ยวในประเทศช่วงนอกฤดูกาลมีข้อดีหลายอย่าง ทั้งราคาที่พักถูกลง คนน้อยลง และได้เห็นบรรยากาศอีกแบบของสถานที่คุ้นเคย"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การดื่มน้ำให้เพียงพอตลอดวันช่วยให้ร่างกายทำงานได้ดี ลองวางขวดน้ำไว้ใกล้มือ เพื่อให้จิบได้บ่อยโดยไม่ต้องคอยเตือนตัวเอง"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-3",
+      "categoryId": "cat-lifestyle",
+      "tagIds": ["tag-health"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1788145200000,
+      "updatedAt": 1788145200000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-022",
+      "slug": "save-ten-percent",
+      "title": "ออมเงินเดือนละสิบเปอร์เซ็นต์ทำได้อย่างไร",
+      "excerpt": "วิธีโอนเงินออมก่อนใช้จ่ายและปรับงบเมื่อรายได้ไม่แน่นอน",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ดอกเบี้ยบัตรเครดิตสูงกว่าดอกเบี้ยเงินฝากหลายเท่า การจ่ายเต็มจำนวนทุกเดือนจึงเป็นวิธีที่ดีที่สุดในการใช้บัตรโดยไม่เสียต้นทุนเพิ่ม"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ประกันสุขภาพช่วยลดความเสี่ยงที่ค่ารักษาพยาบาลก้อนใหญ่จะทำลายแผนการเงินทั้งหมด ควรเปรียบเทียบความคุ้มครอง ข้อยกเว้น และระยะเวลารอคอยก่อนตัดสินใจ"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตั้งเป้าหมายที่ชัดเจน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทบทวนทุกเดือน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ปรับตามรายได้ที่เปลี่ยนไป"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การวางแผนเกษียณยิ่งเริ่มเร็วยิ่งได้เปรียบ เพราะผลของดอกเบี้ยทบต้นต้องใช้เวลา แม้เริ่มจากจำนวนเล็กน้อยก็สะสมได้มากเมื่อเวลาผ่านไปหลายสิบปี"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนซื้อของชิ้นใหญ่ ลองรอสามสิบวันเพื่อดูว่ายังอยากได้อยู่หรือไม่ วิธีนี้ช่วยลดการซื้อตามอารมณ์ได้อย่างเห็นผล"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การออมเงินให้ได้อย่างน้อยร้อยละสิบของรายได้ทุกเดือนเป็นเป้าหมายที่หลายคนตั้งไว้ วิธีที่ง่ายที่สุดคือโอนเงินออมทันทีที่เงินเดือนเข้า แล้วค่อยใช้ส่วนที่เหลือ"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เงินสำรองฉุกเฉินควรครอบคลุมค่าใช้จ่ายอย่างน้อยสามถึงหกเดือน และเก็บไว้ในบัญชีที่ถอนได้ทันที เพื่อรับมือเหตุไม่คาดฝัน เช่น ตกงานหรือเจ็บป่วย"
+              }
+            ]
+          },
+          {
+            "type": "image",
+            "attrs": {
+              "mediaId": "media-cover-2",
+              "alt": "ภาพประกอบเนื้อหา",
+              "caption": "ภาพประกอบ"
+            }
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-4",
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving"],
+      "authorId": "user-pimlada",
+      "reviewerId": "user-nattawut",
+      "reviewedAt": 1788058800000,
+      "publishedAt": 1787972400000,
+      "updatedAt": 1793674800000,
+      "seo": {
+        "title": "ออมเงินเดือนละสิบเปอร์เซ็นต์ทำได้อย่างไร | คู่มือฉบับย่อ",
+        "description": "วิธีโอนเงินออมก่อนใช้จ่ายและปรับงบเมื่อรายได้ไม่แน่นอน"
+      }
+    },
+    {
+      "id": "art-023",
+      "slug": "emergency-fund",
+      "title": "เงินสำรองฉุกเฉินควรมีเท่าไรและเก็บที่ไหน",
+      "excerpt": "คำนวณจากค่าใช้จ่ายจริง และเลือกที่เก็บที่ถอนได้ทันที",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ประกันสุขภาพช่วยลดความเสี่ยงที่ค่ารักษาพยาบาลก้อนใหญ่จะทำลายแผนการเงินทั้งหมด ควรเปรียบเทียบความคุ้มครอง ข้อยกเว้น และระยะเวลารอคอยก่อนตัดสินใจ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การวางแผนเกษียณยิ่งเริ่มเร็วยิ่งได้เปรียบ เพราะผลของดอกเบี้ยทบต้นต้องใช้เวลา แม้เริ่มจากจำนวนเล็กน้อยก็สะสมได้มากเมื่อเวลาผ่านไปหลายสิบปี"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1787799600000,
+      "updatedAt": 1787799600000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-024",
+      "slug": "before-first-investment",
+      "title": "ก่อนลงทุนครั้งแรก ควรรู้อะไรบ้าง",
+      "excerpt": "เข้าใจความเสี่ยง เป้าหมาย และระยะเวลาลงทุนก่อนซื้อสินทรัพย์ใด ๆ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การวางแผนเกษียณยิ่งเริ่มเร็วยิ่งได้เปรียบ เพราะผลของดอกเบี้ยทบต้นต้องใช้เวลา แม้เริ่มจากจำนวนเล็กน้อยก็สะสมได้มากเมื่อเวลาผ่านไปหลายสิบปี"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนซื้อของชิ้นใหญ่ ลองรอสามสิบวันเพื่อดูว่ายังอยากได้อยู่หรือไม่ วิธีนี้ช่วยลดการซื้อตามอารมณ์ได้อย่างเห็นผล"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตั้งเป้าหมายที่ชัดเจน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทบทวนทุกเดือน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ปรับตามรายได้ที่เปลี่ยนไป"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การออมเงินให้ได้อย่างน้อยร้อยละสิบของรายได้ทุกเดือนเป็นเป้าหมายที่หลายคนตั้งไว้ วิธีที่ง่ายที่สุดคือโอนเงินออมทันทีที่เงินเดือนเข้า แล้วค่อยใช้ส่วนที่เหลือ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เงินสำรองฉุกเฉินควรครอบคลุมค่าใช้จ่ายอย่างน้อยสามถึงหกเดือน และเก็บไว้ในบัญชีที่ถอนได้ทันที เพื่อรับมือเหตุไม่คาดฝัน เช่น ตกงานหรือเจ็บป่วย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนลงทุนในสินทรัพย์ใด ควรเข้าใจก่อนว่าผลตอบแทนที่สูงมักมาพร้อมความเสี่ยงที่สูง และไม่มีใครรับประกันกำไรได้ล่วงหน้า บทความนี้เป็นข้อมูลทั่วไป ไม่ใช่คำแนะนำการลงทุนส่วนบุคคล"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-6",
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-investing"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1787626800000,
+      "updatedAt": 1787626800000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-025",
+      "slug": "track-spending-three-months",
+      "title": "จดรายรับรายจ่ายสามเดือนแล้วเห็นอะไร",
+      "excerpt": "ผลจากการจดบันทึกจริงและวิธีเริ่มต้นแบบไม่ยุ่งยาก",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนซื้อของชิ้นใหญ่ ลองรอสามสิบวันเพื่อดูว่ายังอยากได้อยู่หรือไม่ วิธีนี้ช่วยลดการซื้อตามอารมณ์ได้อย่างเห็นผล"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การออมเงินให้ได้อย่างน้อยร้อยละสิบของรายได้ทุกเดือนเป็นเป้าหมายที่หลายคนตั้งไว้ วิธีที่ง่ายที่สุดคือโอนเงินออมทันทีที่เงินเดือนเข้า แล้วค่อยใช้ส่วนที่เหลือ"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เงินสำรองฉุกเฉินควรครอบคลุมค่าใช้จ่ายอย่างน้อยสามถึงหกเดือน และเก็บไว้ในบัญชีที่ถอนได้ทันที เพื่อรับมือเหตุไม่คาดฝัน เช่น ตกงานหรือเจ็บป่วย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนลงทุนในสินทรัพย์ใด ควรเข้าใจก่อนว่าผลตอบแทนที่สูงมักมาพร้อมความเสี่ยงที่สูง และไม่มีใครรับประกันกำไรได้ล่วงหน้า บทความนี้เป็นข้อมูลทั่วไป ไม่ใช่คำแนะนำการลงทุนส่วนบุคคล"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจดรายรับรายจ่ายเพียงสองสามเดือนทำให้เห็นรูปแบบการใช้เงินที่แท้จริง หลายคนแปลกใจที่ค่าใช้จ่ายเล็ก ๆ ประจำวันรวมกันแล้วมากกว่าที่คาดไว้"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ดอกเบี้ยบัตรเครดิตสูงกว่าดอกเบี้ยเงินฝากหลายเท่า การจ่ายเต็มจำนวนทุกเดือนจึงเป็นวิธีที่ดีที่สุดในการใช้บัตรโดยไม่เสียต้นทุนเพิ่ม"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ประกันสุขภาพช่วยลดความเสี่ยงที่ค่ารักษาพยาบาลก้อนใหญ่จะทำลายแผนการเงินทั้งหมด ควรเปรียบเทียบความคุ้มครอง ข้อยกเว้น และระยะเวลารอคอยก่อนตัดสินใจ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การวางแผนเกษียณยิ่งเริ่มเร็วยิ่งได้เปรียบ เพราะผลของดอกเบี้ยทบต้นต้องใช้เวลา แม้เริ่มจากจำนวนเล็กน้อยก็สะสมได้มากเมื่อเวลาผ่านไปหลายสิบปี"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-1",
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving"],
+      "authorId": "user-pimlada",
+      "reviewerId": "user-nattawut",
+      "reviewedAt": 1787540400000,
+      "publishedAt": 1787454000000,
+      "updatedAt": 1787454000000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-026",
+      "slug": "credit-card-no-interest",
+      "title": "ใช้บัตรเครดิตอย่างไรไม่ให้เสียดอกเบี้ย",
+      "excerpt": "เข้าใจรอบบิลและวันครบกำหนด เพื่อใช้บัตรโดยไม่มีต้นทุนแฝง",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การออมเงินให้ได้อย่างน้อยร้อยละสิบของรายได้ทุกเดือนเป็นเป้าหมายที่หลายคนตั้งไว้ วิธีที่ง่ายที่สุดคือโอนเงินออมทันทีที่เงินเดือนเข้า แล้วค่อยใช้ส่วนที่เหลือ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เงินสำรองฉุกเฉินควรครอบคลุมค่าใช้จ่ายอย่างน้อยสามถึงหกเดือน และเก็บไว้ในบัญชีที่ถอนได้ทันที เพื่อรับมือเหตุไม่คาดฝัน เช่น ตกงานหรือเจ็บป่วย"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตั้งเป้าหมายที่ชัดเจน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทบทวนทุกเดือน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ปรับตามรายได้ที่เปลี่ยนไป"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนลงทุนในสินทรัพย์ใด ควรเข้าใจก่อนว่าผลตอบแทนที่สูงมักมาพร้อมความเสี่ยงที่สูง และไม่มีใครรับประกันกำไรได้ล่วงหน้า บทความนี้เป็นข้อมูลทั่วไป ไม่ใช่คำแนะนำการลงทุนส่วนบุคคล"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจดรายรับรายจ่ายเพียงสองสามเดือนทำให้เห็นรูปแบบการใช้เงินที่แท้จริง หลายคนแปลกใจที่ค่าใช้จ่ายเล็ก ๆ ประจำวันรวมกันแล้วมากกว่าที่คาดไว้"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1787281200000,
+      "updatedAt": 1794020400000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-027",
+      "slug": "compare-health-insurance",
+      "title": "ประกันสุขภาพ เปรียบเทียบอย่างไรให้คุ้ม",
+      "excerpt": "ดูความคุ้มครอง ข้อยกเว้น และเงื่อนไขก่อนตัดสินใจซื้อ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เงินสำรองฉุกเฉินควรครอบคลุมค่าใช้จ่ายอย่างน้อยสามถึงหกเดือน และเก็บไว้ในบัญชีที่ถอนได้ทันที เพื่อรับมือเหตุไม่คาดฝัน เช่น ตกงานหรือเจ็บป่วย"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนลงทุนในสินทรัพย์ใด ควรเข้าใจก่อนว่าผลตอบแทนที่สูงมักมาพร้อมความเสี่ยงที่สูง และไม่มีใครรับประกันกำไรได้ล่วงหน้า บทความนี้เป็นข้อมูลทั่วไป ไม่ใช่คำแนะนำการลงทุนส่วนบุคคล"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจดรายรับรายจ่ายเพียงสองสามเดือนทำให้เห็นรูปแบบการใช้เงินที่แท้จริง หลายคนแปลกใจที่ค่าใช้จ่ายเล็ก ๆ ประจำวันรวมกันแล้วมากกว่าที่คาดไว้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ดอกเบี้ยบัตรเครดิตสูงกว่าดอกเบี้ยเงินฝากหลายเท่า การจ่ายเต็มจำนวนทุกเดือนจึงเป็นวิธีที่ดีที่สุดในการใช้บัตรโดยไม่เสียต้นทุนเพิ่ม"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ประกันสุขภาพช่วยลดความเสี่ยงที่ค่ารักษาพยาบาลก้อนใหญ่จะทำลายแผนการเงินทั้งหมด ควรเปรียบเทียบความคุ้มครอง ข้อยกเว้น และระยะเวลารอคอยก่อนตัดสินใจ"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การวางแผนเกษียณยิ่งเริ่มเร็วยิ่งได้เปรียบ เพราะผลของดอกเบี้ยทบต้นต้องใช้เวลา แม้เริ่มจากจำนวนเล็กน้อยก็สะสมได้มากเมื่อเวลาผ่านไปหลายสิบปี"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนซื้อของชิ้นใหญ่ ลองรอสามสิบวันเพื่อดูว่ายังอยากได้อยู่หรือไม่ วิธีนี้ช่วยลดการซื้อตามอารมณ์ได้อย่างเห็นผล"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-3",
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-health"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1787108400000,
+      "updatedAt": 1787108400000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-028",
+      "slug": "retirement-from-thirty",
+      "title": "วางแผนเกษียณตั้งแต่อายุสามสิบ",
+      "excerpt": "พลังของดอกเบี้ยทบต้นและวิธีเริ่มจากเงินจำนวนน้อย",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนลงทุนในสินทรัพย์ใด ควรเข้าใจก่อนว่าผลตอบแทนที่สูงมักมาพร้อมความเสี่ยงที่สูง และไม่มีใครรับประกันกำไรได้ล่วงหน้า บทความนี้เป็นข้อมูลทั่วไป ไม่ใช่คำแนะนำการลงทุนส่วนบุคคล"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจดรายรับรายจ่ายเพียงสองสามเดือนทำให้เห็นรูปแบบการใช้เงินที่แท้จริง หลายคนแปลกใจที่ค่าใช้จ่ายเล็ก ๆ ประจำวันรวมกันแล้วมากกว่าที่คาดไว้"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตั้งเป้าหมายที่ชัดเจน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทบทวนทุกเดือน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ปรับตามรายได้ที่เปลี่ยนไป"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ดอกเบี้ยบัตรเครดิตสูงกว่าดอกเบี้ยเงินฝากหลายเท่า การจ่ายเต็มจำนวนทุกเดือนจึงเป็นวิธีที่ดีที่สุดในการใช้บัตรโดยไม่เสียต้นทุนเพิ่ม"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-4",
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving", "tag-investing"],
+      "authorId": "user-pimlada",
+      "reviewerId": "user-nattawut",
+      "reviewedAt": 1787022000000,
+      "publishedAt": 1786935600000,
+      "updatedAt": 1786935600000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-029",
+      "slug": "thirty-day-rule",
+      "title": "กฎสามสิบวันก่อนซื้อของชิ้นใหญ่",
+      "excerpt": "เทคนิคง่าย ๆ ที่ลดการซื้อตามอารมณ์",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การจดรายรับรายจ่ายเพียงสองสามเดือนทำให้เห็นรูปแบบการใช้เงินที่แท้จริง หลายคนแปลกใจที่ค่าใช้จ่ายเล็ก ๆ ประจำวันรวมกันแล้วมากกว่าที่คาดไว้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ดอกเบี้ยบัตรเครดิตสูงกว่าดอกเบี้ยเงินฝากหลายเท่า การจ่ายเต็มจำนวนทุกเดือนจึงเป็นวิธีที่ดีที่สุดในการใช้บัตรโดยไม่เสียต้นทุนเพิ่ม"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ประกันสุขภาพช่วยลดความเสี่ยงที่ค่ารักษาพยาบาลก้อนใหญ่จะทำลายแผนการเงินทั้งหมด ควรเปรียบเทียบความคุ้มครอง ข้อยกเว้น และระยะเวลารอคอยก่อนตัดสินใจ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การวางแผนเกษียณยิ่งเริ่มเร็วยิ่งได้เปรียบ เพราะผลของดอกเบี้ยทบต้นต้องใช้เวลา แม้เริ่มจากจำนวนเล็กน้อยก็สะสมได้มากเมื่อเวลาผ่านไปหลายสิบปี"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนซื้อของชิ้นใหญ่ ลองรอสามสิบวันเพื่อดูว่ายังอยากได้อยู่หรือไม่ วิธีนี้ช่วยลดการซื้อตามอารมณ์ได้อย่างเห็นผล"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ข้อควรระวัง"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การออมเงินให้ได้อย่างน้อยร้อยละสิบของรายได้ทุกเดือนเป็นเป้าหมายที่หลายคนตั้งไว้ วิธีที่ง่ายที่สุดคือโอนเงินออมทันทีที่เงินเดือนเข้า แล้วค่อยใช้ส่วนที่เหลือ"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": null,
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1786762800000,
+      "updatedAt": 1786762800000,
+      "seo": {
+        "title": "กฎสามสิบวันก่อนซื้อของชิ้นใหญ่ | คู่มือฉบับย่อ",
+        "description": "เทคนิคง่าย ๆ ที่ลดการซื้อตามอารมณ์"
+      }
+    },
+    {
+      "id": "art-030",
+      "slug": "separate-savings-account",
+      "title": "แยกบัญชีเงินออมและเงินใช้จ่ายให้ชัดเจน",
+      "excerpt": "ระบบสองถึงสามบัญชีที่ช่วยให้เห็นเงินออมโดยไม่ต้องคำนวณ",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ดอกเบี้ยบัตรเครดิตสูงกว่าดอกเบี้ยเงินฝากหลายเท่า การจ่ายเต็มจำนวนทุกเดือนจึงเป็นวิธีที่ดีที่สุดในการใช้บัตรโดยไม่เสียต้นทุนเพิ่ม"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ประกันสุขภาพช่วยลดความเสี่ยงที่ค่ารักษาพยาบาลก้อนใหญ่จะทำลายแผนการเงินทั้งหมด ควรเปรียบเทียบความคุ้มครอง ข้อยกเว้น และระยะเวลารอคอยก่อนตัดสินใจ"
+              }
+            ]
+          },
+          {
+            "type": "bulletList",
+            "content": [
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ตั้งเป้าหมายที่ชัดเจน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ทบทวนทุกเดือน"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ปรับตามรายได้ที่เปลี่ยนไป"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-6",
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving"],
+      "authorId": "user-pimlada",
+      "reviewerId": null,
+      "reviewedAt": null,
+      "publishedAt": 1786590000000,
+      "updatedAt": 1794366000000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    },
+    {
+      "id": "art-031",
+      "slug": "read-loan-contract",
+      "title": "อ่านสัญญาเงินกู้ให้เข้าใจก่อนเซ็น",
+      "excerpt": "ข้อความที่ต้องอ่านให้ละเอียดก่อนเซ็นสัญญา: ดอกเบี้ย ค่าธรรมเนียม และการผิดนัด",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ประกันสุขภาพช่วยลดความเสี่ยงที่ค่ารักษาพยาบาลก้อนใหญ่จะทำลายแผนการเงินทั้งหมด ควรเปรียบเทียบความคุ้มครอง ข้อยกเว้น และระยะเวลารอคอยก่อนตัดสินใจ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การวางแผนเกษียณยิ่งเริ่มเร็วยิ่งได้เปรียบ เพราะผลของดอกเบี้ยทบต้นต้องใช้เวลา แม้เริ่มจากจำนวนเล็กน้อยก็สะสมได้มากเมื่อเวลาผ่านไปหลายสิบปี"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "ประเด็นที่ควรรู้"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "ก่อนซื้อของชิ้นใหญ่ ลองรอสามสิบวันเพื่อดูว่ายังอยากได้อยู่หรือไม่ วิธีนี้ช่วยลดการซื้อตามอารมณ์ได้อย่างเห็นผล"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "การออมเงินให้ได้อย่างน้อยร้อยละสิบของรายได้ทุกเดือนเป็นเป้าหมายที่หลายคนตั้งไว้ วิธีที่ง่ายที่สุดคือโอนเงินออมทันทีที่เงินเดือนเข้า แล้วค่อยใช้ส่วนที่เหลือ"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "เงินสำรองฉุกเฉินควรครอบคลุมค่าใช้จ่ายอย่างน้อยสามถึงหกเดือน และเก็บไว้ในบัญชีที่ถอนได้ทันที เพื่อรับมือเหตุไม่คาดฝัน เช่น ตกงานหรือเจ็บป่วย"
+              }
+            ]
+          }
+        ]
+      },
+      "coverMediaId": "media-cover-1",
+      "categoryId": "cat-finance",
+      "tagIds": ["tag-saving"],
+      "authorId": "user-pimlada",
+      "reviewerId": "user-nattawut",
+      "reviewedAt": 1786503600000,
+      "publishedAt": 1786417200000,
+      "updatedAt": 1786417200000,
+      "seo": {
+        "title": null,
+        "description": null
+      }
+    }
+  ],
+  "affiliateLinks": [
+    {
+      "id": "aff-keychron-k2",
+      "slug": "keychron-k2",
+      "merchantName": "Keychron Official",
+      "merchantHosts": ["keychron.com", "keychron.co.th"],
+      "status": "active"
+    }
+  ],
+  "redirects": [
+    {
+      "from": "/articles/old-wifi-tips/",
+      "to": "/improve-home-wifi/"
+    },
+    {
+      "from": "/category/tech/",
+      "to": "/category/technology/"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+.cache/
+.wrangler/
+.dev.vars
+.env
+.env.*
+!.env.example
+!.dev.vars.example
+*.log
+.DS_Store
+public/pagefind/
+.qa/
+src/generated/
+public/media/

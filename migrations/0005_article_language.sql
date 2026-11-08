@@ -1,0 +1,3 @@
+-- moss:add-column-if-missing article lang TEXT NOT NULL DEFAULT 'th'
+--> statement-breakpoint
+-- moss:add-column-if-missing article translation_group_id TEXT

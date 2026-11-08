@@ -1,0 +1,30 @@
+---
+import SetupWizard from '../../components/setup/SetupWizard.vue';
+import '../../styles/global.css';
+
+// Rendered per request so the middleware can answer 404 once setup is complete.
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>ตั้งค่าเริ่มต้น — Mossplan</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/fonts/noto-sans-thai-thai-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+  </head>
+  <body class="min-h-screen bg-bg text-text antialiased flex flex-col justify-center items-center p-4 sm:p-6 lg:p-8">
+    <main class="w-full">
+      <SetupWizard client:only="vue" />
+    </main>
+  </body>
+</html>

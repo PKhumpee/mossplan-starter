@@ -1,0 +1,26 @@
+---
+// Admin traffic stats dashboard (CONTRACTS §5, DESIGN §10.6, T16).
+// Displays totals for 7/30/90 days, inline SVG chart, top articles and categories.
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import StatsDashboard from '../../../components/admin/stats/StatsDashboard.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+---
+
+<AdminLayout title="สถิติ" active="stats">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-h2 font-bold text-text">สถิติการเข้าชม (Traffic Stats)</h1>
+      <p class="text-caption text-muted mt-1">
+        ข้อมูลสถิติการเข้าชมเว็บไซต์จาก Cloudflare Web Analytics อัปเดตทุกวันเวลา 07:15 น. (เวลาไทย)
+      </p>
+    </div>
+
+    <StatsDashboard client:only="vue" />
+  </div>
+</AdminLayout>

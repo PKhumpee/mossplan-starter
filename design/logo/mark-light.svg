@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 68" width="68" height="68" fill="none">
+  <!-- Mossplan Mark 3x3 Grid (Theme: light, Option: B) -->
+  <!-- Row 0 -->
+  <rect x="0" y="0" width="20" height="20" rx="6" fill="#3F6B3A" />
+  <rect x="24" y="0" width="20" height="20" rx="6" fill="#DDE5E0" />
+  <rect x="48" y="0" width="20" height="20" rx="6" fill="#3F6B3A" />
+
+  <!-- Row 1 -->
+  <rect x="0" y="24" width="20" height="20" rx="6" fill="#3F6B3A" />
+  
+    <!-- Center Cell (1,1): Directional V downward to read as M -->
+    <rect x="24" y="24" width="20" height="20" rx="6" fill="#DDE5E0" />
+    <clipPath id="center-clip-light">
+      <rect x="24" y="24" width="20" height="20" rx="6" />
+    </clipPath>
+    <path d="M 24 24 L 34 34 L 44 24 L 44 29 L 34 44 L 24 29 Z" fill="#3F6B3A" clip-path="url(#center-clip-light)" />
+  <rect x="48" y="24" width="20" height="20" rx="6" fill="#3F6B3A" />
+
+  <!-- Row 2 -->
+  <rect x="0" y="48" width="20" height="20" rx="6" fill="#3F6B3A" />
+  <rect x="24" y="48" width="20" height="20" rx="6" fill="#DDE5E0" />
+  <rect x="48" y="48" width="20" height="20" rx="6" fill="#3F6B3A" />
+</svg>

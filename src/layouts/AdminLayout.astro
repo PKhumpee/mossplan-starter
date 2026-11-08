@@ -1,0 +1,126 @@
+---
+// Admin frame (DESIGN §7.1). Server-rendered on every request; `src/middleware.ts` adds X-Robots-Tag.
+// Pages using it must set `export const prerender = false`.
+import '../admin-client/admin.css';
+import Icon from '../components/admin/ui/Icon.vue';
+import Toast from '../components/admin/ui/Toast.vue';
+import MobileNav from '../components/admin/ui/shell/MobileNav.vue';
+import AdminSidebar from '../components/admin/ui/shell/AdminSidebar.vue';
+import UserMenu from '../components/admin/ui/shell/UserMenu.vue';
+import { navFor, type NavKey } from '../components/admin/ui/shell/nav';
+import BuildStatusBadge from '../components/admin/builds/BuildStatusBadge.vue';
+import { env } from 'cloudflare:workers';
+import type { Env } from '../server/env';
+import { getDb } from '../server/db/client';
+import { isIndexingAllowed } from '../server/db/settings';
+
+interface Props {
+  title: string;
+  active?: NavKey;
+}
+const { title, active } = Astro.props;
+const user = Astro.locals.user;
+const items = navFor(user?.role ?? null);
+
+const currentEnv = env as unknown as Env;
+const host = Astro.url.host;
+const isPreviewHost = host.endsWith('.workers.dev');
+const hardNoindex = currentEnv?.PUBLIC_NOINDEX === 'true';
+
+let indexingAllowed = false;
+try {
+  if (currentEnv?.DB) {
+    const db = getDb(currentEnv);
+    indexingAllowed = await isIndexingAllowed(db);
+  }
+} catch {
+  // Default to false if DB unreadable
+}
+
+const isIndexingOff = hardNoindex || isPreviewHost || !indexingAllowed;
+---
+
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} · Mossplan</title>
+  </head>
+  <body class="min-h-screen">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-bg focus:px-3 focus:py-2"
+    >
+      ข้ามไปยังเนื้อหาหลัก
+    </a>
+    <div class="flex min-h-screen">
+      <!-- Collapsible Desktop Sidebar (standard toggleable drawer) -->
+      <AdminSidebar client:load items={items} active={active} />
+
+      <div class="flex min-w-0 flex-1 flex-col">
+        <header class="flex h-14 items-center gap-3 border-b border-border px-4 md:px-6">
+          <MobileNav client:load items={items} active={active} />
+          <!-- Desktop Sidebar toggle button in header -->
+          <button
+            type="button"
+            class="hidden lg:inline-flex size-9 items-center justify-center rounded-lg text-muted hover:bg-surface hover:text-text transition-colors"
+            title="ย่อ/ขยายเมนูด้านข้าง"
+            aria-label="ย่อหรือขยายเมนูด้านข้าง"
+            data-toggle-sidebar
+          >
+            <Icon name="sidebar" :size="18" />
+          </button>
+          <h1 class="min-w-0 flex-1 truncate text-lg font-semibold">{title}</h1>
+          <slot name="build-status">
+            <BuildStatusBadge client:load />
+          </slot>
+          {user ? (
+            <UserMenu client:load name={user.name} email={user.email} userRole={user.role} />
+          ) : null}
+        </header>
+
+        {isIndexingOff && (
+          <div
+            role="alert"
+            class="bg-red-600 text-white px-4 py-2.5 text-sm font-medium flex items-center justify-between gap-3 shadow-sm border-b border-red-700"
+          >
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="inline-flex shrink-0 items-center justify-center size-5 rounded-full bg-white/20 font-bold text-xs">
+                !
+              </span>
+              <span class="truncate">
+                {hardNoindex
+                  ? 'ระบบปิด Indexing ผ่าน PUBLIC_NOINDEX=true (Search Engine จะไม่เก็บข้อมูลเว็บไซต์)'
+                  : isPreviewHost
+                    ? 'โฮสต์ทดสอบ *.workers.dev ปิด Indexing อัตโนมัติ (Search Engine จะไม่เก็บข้อมูล)'
+                    : 'เว็บไซต์ปิดการเก็บข้อมูลจาก Search Engine อยู่ (Indexing ปิดอยู่) — ระบบส่ง X-Robots-Tag: noindex, nofollow'}
+              </span>
+            </div>
+            {user?.role === 'admin' && (
+              <a
+                href="/admin/settings/"
+                class="shrink-0 underline hover:text-white/80 text-xs font-semibold px-2 py-1 rounded bg-white/10 transition-colors"
+              >
+                ตั้งค่า
+              </a>
+            )}
+          </div>
+        )}
+
+        <!-- Main Content Area: spacious full-width layout without artificial 1200px constriction -->
+        <main id="main" class="w-full flex-1 p-6 md:p-8" tabindex="-1">
+          <slot />
+        </main>
+      </div>
+    </div>
+    <Toast client:load />
+    <script>
+      // No inline on* handlers: the admin CSP (nonce + strict-dynamic) blocks them.
+      document.querySelectorAll<HTMLElement>('[data-toggle-sidebar]').forEach((el) => {
+        el.addEventListener('click', () => window.dispatchEvent(new CustomEvent('toggle-sidebar')));
+      });
+    </script>
+  </body>
+</html>

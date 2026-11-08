@@ -1,0 +1,71 @@
+---
+// Terms of service page (DESIGN §5.5, D28, CONTRACTS §7):
+// Draft Thai copy awaiting owner review before launch (T20).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
+import Prose from '../components/public/ui/Prose.astro';
+import { getAllCategories, getSiteInfo } from '../lib/content/queries';
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+export const LAST_UPDATED = '14 ต.ค. 2569';
+
+const canonical = '/terms/';
+const title = `ข้อกำหนดการใช้งาน — ${site.name}`;
+const description = `ข้อกำหนดและเงื่อนไขการเข้าใช้งานเนื้อหาและบริการบนเว็บไซต์ ${site.name}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'ข้อกำหนดการใช้งาน' }]} />
+    </div>
+
+    <header class="mb-8 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">ข้อกำหนดการใช้งาน</h1>
+      <p class="mt-2 text-caption text-muted tabular-nums">ปรับปรุงล่าสุด {LAST_UPDATED}</p>
+    </header>
+
+    <Prose>
+      <p>
+        ยินดีต้อนรับสู่ <strong>{site.name}</strong> การเข้าชมและใช้งานเว็บไซต์นี้
+        ถือว่าคุณตกลงและยอมรับข้อกำหนดและเงื่อนไขการใช้งานดังต่อไปนี้
+      </p>
+
+      <h2>การใช้งานเนื้อหาและทรัพย์สินทางปัญญา</h2>
+      <p>
+        ข้อความ รูปภาพ กราฟิก และสื่อทั้งหมดบนเว็บไซต์นี้ได้รับการคุ้มครองตามกฎหมายลิขสิทธิ์
+        อนุญาตให้อ่านและแชร์ลิงก์เพื่อการใช้งานส่วนบุคคลโดยไม่แสวงหาผลกำไร ห้ามคัดลอก ดัดแปลง
+        หรือทำซ้ำเนื้อหาทั้งหมดหรือบางส่วนเพื่อการค้าโดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษร
+      </p>
+
+      <h2>การเชื่อมต่อไปยังเว็บไซต์ภายนอก</h2>
+      <p>
+        บทความอาจมีการใส่ลิงก์ไปยังเว็บไซต์ภายนอกเพื่อเป็นแหล่งอ้างอิงหรือข้อมูลเพิ่มเติม
+        เราไม่มีอำนาจควบคุมและไม่รับผิดชอบต่อเนื้อหา นโยบายความเป็นส่วนตัว หรือความเสียหายใด ๆ
+        ที่เกิดขึ้นจากการใช้งานเว็บไซต์ภายนอกเหล่านั้น
+      </p>
+
+      <h2>ข้อจำกัดความรับผิด (Disclaimer)</h2>
+      <p>
+        เนื้อหาบนเว็บไซต์นี้จัดทำขึ้นเพื่อให้ข้อมูลทั่วไปเท่านั้น แม้เราจะพยายามตรวจสอบอย่างดีที่สุด
+        แต่ไม่สามารถรับประกันความสมบูรณ์หรือความถูกต้องครอบคลุมทุกกรณี
+        ผู้อ่านควรใช้วิจารณญาณส่วนบุคคลก่อนการตัดสินใจใด ๆ โดยเฉพาะในเรื่องการเงินและเทคโนโลยี
+      </p>
+
+      <h2>การเปลี่ยนแปลงข้อกำหนด</h2>
+      <p>
+        เราขอสงวนสิทธิ์ในการปรับปรุงแก้ไขข้อกำหนดการใช้งานนี้ตามความเหมาะสม
+        โดยจะระบุวันที่แก้ไขล่าสุดไว้ด้านบนของหน้านี้เสมอ
+      </p>
+    </Prose>
+  </div>
+</BaseLayout>

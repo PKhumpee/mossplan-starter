@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="none">
+  <!-- Mossplan Favicon 16x16 (Pixel-aligned, stepped V chevron) -->
+  <style>
+    :root {
+      --fav-primary: #3F6B3A;
+      --fav-grid: #DDE5E0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --fav-primary: #7FB069;
+        --fav-grid: #1E3A5F;
+      }
+    }
+  </style>
+
+  <!-- Row 0 -->
+  <rect x="1" y="1" width="4" height="4" rx="1" fill="var(--fav-primary)" />
+  <rect x="6" y="1" width="4" height="4" rx="1" fill="var(--fav-grid)" />
+  <rect x="11" y="1" width="4" height="4" rx="1" fill="var(--fav-primary)" />
+
+  <!-- Row 1 -->
+  <rect x="1" y="6" width="4" height="4" rx="1" fill="var(--fav-primary)" />
+  
+  <!-- Center Cell (1,1): 4x4 with stepped downward V -->
+  <rect x="6" y="6" width="4" height="4" rx="1" fill="var(--fav-grid)" />
+  <!-- Stepped V pixel alignment (100% integer coords, no blur) -->
+  <rect x="6" y="6" width="1" height="1" fill="var(--fav-primary)" />
+  <rect x="9" y="6" width="1" height="1" fill="var(--fav-primary)" />
+  <rect x="7" y="7" width="2" height="2" fill="var(--fav-primary)" />
+
+  <rect x="11" y="6" width="4" height="4" rx="1" fill="var(--fav-primary)" />
+
+  <!-- Row 2 -->
+  <rect x="1" y="11" width="4" height="4" rx="1" fill="var(--fav-primary)" />
+  <rect x="6" y="11" width="4" height="4" rx="1" fill="var(--fav-grid)" />
+  <rect x="11" y="11" width="4" height="4" rx="1" fill="var(--fav-primary)" />
+</svg>

@@ -1,0 +1,22 @@
+/* Tailwind 4 theme for Mossplan. Generated from design/tokens.json by scripts/build-tokens.mjs; do not edit. */
+@theme inline {
+  --color-moss-bg: var(--moss-bg);
+  --color-moss-surface: var(--moss-surface);
+  --color-moss-grid: var(--moss-grid);
+  --color-moss-primary: var(--moss-primary);
+  --color-moss-secondary: var(--moss-secondary);
+  --color-moss-text: var(--moss-text);
+  --color-moss-muted: var(--moss-muted);
+  --font-sans: var(--moss-font-sans);
+  --font-mono: var(--moss-font-mono);
+  --radius-moss: var(--moss-radius);
+  --spacing-moss-0: var(--moss-space-0);
+  --spacing-moss-1: var(--moss-space-1);
+  --spacing-moss-2: var(--moss-space-2);
+  --spacing-moss-3: var(--moss-space-3);
+  --spacing-moss-4: var(--moss-space-4);
+  --spacing-moss-5: var(--moss-space-5);
+  --spacing-moss-6: var(--moss-space-6);
+  --spacing-moss-7: var(--moss-space-7);
+  --spacing-moss-8: var(--moss-space-8);
+}

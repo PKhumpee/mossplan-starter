@@ -1,0 +1,89 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { env } from 'cloudflare:workers';
+import type { Env } from '../../server/env';
+import { getDb } from '../../server/db/client';
+import { isIndexingAllowed } from '../../server/db/settings';
+import AffiliateDashboardCard from '../../components/admin/affiliate/AffiliateDashboardCard.vue';
+import RecentBuildsList from '../../components/admin/builds/RecentBuildsList.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+const currentEnv = env as unknown as Env;
+const host = Astro.url.host;
+const isPreviewHost = host.endsWith('.workers.dev');
+const hardNoindex = currentEnv?.PUBLIC_NOINDEX === 'true';
+
+let allowIndexing = false;
+try {
+  if (currentEnv?.DB) {
+    const db = getDb(currentEnv);
+    allowIndexing = await isIndexingAllowed(db);
+  }
+} catch {
+  // Default to false
+}
+
+const isIndexingOff = hardNoindex || isPreviewHost || !allowIndexing;
+
+const quickLinks = [
+  { href: '/admin/articles/new/', label: 'บทความใหม่' },
+  { href: '/admin/media/', label: 'อัปโหลดรูป' },
+  { href: '/admin/articles/', label: 'บทความทั้งหมด' },
+  { href: '/admin/affiliate/', label: 'ลิงก์ affiliate' },
+  ...(user?.role === 'admin' ? [{ href: '/admin/settings/', label: 'ตั้งค่าเว็บไซต์' }] : []),
+];
+---
+
+<AdminLayout title="แดชบอร์ด" active="dashboard">
+  {isIndexingOff && (
+    <div role="note" class="mb-6 rounded-lg border border-red-500/40 bg-surface p-4">
+      <p class="font-medium text-text">
+        ไม่ให้ Search engine เก็บเว็บเข้า index: <strong class="text-red-600">เปิดอยู่</strong> —
+        Google และ search engine อื่นจะยังไม่เก็บหน้าเว็บ (ส่ง X-Robots-Tag: noindex, nofollow)
+      </p>
+      {user?.role === 'admin' && (
+        <p class="mt-1 text-sm text-muted">
+          สามารถเปิดระบบ Indexing ได้ที่{' '}
+          <a href="/admin/settings/" class="text-brand underline">
+            ตั้งค่าเว็บไซต์
+          </a>{' '}
+          เมื่อพร้อมเปิดตัว
+        </p>
+      )}
+    </div>
+  )}
+
+  <div class="mb-8">
+    <AffiliateDashboardCard client:only="vue" />
+  </div>
+
+  <div class="mb-8">
+    <RecentBuildsList client:only="vue" canTriggerRebuild={user?.role === 'admin'} />
+  </div>
+
+  <section aria-labelledby="quick-links">
+    <h2 id="quick-links" class="mb-3 text-lg font-semibold">
+      ทางลัด
+    </h2>
+    <ul class="grid gap-3 sm:grid-cols-4">
+      {quickLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="block rounded-lg border border-border bg-surface px-4 py-3 font-medium hover:border-brand"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {!isIndexingOff && (
+    <p class="mt-10 text-sm text-muted">
+      ไม่ให้ Search engine เก็บเว็บเข้า index: ปิดอยู่ (เว็บเปิดให้ค้นหาได้ตามปกติ)
+    </p>
+  )}
+</AdminLayout>

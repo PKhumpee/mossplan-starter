@@ -1,0 +1,91 @@
+---
+// Article card (DESIGN §4.5): Stripe card aesthetic. White container on soft canvas with 1px hairline border,
+// multi-layer soft shadow, and hover lift. Two variants — with and without cover image.
+// Without an image there is no grey placeholder box. The whole card is one link (stretched ::after
+// on the title anchor), so cards never nest links.
+import { formatThaiDate } from '../../../lib/format/date';
+import ResponsiveImage from '../../../lib/media/ResponsiveImage.astro';
+import { parseMediaReference } from '../../../lib/media/public-image';
+
+interface CardImage {
+  src: string;
+  mediaId?: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+interface Props {
+  href: string;
+  title: string;
+  excerpt?: string;
+  categoryLabel?: string;
+  /** Epoch milliseconds (publishedAt). */
+  dateMs: number;
+  readingMinutes: number;
+  image?: CardImage;
+}
+
+const { href, title, excerpt, categoryLabel, dateMs, readingMinutes, image } = Astro.props;
+
+// Auto-fallback to generated branded card if no custom cover was uploaded
+const articlePathSegments = href.split(/[?#]/, 1)[0]?.split('/').filter(Boolean) ?? [];
+const articleSlug =
+  articlePathSegments.length === 1
+    ? articlePathSegments[0]
+    : articlePathSegments.length === 2 && ['en', 'th'].includes(articlePathSegments[0]!)
+      ? articlePathSegments[1]
+      : null;
+const fallbackSrc = articleSlug ? `/og/${articleSlug}.png` : null;
+
+const resolvedMediaId = image?.mediaId || (image?.src ? parseMediaReference(image.src) : undefined);
+const displaySrc = (image?.src && !image.src.startsWith('/api/') ? image.src : fallbackSrc) ?? '';
+---
+
+<article class="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-bg p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-subdued hover:shadow-elevated shadow-card">
+  {(image || fallbackSrc) && (
+    <div class="mb-4 aspect-video overflow-hidden rounded-lg border border-border/80 bg-surface">
+      {resolvedMediaId ? (
+        <ResponsiveImage
+          mediaId={resolvedMediaId}
+          alt={image?.alt ?? title}
+          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-102"
+        />
+      ) : (
+        <img
+          src={displaySrc}
+          alt={image ? image.alt : title}
+          width={image?.width ?? 1200}
+          height={image?.height ?? 630}
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-102"
+        />
+      )}
+    </div>
+  )}
+  <div class="flex flex-1 flex-col">
+    {categoryLabel && (
+      <span class="mb-2 inline-flex w-fit items-center rounded-full bg-brand-subdued/30 px-2.5 py-0.5 text-caption font-semibold text-brand-deep">
+        {categoryLabel}
+      </span>
+    )}
+    <h3 class="text-[1.25rem] leading-[1.35] font-semibold text-text">
+      <a
+        href={href}
+        class="after:absolute after:inset-0 after:content-[''] group-hover:text-brand focus-visible:outline-none"
+      >
+        {title}
+      </a>
+    </h3>
+    {excerpt && (
+      <p class="mt-2 line-clamp-2 text-body-sm text-muted hidden min-[400px]:block">{excerpt}</p>
+    )}
+    <div class="mt-auto pt-4 text-caption text-muted tabular-nums">
+      <time datetime={new Date(dateMs).toISOString()}>{formatThaiDate(dateMs)}</time>
+      <span class="mx-1.5 opacity-60">·</span>
+      <span>อ่าน {readingMinutes} นาที</span>
+    </div>
+  </div>
+</article>

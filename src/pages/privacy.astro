@@ -1,0 +1,109 @@
+---
+// Privacy policy page (DESIGN §5.5, D28, CONTRACTS §7):
+// Discloses cookieless Cloudflare Web Analytics, staff-only cookies, no reader tracking, PDPA rights.
+// Draft Thai copy awaiting owner review before launch (T20).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
+import Prose from '../components/public/ui/Prose.astro';
+import { getAllCategories, getSiteInfo } from '../lib/content/queries';
+import { buildSite } from '../shared/site';
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+const siteConfig = buildSite();
+
+export const LAST_UPDATED = '14 ต.ค. 2569';
+
+const canonical = '/privacy/';
+const title = `นโยบายความเป็นส่วนตัว — ${site.name}`;
+const description = `นโยบายความเป็นส่วนตัวและการคุ้มครองข้อมูลส่วนบุคคลของ ${site.name} ตามมาตรฐาน PDPA`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'นโยบายความเป็นส่วนตัว' }]} />
+    </div>
+
+    <header class="mb-8 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">นโยบายความเป็นส่วนตัว</h1>
+      <p class="mt-2 text-caption text-muted tabular-nums">ปรับปรุงล่าสุด {LAST_UPDATED}</p>
+    </header>
+
+    <Prose>
+      <p>
+        <strong>{site.name}</strong> ให้ความสำคัญสูงสุดกับการคุ้มครองความเป็นส่วนตัวของผู้อ่านทุกคน
+        เอกสารนี้อธิบายถึงข้อมูลที่เราเก็บรวบรวมและแนวทางปฏิบัติในการรักษาความปลอดภัยของข้อมูล
+      </p>
+
+      <h2>การวิเคราะห์สถิติการเข้าชมแบบไม่ระบุตัวตน (Cookieless Analytics)</h2>
+      <p>
+        เราใช้บริการ <strong>Cloudflare Web Analytics</strong>{' '}
+        ซึ่งเป็นการวิเคราะห์ปริมาณการเข้าชมเว็บไซต์โดย
+        <strong>ไม่ใช้คุกกี้ (Cookieless)</strong> และ{' '}
+        <strong>ไม่มีการเก็บรวบรวมข้อมูลส่วนบุคคล</strong>
+        เช่น ชื่อ อีเมล หรือที่อยู่ IP ของคุณ ข้อมูลที่บันทึกเป็นเพียงสถิติรวมระดับสูง เช่น
+        จำนวนการเปิดหน้าเว็บ และประเภทอุปกรณ์ เพื่อใช้ปรับปรุงประสิทธิภาพของระบบเท่านั้น
+      </p>
+
+      <h2>การใช้งานคุกกี้ (Cookies Policy)</h2>
+      <ul>
+        <li>
+          <strong>สำหรับผู้อ่านทั่วไป:</strong> เว็บไซต์ของเรา{' '}
+          <strong>ไม่มีการฝังคุกกี้ติดตามพฤติกรรม</strong>{' '}
+          หรือพิกเซลโฆษณาของบุคคลที่สามบนอุปกรณ์ของคุณเลย
+        </li>
+        <li>
+          <strong>สำหรับทีมงานผู้ดูแลระบบ:</strong> มีการใช้งานคุกกี้ความปลอดภัย (HttpOnly, Secure,
+          SameSite=Lax) เพื่อยืนยันตัวตนการเข้าใช้งานระบบหลังบ้านเท่านั้น
+        </li>
+      </ul>
+
+      <h2>การบันทึกข้อมูลลิงก์พันธมิตร (Affiliate Click Log)</h2>
+      <p>
+        เมื่อคุณคลิกไปยังลิงก์พันธมิตร (<code>/go/*</code>) เพื่อไปยังเว็บไซต์ผู้ค้า
+        ระบบบนเซิร์ฟเวอร์ของเราจะบันทึกข้อมูลทางเทคนิคขั้นต่ำเท่าที่จำเป็นเพื่อป้องกันการฉ้อโกงและนับสถิติ:
+      </p>
+      <ul>
+        <li>
+          <strong>ข้อมูลที่บันทึก:</strong> วันที่และเวลาที่คลิก, ประเทศต้นทาง (Country จาก
+          Cloudflare), ประเภทอุปกรณ์ (Device type เช่น มือถือ หรือ เดสก์ท็อป),
+          และที่อยู่หน้าบทความต้นทาง (Referring page)
+        </li>
+        <li>
+          <strong>การรักษาความเป็นส่วนตัวของ IP:</strong> ที่อยู่ IP ของคุณจะไม่ถูกจัดเก็บโดยตรง
+          แต่จะถูกแปลงเป็นรหัสแฮชแบบผูกกับวัน (Day-keyed HMAC-SHA256) ทันที
+          ทำให้ไม่สามารถย้อนรอยหาตัวตนของคุณและไม่สามารถติดตามพฤติกรรมข้ามวันได้
+        </li>
+        <li>
+          <strong>ระยะเวลาจัดเก็บ (Data Retention):</strong> บันทึกคลิกดิบ (Raw click logs)
+          ทั้งหมดจะถูกลบทิ้งอย่างถาวรโดยอัตโนมัติเมื่อครบ 90 วัน
+        </li>
+        <li>
+          <strong>ไม่ใช้คุกกี้สำหรับผู้อ่าน:</strong>{' '}
+          ระบบเปลี่ยนเส้นทางลิงก์พันธมิตรของเราไม่มีการอ่านหรือตั้งค่าคุกกี้ใด ๆ บนอุปกรณ์ของคุณ
+        </li>
+        <li>
+          <strong>คุกกี้ของเว็บไซต์ผู้ค้า:</strong>{' '}
+          เมื่อระบบเปลี่ยนเส้นทางคุณไปยังเว็บไซต์ของผู้ค้าแล้ว
+          ผู้ค้าหรือเครือข่ายพันธมิตรภายนอกอาจมีการตั้งคุกกี้เพื่อบันทึกการทำรายการตามนโยบายความเป็นส่วนตัวและเงื่อนไขของผู้ค้ารายนั้น
+          ๆ ซึ่งอยู่นอกเหนือการควบคุมของเรา
+        </li>
+      </ul>
+
+      <h2>สิทธิตามกฎหมายคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h2>
+      <p>
+        เนื่องจากเว็บไซต์ของเราไม่มีระบบบัญชีสำหรับผู้อ่านและไม่มีการเก็บข้อมูลระบุตัวตน
+        แต่หากคุณต้องการสอบถามเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล สามารถส่งอีเมลติดต่อเราได้ที่
+        <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+      </p>
+    </Prose>
+  </div>
+</BaseLayout>

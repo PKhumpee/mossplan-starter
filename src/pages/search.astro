@@ -1,0 +1,324 @@
+---
+// Search page (DESIGN §5.7, CONTRACTS §7, §9, S2 verdict, T15).
+// Prerendered static shell; Pagefind loads ONLY on this page.
+// Strictly noindex, follow; excluded from sitemap. Zero framework JS.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
+import { getAllCategories, getSiteInfo } from '../lib/content/queries';
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+const title = `ค้นหาบทความ — ${site.name}`;
+const description = `ค้นหาเนื้อหา ข่าวสาร และบทความที่น่าสนใจใน ${site.name}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical="/search/"
+  noindex={true}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
+    <!-- Breadcrumbs -->
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'ค้นหา' }]} />
+    </div>
+
+    <div class="mb-8">
+      <h1 class="text-h1 font-bold text-text">ค้นหาบทความ</h1>
+      <p class="mt-2 text-body text-text-secondary">
+        ค้นหาบทความและเนื้อหาที่ต้องการใน {site.name}
+      </p>
+    </div>
+
+    <!-- Search Form -->
+    <div class="mb-6 space-y-4">
+      <div class="relative">
+        <input
+          id="search-input"
+          type="search"
+          placeholder="พิมพ์คำค้นหา เช่น Wi-Fi, เทคโนโลยี, การเงิน..."
+          autocomplete="off"
+          autofocus
+          class="w-full rounded-2xl border-2 border-border bg-bg px-5 py-3.5 pr-12 text-body font-medium text-text placeholder:text-muted focus:border-brand focus:outline-none shadow-sm transition-colors"
+        />
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-muted">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      {categories.length > 0 && (
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 text-caption font-semibold">
+          <button
+            type="button"
+            data-category=""
+            class="cat-filter-btn px-3 py-1.5 rounded-full border border-brand bg-brand text-brand-contrast transition-colors"
+          >
+            ทั้งหมด
+          </button>
+          {categories.map((c) => (
+            <button
+              type="button"
+              data-category={c.slug}
+              class="cat-filter-btn px-3 py-1.5 rounded-full border border-border bg-surface text-muted hover:text-text hover:bg-bg transition-colors"
+            >
+              {c.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- Status & Results Heading -->
+    <div
+      id="search-status"
+      class="mb-4 hidden items-center justify-between text-body-sm text-muted border-b border-border pb-3"
+    >
+      <span id="results-count">ผลการค้นหา</span>
+      <span id="query-term" class="font-semibold text-text"></span>
+    </div>
+
+    <!-- Loading State -->
+    <div id="search-loading" class="hidden py-16 text-center text-muted">
+      <div class="inline-block size-6 animate-spin rounded-full border-2 border-brand border-t-transparent mb-2"></div>
+      <p>กำลังค้นหาข้อมูล...</p>
+    </div>
+
+    <!-- Results List Container -->
+    <div id="search-results" class="space-y-4"></div>
+
+    <!-- Zero Results State -->
+    <div
+      id="search-empty"
+      class="hidden py-12 text-center rounded-2xl border border-border bg-surface/50 p-6 space-y-4"
+    >
+      <div class="mx-auto size-12 rounded-full bg-surface text-muted flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-h3 font-bold text-text">ไม่พบผลลัพธ์ที่ตรงกับคำค้นหา</h3>
+        <p class="text-body-sm text-text-secondary mt-1">
+          ลองตรวจสอบตัวสะกด หรือค้นหาด้วยคำอื่นที่ใกล้เคียง
+        </p>
+      </div>
+      {categories.length > 0 && (
+        <div class="pt-2">
+          <p class="text-caption text-muted mb-3 font-semibold">หรือเลือกดูตามหมวดหมู่ยอดนิยม:</p>
+          <div class="flex flex-wrap justify-center gap-2">
+            {categories.map((c) => (
+              <a
+                href={`/category/${c.slug}/`}
+                class="px-3 py-1.5 rounded-xl border border-border bg-bg text-caption font-semibold text-text hover:border-brand hover:text-brand transition-colors"
+              >
+                {c.name} →
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Initial Prompt (before search) -->
+    <div id="search-initial" class="py-12 text-center text-muted">
+      <p class="text-body-sm">พิมพ์คำค้นหาเพื่อเริ่มต้นค้นหาบทความทั้งหมด</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { searchThai, normalizeThai } from '../components/public/search/thai-search';
+
+  let pagefind: any = null;
+  let activeCategory = '';
+
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const resultsContainer = document.getElementById('search-results');
+  const emptyState = document.getElementById('search-empty');
+  const loadingState = document.getElementById('search-loading');
+  const initialState = document.getElementById('search-initial');
+  const statusContainer = document.getElementById('search-status');
+  const resultsCount = document.getElementById('results-count');
+  const queryTerm = document.getElementById('query-term');
+  const catButtons = document.querySelectorAll<HTMLButtonElement>('.cat-filter-btn');
+
+  async function getPagefind() {
+    if (!pagefind) {
+      try {
+        const pagefindUrl = '/pagefind/pagefind.js';
+        pagefind = await import(/* @vite-ignore */ pagefindUrl);
+        await pagefind.init();
+      } catch (err) {
+        console.warn('[search] Pagefind index not loaded:', err);
+      }
+    }
+    return pagefind;
+  }
+
+  function highlightMatches(text: string, query: string): string {
+    if (!query) return text;
+    const words = normalizeThai(query).split(/\s+/).filter(Boolean);
+    if (words.length === 0) return text;
+
+    let res = text;
+    for (const w of words) {
+      const regex = new RegExp(`(${w})`, 'gi');
+      res = res.replace(
+        regex,
+        '<mark class="bg-brand/10 text-brand font-semibold px-0.5 rounded">$1</mark>',
+      );
+    }
+    return res;
+  }
+
+  async function executeSearch() {
+    const rawQuery = input?.value.trim() ?? '';
+
+    if (!rawQuery) {
+      if (initialState) initialState.classList.remove('hidden');
+      if (resultsContainer) resultsContainer.innerHTML = '';
+      if (statusContainer) statusContainer.classList.add('hidden');
+      if (emptyState) emptyState.classList.add('hidden');
+      if (loadingState) loadingState.classList.add('hidden');
+      return;
+    }
+
+    if (initialState) initialState.classList.add('hidden');
+    if (emptyState) emptyState.classList.add('hidden');
+    if (loadingState) loadingState.classList.remove('hidden');
+
+    const pf = await getPagefind();
+    if (!pf) {
+      if (loadingState) loadingState.classList.add('hidden');
+      if (emptyState) emptyState.classList.remove('hidden');
+      return;
+    }
+
+    try {
+      const filters = activeCategory ? { category: activeCategory } : undefined;
+      const results = await searchThai(pf, rawQuery, { filters, limit: 25 });
+
+      if (loadingState) loadingState.classList.add('hidden');
+
+      if (statusContainer) statusContainer.classList.remove('hidden');
+      if (queryTerm) queryTerm.textContent = `"${rawQuery}"`;
+      if (resultsCount) resultsCount.textContent = `พบ ${results.length} บทความ`;
+
+      if (results.length === 0) {
+        if (resultsContainer) resultsContainer.innerHTML = '';
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+
+      if (resultsContainer) {
+        resultsContainer.innerHTML = results
+          .map((r) => {
+            const title = r.meta?.title || 'บทความ';
+            const excerpt = r.excerpt || r.meta?.excerpt || '';
+            const categoryName = r.meta?.category || '';
+
+            return `
+              <article class="group rounded-2xl border border-border bg-bg p-5 shadow-card hover:border-brand hover:shadow-md transition-all">
+                <div class="flex flex-col gap-2">
+                  ${
+                    categoryName
+                      ? `<span class="text-caption font-semibold text-brand">${categoryName}</span>`
+                      : ''
+                  }
+                  <h2 class="text-h3 font-bold text-text group-hover:text-brand transition-colors">
+                    <a href="${r.url}" class="block focus:outline-none">
+                      ${highlightMatches(title, rawQuery)}
+                    </a>
+                  </h2>
+                  ${
+                    excerpt
+                      ? `<p class="text-body-sm text-text-secondary leading-relaxed line-clamp-2">
+                          ${highlightMatches(excerpt, rawQuery)}
+                        </p>`
+                      : ''
+                  }
+                  <div class="mt-2 flex items-center text-caption font-semibold text-brand">
+                    <span>อ่านบทความเต็ม →</span>
+                  </div>
+                </div>
+              </article>
+            `;
+          })
+          .join('');
+      }
+    } catch (err) {
+      console.error('[search] error executing search:', err);
+      if (loadingState) loadingState.classList.add('hidden');
+      if (emptyState) emptyState.classList.remove('hidden');
+    }
+  }
+
+  // Handle URL query param on mount (?q=...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialQuery = urlParams.get('q');
+  if (initialQuery && input) {
+    input.value = initialQuery;
+    executeSearch();
+  }
+
+  // Input debouncing
+  let debounceTimer: any = null;
+  input?.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      // Update browser URL query without reloading
+      const val = input.value.trim();
+      const newUrl = val ? `/search/?q=${encodeURIComponent(val)}` : '/search/';
+      window.history.replaceState({}, '', newUrl);
+      executeSearch();
+    }, 250);
+  });
+
+  // Category filter chips
+  catButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.category || '';
+      catButtons.forEach((b) => {
+        if (b === btn) {
+          b.className =
+            'cat-filter-btn px-3 py-1.5 rounded-full border border-brand bg-brand text-brand-contrast transition-colors';
+        } else {
+          b.className =
+            'cat-filter-btn px-3 py-1.5 rounded-full border border-border bg-surface text-muted hover:text-text hover:bg-bg transition-colors';
+        }
+      });
+      executeSearch();
+    });
+  });
+</script>

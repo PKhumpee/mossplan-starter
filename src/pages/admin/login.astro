@@ -1,0 +1,86 @@
+---
+// Admin login page (DESIGN §10.1, CONTRACTS §4).
+// Email OTP sign-in with Cloudflare Turnstile bot protection.
+// Status is noindex, not included in sitemap.
+import { env as workersEnv } from 'cloudflare:workers';
+import LoginForm from '../../components/admin/auth/LoginForm.vue';
+import type { Env } from '../../server/env';
+import '../../styles/global.css';
+
+const runtimeEnv =
+  (workersEnv as unknown as Env | undefined) ??
+  (Astro.locals as { runtime?: { env?: Env } }).runtime?.env;
+let storedTurnstileSiteKey = '';
+if (!runtimeEnv?.PUBLIC_TURNSTILE_SITE_KEY?.trim() && runtimeEnv?.DB) {
+  try {
+    const row = await runtimeEnv.DB.prepare(
+      "SELECT value FROM setting WHERE key = 'turnstile_site_key'",
+    ).first<{ value: string }>();
+    storedTurnstileSiteKey = row?.value ?? '';
+  } catch {
+    // The setup value is optional until setup has completed.
+  }
+}
+const turnstileSiteKey = runtimeEnv?.PUBLIC_TURNSTILE_SITE_KEY?.trim() || storedTurnstileSiteKey;
+
+const nextParam = Astro.url.searchParams.get('next') || '/admin/';
+---
+
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>เข้าสู่ระบบจัดการเนื้อหา — Mossplan</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/fonts/noto-sans-thai-thai-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    {turnstileSiteKey && (
+      <script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+        async
+        defer
+      />
+    )}
+  </head>
+  <body class="min-h-screen bg-surface flex flex-col justify-center items-center p-4">
+    <main class="w-full max-w-[420px]">
+      <!-- Card Container -->
+      <div class="rounded-2xl border border-border bg-bg p-6 sm:p-8 shadow-card">
+        <!-- Brand Header -->
+        <div class="text-center mb-8">
+          <div class="inline-flex size-14 items-center justify-center rounded-2xl bg-brand text-brand-contrast mb-4 shadow-sm">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="9"
+              aria-hidden="true"
+            >
+              <circle cx="32" cy="32" r="15"></circle>
+            </svg>
+          </div>
+          <h1 class="text-h2 font-bold text-text">เข้าสู่ระบบจัดการเนื้อหา</h1>
+          <p class="mt-1.5 text-body-sm text-muted">ระบบความปลอดภัยสำหรับทีมงานและกองบรรณาธิการ</p>
+        </div>
+
+        <!-- Vue Island LoginForm -->
+        <LoginForm client:load turnstileSiteKey={turnstileSiteKey} nextUrl={nextParam} />
+      </div>
+
+      <!-- Footer Info -->
+      <p class="mt-8 text-center text-caption text-muted">
+        Mossplan · เข้าสู่ระบบด้วย Email OTP ปลอดภัยโดยไม่ต้องใช้รหัสผ่าน
+      </p>
+    </main>
+  </body>
+</html>

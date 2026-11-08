@@ -1,0 +1,334 @@
+---
+// Admin Draft Preview page (DESIGN §5.2, CONTRACTS §5, §7).
+// Server-rendered on demand (SSR, prerender = false).
+// Renders drafts and scheduled articles with the exact same public components as the live site.
+import { eq } from 'drizzle-orm';
+import { env as workersEnv } from 'cloudflare:workers';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/public/ui/Breadcrumbs.astro';
+import TagChip from '../../../components/public/ui/TagChip.astro';
+import { getDb } from '../../../server/db/client';
+import * as schema from '../../../server/db/schema';
+import type { Env } from '../../../server/env';
+import { renderContent, extractNodeText } from '../../../lib/content/render';
+import Disclosure from '../../../components/public/affiliate/Disclosure.astro';
+import { formatThaiDate } from '../../../lib/format/date';
+import { readingTimeMinutes } from '../../../lib/format/thai';
+import type { TiptapNode } from '../../../shared/snapshot';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+const runtimeEnv =
+  (workersEnv as unknown as Env | undefined) ??
+  (Astro.locals as { runtime?: { env?: Env } }).runtime?.env;
+
+if (!runtimeEnv || !id) {
+  return Astro.redirect('/admin/articles/', 302);
+}
+
+const db = getDb(runtimeEnv);
+
+// Fetch article directly from D1 database (including drafts)
+const [article] = await db.select().from(schema.article).where(eq(schema.article.id, id)).limit(1);
+
+if (!article) {
+  return new Response('404 Article Not Found', { status: 404 });
+}
+
+// Fetch related metadata
+const [category] = article.categoryId
+  ? await db
+      .select()
+      .from(schema.category)
+      .where(eq(schema.category.id, article.categoryId))
+      .limit(1)
+  : [undefined];
+
+const [author] = await db
+  .select()
+  .from(schema.user)
+  .where(eq(schema.user.id, article.authorId))
+  .limit(1);
+
+const [reviewer] = article.reviewedBy
+  ? await db.select().from(schema.user).where(eq(schema.user.id, article.reviewedBy)).limit(1)
+  : [undefined];
+
+const [coverMedia] = article.coverMediaId
+  ? await db.select().from(schema.media).where(eq(schema.media.id, article.coverMediaId)).limit(1)
+  : [undefined];
+
+const [authorAvatar] = author?.avatarMediaId
+  ? await db.select().from(schema.media).where(eq(schema.media.id, author.avatarMediaId)).limit(1)
+  : [undefined];
+
+const tags = await db
+  .select({ id: schema.tag.id, slug: schema.tag.slug, name: schema.tag.name })
+  .from(schema.articleTag)
+  .innerJoin(schema.tag, eq(schema.articleTag.tagId, schema.tag.id))
+  .where(eq(schema.articleTag.articleId, article.id));
+
+let parsedContent: unknown = null;
+try {
+  parsedContent = JSON.parse(article.contentJson);
+} catch {
+  parsedContent = null;
+}
+
+const allCategories = await db
+  .select({ slug: schema.category.slug, name: schema.category.name })
+  .from(schema.category)
+  .orderBy(schema.category.sortOrder);
+
+const affiliateRows = await db
+  .select({
+    id: schema.affiliateLink.id,
+    slug: schema.affiliateLink.slug,
+    status: schema.affiliateLink.status,
+  })
+  .from(schema.affiliateLink);
+
+const rendered = renderContent(parsedContent, {
+  affiliateLinks: affiliateRows as any,
+  articleTitle: article.title,
+  articleSlug: article.slug,
+  mediaUrlResolver: (mediaId) => `/api/admin/media/${mediaId}/file`,
+});
+const h2Headings = rendered.headings.filter((h) => h.level === 2);
+
+const publishedDate = article.publishedAt || article.createdAt;
+const isUpdated =
+  article.contentModifiedAt && article.publishedAt
+    ? article.contentModifiedAt - article.publishedAt > 86400000
+    : false;
+
+const readingTime = readingTimeMinutes(
+  `${article.excerpt} ${extractNodeText(parsedContent as TiptapNode)}`,
+);
+
+const sameAsList: string[] = [];
+if (author?.sameAsJson) {
+  try {
+    const parsed = JSON.parse(author.sameAsJson);
+    if (Array.isArray(parsed)) sameAsList.push(...parsed);
+  } catch {
+    // ignore
+  }
+}
+
+const title = `[ตัวอย่าง] ${article.title}`;
+const description = article.excerpt || '';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={null}
+  noindex={true}
+  categories={allCategories}
+>
+  <!-- Preview Notice Banner -->
+  <div class="bg-warning/15 border-b border-warning/30 px-4 py-2.5 text-center text-caption font-semibold text-text">
+    <span>⚠️ นี่คือหน้าตัวอย่างสำหรับทีมงาน (ฉบับร่างยังไม่เผยแพร่ต่อสาธารณะ)</span>
+    <span class="mx-2">·</span>
+    <a href={`/admin/articles/${article.id}/`} class="text-brand underline">
+      กลับไปแก้ไขบทความ
+    </a>
+  </div>
+
+  <article class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12" data-pagefind-body>
+    <!-- Breadcrumbs -->
+    <div class="mb-4">
+      <Breadcrumbs
+        items={[
+          ...(category ? [{ label: category.name, href: `/category/${category.slug}/` }] : []),
+          { label: article.title },
+        ]}
+        hideCurrent
+      />
+    </div>
+
+    <!-- Category Pill -->
+    {category && (
+      <span class="mb-3 inline-flex items-center rounded-full bg-brand-subdued/30 px-3 py-0.5 text-caption font-semibold text-brand-deep">
+        {category.name}
+      </span>
+    )}
+
+    <!-- Main Title -->
+    <h1 class="text-[2rem] leading-[1.3] font-bold text-text md:text-[2.5rem]">{article.title}</h1>
+
+    <!-- Excerpt / Lead -->
+    {article.excerpt && (
+      <p class="mt-4 text-[1.1875rem] leading-[1.7] text-text-secondary">{article.excerpt}</p>
+    )}
+
+    {rendered.html.includes('/go/') && <Disclosure />}
+
+    <!-- Byline & Meta Row -->
+    <div class="mt-6 flex flex-wrap items-center gap-3 border-y border-border py-3.5 text-caption text-muted">
+      {author && (
+        <div class="flex items-center gap-2">
+          {authorAvatar && (
+            <img
+              src={`/api/admin/media/${authorAvatar.id}/file`}
+              alt={author.name}
+              width="32"
+              height="32"
+              class="size-8 rounded-full object-cover border border-border"
+            />
+          )}
+          <span>เขียนโดย {author.name}</span>
+        </div>
+      )}
+      {reviewer && (
+        <>
+          <span class="opacity-50">·</span>
+          <span>ตรวจทานโดย {reviewer.name}</span>
+        </>
+      )}
+      <span class="opacity-50">·</span>
+      <time datetime={new Date(publishedDate).toISOString()} class="tabular-nums">
+        {formatThaiDate(publishedDate)}
+      </time>
+      {isUpdated && (
+        <>
+          <span class="opacity-50">·</span>
+          <time datetime={new Date(article.contentModifiedAt!).toISOString()} class="tabular-nums">
+            อัปเดตล่าสุด {formatThaiDate(article.contentModifiedAt!)}
+          </time>
+        </>
+      )}
+      <span class="opacity-50">·</span>
+      <span class="tabular-nums">อ่าน {readingTime} นาที</span>
+    </div>
+
+    <!-- Cover Image -->
+    <div class="my-8 aspect-video overflow-hidden rounded-xl border border-border shadow-card bg-surface">
+      {coverMedia ? (
+        <img
+          src={`/api/admin/media/${coverMedia.id}/file`}
+          alt={coverMedia.alt || article.title}
+          width={coverMedia.width ?? 1200}
+          height={coverMedia.height ?? 675}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="h-full w-full object-cover"
+        />
+      ) : (
+        <div class="flex h-full w-full flex-col justify-between bg-gradient-to-br from-bg to-surface p-6 border-b-4 border-b-brand">
+          <div class="flex items-center justify-between text-caption font-bold text-brand">
+            <span>ชื่อเว็บไซต์</span>
+            <span class="text-muted font-normal text-caption">
+              ภาพปกอัตโนมัติ (จะสร้างเมื่อเผยแพร่)
+            </span>
+          </div>
+          <p class="text-h2 font-bold text-text line-clamp-2 leading-snug">{article.title}</p>
+          <div class="flex items-center justify-between text-caption text-muted font-medium">
+            <span>{category ? category.name : 'หมวดหมู่ทั่วไป'}</span>
+            <span>OG Card Fallback</span>
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Table of Contents (when ≥ 3 H2) -->
+    {h2Headings.length >= 3 && (
+      <nav
+        aria-label="สารบัญ"
+        class="my-8 rounded-xl border border-border bg-surface p-5 shadow-sm"
+      >
+        <p class="text-body-sm font-bold text-text mb-3">สารบัญเนื้อหา</p>
+        <ol class="space-y-1.5 text-body-sm list-decimal list-inside text-text-secondary">
+          {h2Headings.map((h) => (
+            <li>
+              <a href={`#${h.id}`} class="text-brand hover:underline underline-offset-2">
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <!-- Prose Content Body -->
+    <div class="prose mt-8" set:html={rendered.html} />
+
+    <!-- Tag Chips -->
+    {tags.length > 0 && (
+      <div class="mt-10 flex flex-wrap gap-2 pt-6 border-t border-border">
+        {tags.map((tag) => (
+          <TagChip tag={{ slug: tag.slug, name: tag.name }} />
+        ))}
+      </div>
+    )}
+
+    <!-- Author Profile Box -->
+    {author && (
+      <div class="mt-12 rounded-xl border border-border bg-surface p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row gap-5 items-start">
+          {authorAvatar && (
+            <img
+              src={`/api/admin/media/${authorAvatar.id}/file`}
+              alt={author.name}
+              width="72"
+              height="72"
+              class="size-16 sm:size-18 rounded-full object-cover border border-border shrink-0"
+            />
+          )}
+          <div class="flex-1">
+            <div class="flex flex-wrap items-baseline gap-2">
+              <span class="text-[1.2rem] font-bold text-text">{author.name}</span>
+              <span class="text-caption text-muted">{author.jobTitle}</span>
+            </div>
+            <p class="mt-2 line-clamp-3 text-body-sm text-text-secondary">{author.bio}</p>
+            {sameAsList.length > 0 && (
+              <div class="mt-3 flex flex-wrap gap-3 text-caption">
+                {sameAsList.map((url) => {
+                  const host = new URL(url).hostname.replace('www.', '');
+                  return (
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="me noopener"
+                      class="text-brand hover:underline"
+                    >
+                      {host}
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
+  </article>
+
+  {rendered.hasVideo && <script is:inline>
+    (function () {
+      if (window.__ytFacadeBound) return;
+      window.__ytFacadeBound = true;
+      document.addEventListener('click', function (event) {
+        var button = event.target.closest('.youtube-facade > button');
+        if (!button) return;
+        var box = button.parentElement;
+        var id = box.dataset.videoId;
+        var iframe = document.createElement('iframe');
+        iframe.width = '560';
+        iframe.height = '315';
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+        iframe.title = button.getAttribute('aria-label') || 'วิดีโอ YouTube';
+        iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.style.aspectRatio = '16 / 9';
+        iframe.style.width = '100%';
+        iframe.style.height = 'auto';
+        iframe.style.border = '0';
+        box.replaceChildren(iframe);
+      });
+    })();
+  </script>}
+</BaseLayout>

@@ -1,0 +1,73 @@
+---
+// Editorial policy page (DESIGN §5.5, D28, CONTRACTS §7):
+// Draft Thai copy awaiting owner review before launch (T20).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
+import Prose from '../components/public/ui/Prose.astro';
+import { getAllCategories, getSiteInfo } from '../lib/content/queries';
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+export const LAST_UPDATED = '14 ต.ค. 2569';
+
+const canonical = '/editorial-policy/';
+const title = `นโยบายบรรณาธิการ — ${site.name}`;
+const description = `มาตรฐานการเขียน การตรวจสอบข้อเท็จจริง และแนวทางปฏิบัติด้านเนื้อหาของ ${site.name}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'นโยบายบรรณาธิการ' }]} />
+    </div>
+
+    <header class="mb-8 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">นโยบายบรรณาธิการ</h1>
+      <p class="mt-2 text-caption text-muted tabular-nums">ปรับปรุงล่าสุด {LAST_UPDATED}</p>
+    </header>
+
+    <Prose>
+      <p>
+        <strong>{site.name}</strong> ยึดมั่นในมาตรฐานจริยธรรมวิชาชีพและความรับผิดชอบต่อผู้อ่าน
+        นโยบายบรรณาธิการนี้กำหนดแนวทางที่ทีมงานทุกคนต้องปฏิบัติตามในการสร้างสรรค์และเผยแพร่เนื้อหา
+      </p>
+
+      <h2>กระบวนการเขียนและตรวจสอบข้อเท็จจริง</h2>
+      <p>
+        บทความทุกชิ้นต้องผ่านการสืบค้นข้อมูลจากแหล่งที่เชื่อถือได้
+        และมีการตรวจสอบความถูกต้องของเนื้อหาก่อนเผยแพร่ ในบทความที่มีความซับซ้อนหรือละเอียดอ่อน
+        จะต้องผ่านการตรวจทานโดยผู้ตรวจทาน (Reviewer)
+        อิสระที่ระบุชื่อไว้อย่างโปร่งใสในส่วนหัวของบทความ
+      </p>
+
+      <h2>การแก้ไขข้อผิดพลาด (Corrections Policy)</h2>
+      <p>
+        หากตรวจพบข้อมูลที่คลาดเคลื่อน ทีมงานจะดำเนินการแก้ไขอย่างรวดเร็วและตรงไปตรงมา
+        โดยจะระบุวันที่แก้ไขล่าสุด (Last Updated) ไว้ในส่วนข้อมูลบทความเสมอ
+      </p>
+
+      <h2>นโยบายการใช้งานปัญญาประดิษฐ์ (AI Policy)</h2>
+      <p>
+        เราอาจใช้เครื่องมือ AI
+        เป็นเพียงผู้ช่วยในการค้นคว้าข้อมูลและจัดโครงสร้างร่างเบื้องต้นเท่านั้น
+        บทความทุกชิ้นต้องผ่านการเรียบเรียง ตรวจสอบความถูกต้องของข้อเท็จจริง
+        และลงนามโดยผู้เขียนที่เป็นมนุษย์ตัวจริงเสมอ
+      </p>
+
+      <h2>หัวข้อและเนื้อหาที่เราไม่เผยแพร่โดยเด็ดขาด</h2>
+      <p>
+        เพื่อความปลอดภัยของผู้อ่าน เรามีนโยบายไม่เผยแพร่ ไม่สนับสนุน
+        และไม่ใส่ลิงก์ไปยังเนื้อหาที่ละเมิดข้อกำหนดของแพลตฟอร์มต่าง ๆ เช่น การซื้อขายบัญชีผู้ใช้
+        การปั๊มยอดวิว ยอดไลก์ ยอดผู้ติดตาม หรือบริการที่เข้าข่ายหลอกลวงทุกรูปแบบ
+      </p>
+    </Prose>
+  </div>
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+// Tag chip (DESIGN §4.5): Stripe pill-tag-soft aesthetic.
+// Soft subdued background with electric indigo text, linking to tag listing.
+interface Props {
+  tag: { slug: string; name: string };
+}
+
+const { tag } = Astro.props;
+---
+
+<a
+  href={`/tag/${tag.slug}/`}
+  class="inline-flex min-h-[28px] items-center rounded-full border border-brand-subdued/30 bg-brand-subdued/20 px-3 py-0.5 text-caption font-medium text-brand transition-colors hover:bg-brand-subdued/35 hover:text-brand-deep"
+>
+  #{tag.name}
+</a>

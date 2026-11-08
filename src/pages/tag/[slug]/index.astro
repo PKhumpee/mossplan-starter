@@ -1,0 +1,112 @@
+﻿---
+// Tag listing page 1 (DESIGN §5.3, CONTRACTS §7):
+// H1 #tag, 12 articles per page, thin tag rule (D33: < 2 articles carries noindex), self-canonical.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleCard from '../../../components/public/ui/ArticleCard.astro';
+import Pagination from '../../../components/public/ui/Pagination.astro';
+import Breadcrumbs from '../../../components/public/ui/Breadcrumbs.astro';
+import {
+  getAllCategories,
+  getAllTags,
+  getArticlesByTag,
+  getCategoryById,
+  getMediaById,
+  getSiteInfo,
+  paginate,
+  PAGE_SIZE,
+} from '../../../lib/content/queries';
+import { readingTimeMinutes } from '../../../lib/format/thai';
+import { extractNodeText } from '../../../lib/content/render';
+import type { TiptapNode } from '../../../shared/snapshot';
+
+export async function getStaticPaths() {
+  const tags = getAllTags();
+  return tags.map((tag) => ({
+    params: { slug: tag.slug },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+const tagArticles = getArticlesByTag(tag.id);
+const paginated = paginate(tagArticles, 1, PAGE_SIZE);
+
+// D33: A tag with fewer than 2 published articles is noindex (DESIGN §11.1)
+const isThin = tagArticles.length < 2;
+
+const canonical = `/tag/${tag.slug}/`;
+const title = `#${tag.name} — ${site.name}`;
+const description = `รวมบทความทั้งหมดที่ติดแท็ก #${tag.name} ข้อมูลและสาระน่ารู้`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  noindex={isThin}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
+    <!-- Breadcrumbs -->
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: `#${tag.name}` }]} />
+    </div>
+
+    <!-- Tag Header -->
+    <header class="mb-10 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">#{tag.name}</h1>
+      <p class="mt-2 text-body-sm text-muted">บทความทั้งหมดที่เกี่ยวข้องกับหัวข้อ #{tag.name}</p>
+      <div class="mt-3 text-caption text-muted tabular-nums">
+        ทั้งหมด {tagArticles.length} บทความ
+      </div>
+    </header>
+
+    <!-- Articles Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {paginated.items.map((article) => {
+        const media = article.coverMediaId ? getMediaById(article.coverMediaId) : undefined;
+        const category = getCategoryById(article.categoryId);
+        const readingTime = readingTimeMinutes(
+          `${article.excerpt} ${extractNodeText(article.content as TiptapNode)}`,
+        );
+
+        return (
+          <ArticleCard
+            href={`/${article.slug}/`}
+            title={article.title}
+            excerpt={article.excerpt}
+            categoryLabel={category?.name}
+            dateMs={article.publishedAt}
+            readingMinutes={readingTime}
+            image={
+              media
+                ? {
+                    mediaId: media.id,
+                    src: `/media/${media.id}.webp`,
+                    width: media.width ?? 640,
+                    height: media.height ?? 360,
+                    alt: media.alt || article.title,
+                  }
+                : undefined
+            }
+          />
+        );
+      })}
+    </div>
+
+    {paginated.totalPages > 1 && (
+      <div class="mt-12">
+        <Pagination
+          page={1}
+          totalPages={paginated.totalPages}
+          hrefFor={(p) => (p === 1 ? `/tag/${tag.slug}/` : `/tag/${tag.slug}/page/${p}/`)}
+        />
+      </div>
+    )}
+  </div>
+</BaseLayout>

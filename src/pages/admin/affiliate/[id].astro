@@ -1,0 +1,21 @@
+---
+// Edit / view affiliate link (AFFILIATE §6, T22).
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import LinkEditor from '../../../components/admin/affiliate/LinkEditor.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+
+const { id } = Astro.params;
+if (!id) {
+  return Astro.redirect('/admin/affiliate/');
+}
+---
+
+<AdminLayout title="แก้ไขลิงก์ affiliate" active="affiliate">
+  <LinkEditor client:only="vue" linkId={id} userRole={user.role} />
+</AdminLayout>

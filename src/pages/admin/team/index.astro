@@ -1,0 +1,30 @@
+---
+// Admin team management page (DESIGN §10.5, CONTRACTS §5).
+// Prerender = false; wrapped by AdminLayout. Admin only.
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import TeamList from '../../../components/admin/team/TeamList.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+
+if (user.role !== 'admin') {
+  return new Response('เฉพาะผู้ดูแลระบบเท่านั้นที่สามารถเข้าถึงหน้านี้ได้', { status: 403 });
+}
+---
+
+<AdminLayout title="จัดการทีมงาน" active="team">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-h2 font-bold text-text">จัดการทีมงาน</h1>
+      <p class="text-caption text-muted mt-1">
+        เชิญสมาชิกใหม่ กำหนดบทบาท และตรวจสอบสถานะโปรไฟล์ผู้เขียนสำหรับ E-E-A-T
+      </p>
+    </div>
+
+    <TeamList client:only="vue" currentUserId={user.id} />
+  </div>
+</AdminLayout>

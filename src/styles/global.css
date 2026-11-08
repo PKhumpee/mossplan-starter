@@ -1,0 +1,227 @@
+/*
+ * Design tokens and base styles (DESIGN §4). Loaded by BaseLayout via the Tailwind 4
+ * `@tailwindcss/vite` plugin; the admin has its own token sheet (admin.css).
+ * Built on Mossplan design tokens. Semantic values switch on `prefers-color-scheme`.
+ */
+@import 'tailwindcss';
+@import '../../design/tokens.css';
+@import '../../design/tokens.tailwind.css';
+@import './status.css';
+@import './prose.css';
+
+:root {
+  /* Surface / Canvas */
+  --bg: var(--moss-bg);
+  --surface: var(--moss-surface);
+  --surface-cream: var(--moss-bg);
+  --border: var(--moss-grid);
+  --border-input: var(--moss-grid);
+
+  /* Text / Ink */
+  --text: var(--moss-text);
+  --text-secondary: var(--moss-muted);
+  --text-muted: var(--moss-muted);
+
+  /* Brand */
+  --brand: var(--moss-primary);
+  --brand-deep: var(--moss-primary);
+  --brand-press: var(--moss-secondary);
+  --brand-soft: var(--moss-primary);
+  --brand-subdued: var(--moss-grid);
+  --brand-contrast: var(--moss-surface);
+
+  /* Semantic Accents (Status) */
+  --success: var(--moss-status-success);
+  --warning: var(--moss-status-warning);
+  --danger: var(--moss-status-danger);
+
+  /* Elevation (Soft shadows using design token color mix) */
+  --shadow-sm:
+    0 1px 3px color-mix(in srgb, var(--moss-text) 8%, transparent),
+    0 1px 2px color-mix(in srgb, var(--moss-text) 4%, transparent);
+  --shadow-card:
+    0 2px 4px color-mix(in srgb, var(--moss-text) 4%, transparent),
+    0 8px 16px -4px color-mix(in srgb, var(--moss-text) 8%, transparent);
+  --shadow-elevated:
+    0 13px 27px -5px color-mix(in srgb, var(--moss-text) 25%, transparent),
+    0 8px 16px -8px color-mix(in srgb, var(--moss-text) 30%, transparent);
+}
+
+.theme-dark {
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------- theme mapping (Tailwind 4)
+ * `inline` so utilities reference the runtime custom properties and follow the colour scheme. */
+@theme inline {
+  --color-bg: var(--moss-bg);
+  --color-surface: var(--moss-surface);
+  --color-surface-cream: var(--moss-bg);
+  --color-border: var(--moss-grid);
+  --color-border-input: var(--moss-grid);
+  --color-text: var(--moss-text);
+  --color-text-secondary: var(--moss-muted);
+  --color-muted: var(--moss-muted);
+  --color-brand: var(--moss-primary);
+  --color-brand-deep: var(--moss-primary);
+  --color-brand-press: var(--moss-secondary);
+  --color-brand-soft: var(--moss-primary);
+  --color-brand-subdued: var(--moss-grid);
+  --color-brand-contrast: var(--moss-surface);
+  --color-success: var(--moss-status-success);
+  --color-warning: var(--moss-status-warning);
+  --color-danger: var(--moss-status-danger);
+
+  --font-sans: var(--moss-font-sans);
+  --font-mono: var(--moss-font-mono);
+
+  /* Type scale (§4.2): mobile → desktop sizes are applied per component with md: variants. */
+  --text-h1: 1.875rem;
+  --text-h1--line-height: 1.35;
+  --text-h1--font-weight: 700;
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 1.35;
+  --text-h2--font-weight: 700;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.4;
+  --text-h3--font-weight: 600;
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 1.4;
+  --text-h4--font-weight: 600;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.75;
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.6;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.5;
+
+  --container-prose: 720px;
+  --container-listing: 1120px;
+
+  /* Radii */
+  --radius-pill: 9999px;
+  --radius-card: 12px;
+}
+
+/* ---------------------------------------------------------------- base (§4.2 & ui-process) */
+@layer base {
+  body {
+    background-color: var(--moss-bg);
+    color: var(--moss-text);
+    font-family: var(--moss-font-sans);
+    font-size: 1.125rem; /* 18 px; Thai glyphs read smaller than Latin at equal px */
+    line-height: 1.75; /* room for stacked tone marks and vowels */
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 1.1875rem; /* 19 px */
+    }
+  }
+
+  /* Thai rules scoped by language: NEVER use tracking-tight on Thai (ui-process rule) */
+  :lang(th) {
+    word-break: normal; /* never break-all: it splits Thai clusters */
+    letter-spacing: normal; /* negative tracking merges clusters */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Tabular numbers for dates, metrics, prices */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 1px solid var(--moss-primary);
+  }
+
+  :where(input, select, textarea):focus-visible {
+    outline: 1px solid var(--moss-primary);
+    outline-offset: 0;
+    border-color: var(--moss-primary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Skip link: hidden until focused, first focusable element in BaseLayout. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--moss-bg);
+  color: var(--moss-primary);
+  border: 1px solid var(--moss-grid);
+  border-radius: 9999px;
+}
+
+/* Atmospheric gradient mesh background utility */
+.stripe-mesh-gradient {
+  background-color: var(--moss-bg);
+  background-image:
+    radial-gradient(
+      at 0% 0%,
+      color-mix(in srgb, var(--moss-primary) 12%, transparent) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 100% 0%,
+      color-mix(in srgb, var(--moss-secondary) 10%, transparent) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 50% 10%,
+      color-mix(in srgb, var(--moss-primary) 8%, transparent) 0px,
+      transparent 60%
+    ),
+    radial-gradient(
+      at 80% 30%,
+      color-mix(in srgb, var(--moss-grid) 25%, transparent) 0px,
+      transparent 40%
+    );
+}
+
+.theme-dark .stripe-mesh-gradient,
+[data-theme='dark'] .stripe-mesh-gradient {
+  background-image:
+    radial-gradient(
+      at 0% 0%,
+      color-mix(in srgb, var(--moss-primary) 20%, transparent) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 100% 0%,
+      color-mix(in srgb, var(--moss-secondary) 15%, transparent) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 50% 10%,
+      color-mix(in srgb, var(--moss-grid) 30%, transparent) 0px,
+      transparent 60%
+    );
+}

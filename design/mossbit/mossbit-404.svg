@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" width="64" height="64" shape-rendering="crispEdges">
+  <!-- Mossbit 8x8 (404 Not Found) -->
+  <style>
+    .b { fill: #7FB069; }
+    .e { fill: #14201A; }
+    .a { fill: #8FB3D9; }
+    @media (prefers-color-scheme: light) {
+      .b { fill: #3F6B3A; }
+      .e { fill: #14201A; }
+      .a { fill: #1E3A5F; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .b { fill: #7FB069; }
+      .e { fill: #0E1726; }
+      .a { fill: #8FB3D9; }
+    }
+  </style>
+  <g>
+    <rect class="b" x="2" y="1" width="1" height="1" />
+    <rect class="a" x="3" y="1" width="1" height="1" />
+    <rect class="b" x="1" y="2" width="1" height="1" />
+    <rect class="b" x="2" y="2" width="1" height="1" />
+    <rect class="b" x="3" y="2" width="1" height="1" />
+    <rect class="b" x="4" y="2" width="1" height="1" />
+    <rect class="b" x="5" y="2" width="1" height="1" />
+    <rect class="b" x="6" y="2" width="1" height="1" />
+    <rect class="b" x="0" y="3" width="1" height="1" />
+    <rect class="b" x="1" y="3" width="1" height="1" />
+    <rect class="b" x="2" y="3" width="1" height="1" />
+    <rect class="b" x="3" y="3" width="1" height="1" />
+    <rect class="b" x="4" y="3" width="1" height="1" />
+    <rect class="b" x="5" y="3" width="1" height="1" />
+    <rect class="b" x="6" y="3" width="1" height="1" />
+    <rect class="a" x="7" y="3" width="1" height="1" />
+    <rect class="b" x="0" y="4" width="1" height="1" />
+    <rect class="e" x="1" y="4" width="1" height="1" />
+    <rect class="e" x="2" y="4" width="1" height="1" />
+    <rect class="b" x="3" y="4" width="1" height="1" />
+    <rect class="e" x="5" y="4" width="1" height="1" />
+    <rect class="b" x="6" y="4" width="1" height="1" />
+    <rect class="b" x="7" y="4" width="1" height="1" />
+    <rect class="b" x="0" y="5" width="1" height="1" />
+    <rect class="b" x="1" y="5" width="1" height="1" />
+    <rect class="b" x="2" y="5" width="1" height="1" />
+    <rect class="e" x="3" y="5" width="1" height="1" />
+    <rect class="e" x="4" y="5" width="1" height="1" />
+    <rect class="b" x="5" y="5" width="1" height="1" />
+    <rect class="b" x="6" y="5" width="1" height="1" />
+    <rect class="b" x="7" y="5" width="1" height="1" />
+    <rect class="b" x="1" y="6" width="1" height="1" />
+    <rect class="b" x="2" y="6" width="1" height="1" />
+    <rect class="b" x="3" y="6" width="1" height="1" />
+    <rect class="b" x="4" y="6" width="1" height="1" />
+    <rect class="b" x="5" y="6" width="1" height="1" />
+    <rect class="b" x="6" y="6" width="1" height="1" />
+    <rect class="b" x="1" y="7" width="1" height="1" />
+    <rect class="b" x="2" y="7" width="1" height="1" />
+    <rect class="b" x="5" y="7" width="1" height="1" />
+    <rect class="b" x="6" y="7" width="1" height="1" />
+  </g>
+</svg>

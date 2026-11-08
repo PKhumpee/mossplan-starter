@@ -1,0 +1,60 @@
+---
+// Site footer (DESIGN §4.5): Stripe footer-light aesthetic.
+// Clean surface background with hairline top border and muted ink text.
+// Two short link rows; every trust page (D28) is linked on every page.
+import { currentThaiYear } from '../../../lib/format/date';
+
+interface Props {
+  siteName: string;
+  siteDescription: string;
+}
+
+const { siteName, siteDescription } = Astro.props;
+const runtimeSiteName = siteName ? '__MOSS_SITE_NAME__' : 'Mossplan';
+
+const contentLinks = [
+  { href: '/archive/', label: 'บทความทั้งหมด' },
+  { href: '/authors/', label: 'ทีมผู้เขียน' },
+  { href: '/archive/', label: 'หมวดหมู่' },
+  { href: '/rss.xml', label: 'RSS' },
+];
+const trustLinks = [
+  { href: '/about/', label: 'เกี่ยวกับเรา' },
+  { href: '/editorial-policy/', label: 'นโยบายบรรณาธิการ' },
+  { href: '/disclosure/', label: 'การเปิดเผยข้อมูล' },
+  { href: '/privacy/', label: 'นโยบายความเป็นส่วนตัว' },
+  { href: '/terms/', label: 'ข้อกำหนดการใช้งาน' },
+  { href: '/contact/', label: 'ติดต่อเรา' },
+];
+---
+
+<footer class="mt-20 border-t border-border bg-surface">
+  <div class="mx-auto max-w-listing px-4 py-12 md:px-6">
+    <p class="mb-6 text-body-sm text-muted">{siteDescription}</p>
+    <nav aria-label="ลิงก์เนื้อหา" class="mb-4">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-body-sm font-medium">
+        {contentLinks.map((link) => (
+          <li>
+            <a href={link.href} class="text-muted transition-colors hover:text-brand">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <nav aria-label="นโยบายและข้อมูลเว็บไซต์" class="mb-8">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-body-sm">
+        {trustLinks.map((link) => (
+          <li>
+            <a href={link.href} class="text-muted transition-colors hover:text-brand">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <p class="text-caption text-muted tabular-nums">
+      © {currentThaiYear()} {runtimeSiteName}
+    </p>
+  </div>
+</footer>

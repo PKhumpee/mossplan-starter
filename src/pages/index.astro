@@ -1,0 +1,223 @@
+﻿---
+// Home page (DESIGN §5.1, CONTRACTS §7): lead article, 12 latest articles grid,
+// pagination, and category showcase. Prerendered from content snapshot.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/public/ui/ArticleCard.astro';
+import Pagination from '../components/public/ui/Pagination.astro';
+import ResponsiveImage from '../lib/media/ResponsiveImage.astro';
+import {
+  getAllCategories,
+  getArticlesByCategory,
+  getCategoryById,
+  getMediaById,
+  getPublishedArticles,
+  getSiteInfo,
+  paginate,
+  PAGE_SIZE,
+} from '../lib/content/queries';
+import { readingTimeMinutes } from '../lib/format/thai';
+import { extractNodeText } from '../lib/content/render';
+import type { TiptapNode } from '../shared/snapshot';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { buildWebSiteGraph, buildOrganizationGraph } from '../lib/seo/schema';
+import { buildSite } from '../shared/site';
+
+const site = getSiteInfo();
+const currentSite = buildSite();
+const siteMeta = {
+  url: currentSite.url,
+  name: site.name,
+  description: site.description,
+};
+const jsonLdGraph = [buildWebSiteGraph(siteMeta), buildOrganizationGraph(siteMeta)];
+const ogImage = {
+  url: '/og/default.png',
+  width: 1200,
+  height: 630,
+  alt: site.name,
+};
+const categories = getAllCategories();
+const allArticles = getPublishedArticles();
+const paginated = paginate(allArticles, 1, PAGE_SIZE);
+
+const leadArticle = allArticles[0];
+const leadMedia = leadArticle?.coverMediaId ? getMediaById(leadArticle.coverMediaId) : undefined;
+const leadCategory = leadArticle ? getCategoryById(leadArticle.categoryId) : undefined;
+const leadReadingTime = leadArticle
+  ? readingTimeMinutes(
+      `${leadArticle.excerpt} ${extractNodeText(leadArticle.content as TiptapNode)}`,
+    )
+  : 1;
+
+// Category blocks for the bottom of page 1 (DESIGN §5.1)
+const categoryBlocks = categories.map((cat) => ({
+  category: cat,
+  articles: getArticlesByCategory(cat.id).slice(0, 3),
+}));
+---
+
+<BaseLayout
+  title={`${site.name} — ${site.description}`}
+  description={site.description}
+  canonical="/"
+  ogImage={ogImage}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <JsonLd slot="jsonld" graph={jsonLdGraph} />
+  <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
+    <!-- Lead Article Hero (Page 1 only) -->
+    {leadArticle && (
+      <section aria-label="บทความเด่นล่าสุด" class="mb-12">
+        <div class="overflow-hidden rounded-2xl border border-border bg-bg shadow-card transition-all hover:shadow-elevated">
+          <div class="grid gap-6 md:grid-cols-12 md:items-center">
+            <div class="aspect-video overflow-hidden md:col-span-7 bg-surface">
+              {leadMedia ? (
+                <ResponsiveImage
+                  mediaId={leadMedia.id}
+                  alt={leadMedia.alt || leadArticle.title}
+                  priority
+                  class="h-full w-full object-cover"
+                />
+              ) : (
+                <img
+                  src={`/og/${leadArticle.slug}.png`}
+                  alt={leadArticle.title}
+                  width="1200"
+                  height="630"
+                  loading="eager"
+                  fetchpriority="high"
+                  class="h-full w-full object-cover"
+                />
+              )}
+            </div>
+            <div class:list={['p-6 md:p-8', leadMedia ? 'md:col-span-5' : 'md:col-span-12']}>
+              {leadCategory && (
+                <a
+                  href={`/category/${leadCategory.slug}/`}
+                  class="mb-3 inline-flex w-fit items-center rounded-full bg-brand-subdued/30 px-3 py-0.5 text-caption font-semibold text-brand-deep"
+                >
+                  {leadCategory.name}
+                </a>
+              )}
+              <h2 class="text-h2 md:text-[2rem] font-bold text-text hover:text-brand">
+                <a href={`/${leadArticle.slug}/`}>{leadArticle.title}</a>
+              </h2>
+              {leadArticle.excerpt && (
+                <p class="mt-3 line-clamp-3 text-body-sm text-muted">{leadArticle.excerpt}</p>
+              )}
+              <div class="mt-6 flex items-center gap-2 text-caption text-muted tabular-nums">
+                <span>อ่าน {leadReadingTime} นาที</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Latest Articles Grid -->
+    <section aria-labelledby="latest-articles" class="mb-12">
+      <div class="mb-6 flex items-center justify-between border-b border-border pb-3">
+        <h1 id="latest-articles" class="text-h2 md:text-[1.875rem] font-bold text-text">
+          บทความล่าสุด
+        </h1>
+        <span class="text-caption text-muted tabular-nums">
+          ทั้งหมด {allArticles.length} บทความ
+        </span>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {paginated.items.map((article) => {
+          const media = article.coverMediaId ? getMediaById(article.coverMediaId) : undefined;
+          const category = getCategoryById(article.categoryId);
+          const readingTime = readingTimeMinutes(
+            `${article.excerpt} ${extractNodeText(article.content as TiptapNode)}`,
+          );
+
+          return (
+            <ArticleCard
+              href={`/${article.slug}/`}
+              title={article.title}
+              excerpt={article.excerpt}
+              categoryLabel={category?.name}
+              dateMs={article.publishedAt}
+              readingMinutes={readingTime}
+              image={
+                media
+                  ? {
+                      mediaId: media.id,
+                      src: `/media/${media.id}.webp`,
+                      width: media.width ?? 640,
+                      height: media.height ?? 360,
+                      alt: media.alt || article.title,
+                    }
+                  : {
+                      src: `/og/${article.slug}.png`,
+                      width: 1200,
+                      height: 630,
+                      alt: article.title,
+                    }
+              }
+            />
+          );
+        })}
+      </div>
+
+      {paginated.totalPages > 1 && (
+        <div class="mt-10">
+          <Pagination
+            page={1}
+            totalPages={paginated.totalPages}
+            hrefFor={(p) => (p === 1 ? '/' : `/page/${p}/`)}
+          />
+        </div>
+      )}
+    </section>
+
+    <!-- Category Showcase Block (DESIGN §5.1: each category with newest 3 titles) -->
+    {categoryBlocks.length > 0 && (
+      <section aria-labelledby="category-showcase" class="mt-16 border-t border-border pt-12">
+        <h2 id="category-showcase" class="text-h2 md:text-[1.875rem] font-bold text-text mb-8">
+          หมวดหมู่บทความ
+        </h2>
+        <div class="grid gap-6 md:grid-cols-3">
+          {categoryBlocks.map(({ category, articles }) => (
+            <div class="rounded-xl border border-border bg-surface p-6 shadow-sm flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2">
+                  <h3 class="text-h3 font-bold text-text">
+                    <a href={`/category/${category.slug}/`} class="hover:text-brand">
+                      {category.name}
+                    </a>
+                  </h3>
+                  <span class="text-caption text-muted tabular-nums">
+                    {getArticlesByCategory(category.id).length} บทความ
+                  </span>
+                </div>
+                {category.description && (
+                  <p class="mt-2 line-clamp-2 text-caption text-muted">{category.description}</p>
+                )}
+                <ul class="mt-4 space-y-2 border-t border-border/60 pt-3">
+                  {articles.map((art) => (
+                    <li class="line-clamp-1 text-body-sm">
+                      <a href={`/${art.slug}/`} class="text-text-secondary hover:text-brand">
+                        {art.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <a
+                href={`/category/${category.slug}/`}
+                class="mt-6 inline-flex min-h-[36px] items-center text-caption font-semibold text-brand hover:text-brand-deep"
+              >
+                ดูทั้งหมดใน {category.name} →
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>

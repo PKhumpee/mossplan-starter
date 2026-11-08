@@ -1,0 +1,13 @@
+---
+// Edit article page (DESIGN §9, CONTRACTS §5).
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ArticleEditor from '../../../components/admin/articles/ArticleEditor.vue';
+
+export const prerender = false;
+const { id } = Astro.params;
+const user = Astro.locals.user;
+---
+
+<AdminLayout title="แก้ไขบทความ" active="articles">
+  <ArticleEditor client:only="vue" initialId={id} userRole={user?.role} />
+</AdminLayout>

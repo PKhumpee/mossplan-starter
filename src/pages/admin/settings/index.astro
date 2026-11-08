@@ -1,0 +1,46 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import SiteSettings from '../../../components/admin/settings/SiteSettings.vue';
+import { env } from 'cloudflare:workers';
+import type { Env } from '../../../server/env';
+import { getDb } from '../../../server/db/client';
+import { isIndexingAllowed } from '../../../server/db/settings';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user || user.role !== 'admin') {
+  return Astro.redirect('/admin/');
+}
+
+const currentEnv = env as unknown as Env;
+const host = Astro.url.host;
+const isWorkersDev = host.endsWith('.workers.dev');
+const hardOverride = currentEnv?.PUBLIC_NOINDEX === 'true';
+
+let allowIndexing = false;
+try {
+  if (currentEnv?.DB) {
+    const db = getDb(currentEnv);
+    allowIndexing = await isIndexingAllowed(db);
+  }
+} catch {
+  // Default to false
+}
+---
+
+<AdminLayout title="ตั้งค่าเว็บไซต์" active="settings">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-text">ตั้งค่าเว็บไซต์</h2>
+    <p class="mt-1 text-body-sm text-text-secondary">
+      จัดการการตั้งค่าหลักของระบบ การค้นหา และการควบคุมการทำดัชนี (SEO & Indexing)
+    </p>
+  </div>
+
+  <SiteSettings
+    client:only="vue"
+    initialAllowIndexing={allowIndexing}
+    hardOverride={hardOverride}
+    isWorkersDev={isWorkersDev}
+  />
+</AdminLayout>

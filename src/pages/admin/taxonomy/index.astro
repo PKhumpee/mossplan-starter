@@ -1,0 +1,26 @@
+---
+// Admin taxonomy management page (DESIGN §10.4, CONTRACTS §5).
+// Prerender = false; wrapped by AdminLayout.
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import TaxonomyManager from '../../../components/admin/taxonomy/TaxonomyManager.vue';
+
+export const prerender = false;
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/admin/login/');
+}
+---
+
+<AdminLayout title="จัดการหมวดหมู่และแท็ก" active="taxonomy">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-h2 font-bold text-text">หมวดหมู่และแท็ก (Taxonomy)</h1>
+      <p class="text-caption text-muted mt-1">
+        จัดโครงสร้างเนื้อหา ลำดับหมวดหมู่ในแถบเมนู และคำอธิบายสำหรับปรับแต่ง SEO หน้าหมวดหมู่
+      </p>
+    </div>
+
+    <TaxonomyManager client:only="vue" />
+  </div>
+</AdminLayout>

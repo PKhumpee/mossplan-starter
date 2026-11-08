@@ -1,0 +1,51 @@
+{
+  // mossplan Worker. Everything in CONTRACTS §2 is declared here from day one.
+  // PUBLIC_NOINDEX is the hard noindex safety lock; site identity and indexing settings live in D1.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mossplan",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": ["nodejs_compat"],
+  // Keep *.workers.dev reachable; requests there remain noindex until a matching site domain is configured.
+  "workers_dev": true,
+
+  // Static output is served by the ASSETS binding (adapter-managed directory). Unknown paths get
+  // the prerendered 404.html with status 404, never a redirect to home.
+  // run_worker_first routes all requests through the Worker so dynamic headers (X-Robots-Tag) apply.
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": true,
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mossplan-db",
+    },
+  ],
+
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "mossplan-media" }],
+
+  "triggers": {
+    "crons": [
+      "*/5 * * * *", // scheduled publishing (T12)
+      "15 0 * * *", // daily stats sync, 07:15 Bangkok (T16)
+    ],
+  },
+
+  "vars": {
+    "PUBLIC_NOINDEX": "false",
+    // HSTS max-age in seconds. 300 (5 min) during testing; raise at launch (T17/T20).
+    "HSTS_MAX_AGE": "300",
+    "CF_WEB_ANALYTICS_SITE_TAG": "",
+    "PUBLIC_TURNSTILE_SITE_KEY": "",
+    "CF_ACCESS_TEAM_DOMAIN": "",
+    "CF_ACCESS_AUD": "",
+  },
+
+  // Secrets (never here): BETTER_AUTH_SECRET, RESEND_API_KEY, TURNSTILE_SECRET_KEY, GITHUB_DISPATCH_TOKEN,
+  // CF_ANALYTICS_API_TOKEN, BUILD_CALLBACK_TOKEN, CLICK_HASH_SECRET. Set with `wrangler secret put NAME`;
+  // locally in `.dev.vars` (see `.dev.vars.example`).
+}

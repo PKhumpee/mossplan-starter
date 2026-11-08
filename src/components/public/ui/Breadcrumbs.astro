@@ -1,0 +1,42 @@
+---
+// Breadcrumbs (DESIGN §4.5). The first item is always "หน้าแรก"; the component prepends it, so
+// callers pass only the path between home and the current page. BreadcrumbList JSON-LD is built by
+// T14 from exactly the items shown here.
+interface Props {
+  /** Path after home, e.g. [{ label: 'เทคโนโลยี', href: '/category/tech/' }, { label: '…' }]. */
+  items: { label: string; href?: string }[];
+  /** Hide the current page visually (article pages) while keeping it for screen readers. */
+  hideCurrent?: boolean;
+}
+
+const { items, hideCurrent = false } = Astro.props;
+
+const crumbs = [{ label: 'หน้าแรก', href: '/' }, ...items];
+const lastIndex = crumbs.length - 1;
+---
+
+<nav aria-label="การนำทาง" class="text-body-sm">
+  <ol class="flex flex-wrap items-center gap-1.5">
+    {crumbs.map((crumb, index) => {
+      const isLast = index === lastIndex;
+      return (
+        <li class="flex items-center gap-1.5">
+          {isLast ? (
+            <span aria-current="page" class:list={['text-muted', hideCurrent && 'sr-only']}>
+              {crumb.label}
+            </span>
+          ) : (
+            <>
+              <a href={crumb.href} class="text-muted hover:text-brand">
+                {crumb.label}
+              </a>
+              <span aria-hidden="true" class="text-muted">
+                ›
+              </span>
+            </>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>

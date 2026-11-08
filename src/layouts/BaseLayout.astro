@@ -1,0 +1,69 @@
+---
+// Public layout shell (T02). Every public page wraps this: head basics, skip link, header with
+// category nav, footer with every trust-page link (D28), and the analytics Beacon stub (T16).
+// `<!doctype html>` must be the first bytes (DESIGN §11.1) — no whitespace before it.
+import BaseHead from '../components/seo/BaseHead.astro';
+import SiteHeader from '../components/public/ui/SiteHeader.astro';
+import SiteFooter from '../components/public/ui/SiteFooter.astro';
+import Beacon from '../components/public/analytics/Beacon.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Site-relative canonical path (trailing slash); `null` renders none (404). */
+  canonical: string | null;
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+  ogImage?: { url: string; width: number; height: number; alt: string };
+  /** T05 passes snapshot.site.name; the default matches the fixture until real content lands. */
+  siteName?: string;
+  siteDescription?: string;
+  categories?: { slug: string; name: string }[];
+  alternateLinks?: { lang: string; href: string }[];
+  htmlLang?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  noindex = false,
+  ogType = 'website',
+  ogImage,
+  siteName = 'เว็บไซต์ของคุณ',
+  siteDescription = 'บทความและข่าวสารที่อ่านง่าย เขียนด้วยข้อมูลที่ตรวจสอบได้',
+  categories = [],
+  alternateLinks = [],
+  htmlLang = 'th',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      canonical={canonical}
+      noindex={noindex}
+      ogType={ogType}
+      ogImage={ogImage}
+      siteName={siteName}
+      alternateLinks={alternateLinks}
+    >
+      <slot name="jsonld" slot="jsonld" />
+    </BaseHead>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      ข้ามไปยังเนื้อหา
+    </a>
+    <SiteHeader siteName={siteName} categories={categories} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter siteName={siteName} siteDescription={siteDescription} />
+    <Beacon />
+  </body>
+</html>

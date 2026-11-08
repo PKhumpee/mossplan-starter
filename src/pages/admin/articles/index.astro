@@ -1,0 +1,16 @@
+---
+// Articles list page (DESIGN §10.2, CONTRACTS §5).
+// SSR admin page with status tabs, search, filters, and actions.
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import ArticleList from '../../../components/admin/articles/ArticleList.vue';
+
+export const prerender = false;
+---
+
+<AdminLayout title="บทความ" active="articles">
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-h2 font-bold text-text">บทความ</h1>
+  </div>
+
+  <ArticleList client:only="vue" />
+</AdminLayout>

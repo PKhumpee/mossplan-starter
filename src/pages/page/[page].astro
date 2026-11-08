@@ -1,0 +1,105 @@
+﻿---
+// Home pagination pages (DESIGN §5.1, CONTRACTS §7): pages 2+.
+// Listing only, unique title/description with "หน้า n", self-canonical.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/public/ui/ArticleCard.astro';
+import Pagination from '../../components/public/ui/Pagination.astro';
+import {
+  getAllCategories,
+  getCategoryById,
+  getMediaById,
+  getPublishedArticles,
+  getSiteInfo,
+  paginate,
+  PAGE_SIZE,
+} from '../../lib/content/queries';
+import { readingTimeMinutes } from '../../lib/format/thai';
+import { extractNodeText } from '../../lib/content/render';
+import type { TiptapNode } from '../../shared/snapshot';
+
+export async function getStaticPaths() {
+  const articles = getPublishedArticles();
+  const totalPages = Math.ceil(articles.length / PAGE_SIZE);
+
+  // Generate paths for pages 2 and up
+  const paths = [];
+  for (let p = 2; p <= totalPages; p++) {
+    paths.push({ params: { page: String(p) } });
+  }
+  return paths;
+}
+
+const { page } = Astro.params;
+const pageNumber = Number(page);
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+const allArticles = getPublishedArticles();
+const paginated = paginate(allArticles, pageNumber, PAGE_SIZE);
+
+const canonical = `/page/${pageNumber}/`;
+const title = `บทความล่าสุด — หน้า ${pageNumber} — ${site.name}`;
+const description = `${site.description} — หน้า ${pageNumber}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
+    <div class="mb-6 flex items-center justify-between border-b border-border pb-3">
+      <h1 class="text-h2 md:text-[1.875rem] font-bold text-text">
+        บทความล่าสุด — หน้า {pageNumber}
+      </h1>
+      <span class="text-caption text-muted tabular-nums">
+        หน้า {pageNumber} จาก {paginated.totalPages}
+      </span>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {paginated.items.map((article) => {
+        const media = article.coverMediaId ? getMediaById(article.coverMediaId) : undefined;
+        const category = getCategoryById(article.categoryId);
+        const readingTime = readingTimeMinutes(
+          `${article.excerpt} ${extractNodeText(article.content as TiptapNode)}`,
+        );
+
+        return (
+          <ArticleCard
+            href={`/${article.slug}/`}
+            title={article.title}
+            excerpt={article.excerpt}
+            categoryLabel={category?.name}
+            dateMs={article.publishedAt}
+            readingMinutes={readingTime}
+            image={
+              media
+                ? {
+                    mediaId: media.id,
+                    src: `/media/${media.id}.webp`,
+                    width: media.width ?? 640,
+                    height: media.height ?? 360,
+                    alt: media.alt || article.title,
+                  }
+                : undefined
+            }
+          />
+        );
+      })}
+    </div>
+
+    {paginated.totalPages > 1 && (
+      <div class="mt-12">
+        <Pagination
+          page={pageNumber}
+          totalPages={paginated.totalPages}
+          hrefFor={(p) => (p === 1 ? '/' : `/page/${p}/`)}
+        />
+      </div>
+    )}
+  </div>
+</BaseLayout>

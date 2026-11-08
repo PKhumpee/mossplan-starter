@@ -1,0 +1,132 @@
+﻿---
+// Author pagination pages 2+ (DESIGN §5.6, CONTRACTS §7):
+// 12 articles per page, self-canonical, unique title/description.
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ArticleCard from '../../../../components/public/ui/ArticleCard.astro';
+import Pagination from '../../../../components/public/ui/Pagination.astro';
+import Breadcrumbs from '../../../../components/public/ui/Breadcrumbs.astro';
+import {
+  getAllAuthors,
+  getAllCategories,
+  getArticlesByAuthor,
+  getCategoryById,
+  getMediaById,
+  getSiteInfo,
+  paginate,
+  PAGE_SIZE,
+} from '../../../../lib/content/queries';
+import { readingTimeMinutes } from '../../../../lib/format/thai';
+import { extractNodeText } from '../../../../lib/content/render';
+import type { TiptapNode } from '../../../../shared/snapshot';
+
+export async function getStaticPaths() {
+  const authors = getAllAuthors();
+  const paths = [];
+
+  for (const author of authors) {
+    const articles = getArticlesByAuthor(author.id);
+    const totalPages = Math.ceil(articles.length / PAGE_SIZE);
+
+    for (let p = 2; p <= totalPages; p++) {
+      paths.push({
+        params: { slug: author.slug, page: String(p) },
+        props: { author },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { author } = Astro.props;
+const { page } = Astro.params;
+const pageNumber = Number(page);
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+const authorArticles = getArticlesByAuthor(author.id);
+const paginated = paginate(authorArticles, pageNumber, PAGE_SIZE);
+
+const canonical = `/authors/${author.slug}/page/${pageNumber}/`;
+const title = `บทความโดย ${author.name} — หน้า ${pageNumber} — ${site.name}`;
+const description = `รวมบทความที่เขียนโดย ${author.name} (${author.jobTitle}) — หน้า ${pageNumber}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
+    <!-- Breadcrumbs -->
+    <div class="mb-4">
+      <Breadcrumbs
+        items={[
+          { label: 'ทีมผู้เขียน', href: '/authors/' },
+          { label: author.name, href: `/authors/${author.slug}/` },
+          { label: `หน้า ${pageNumber}` },
+        ]}
+      />
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.25rem] font-bold text-text">
+        บทความโดย {author.name} — หน้า {pageNumber}
+      </h1>
+      <p class="mt-2 text-body-sm text-muted">{author.jobTitle}</p>
+      <div class="mt-3 text-caption text-muted tabular-nums">
+        หน้า {pageNumber} จาก {paginated.totalPages}
+      </div>
+    </header>
+
+    <!-- Articles Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {paginated.items.map((article) => {
+        const media = article.coverMediaId ? getMediaById(article.coverMediaId) : undefined;
+        const category = getCategoryById(article.categoryId);
+        const readingTime = readingTimeMinutes(
+          `${article.excerpt} ${extractNodeText(article.content as TiptapNode)}`,
+        );
+
+        return (
+          <ArticleCard
+            href={`/${article.slug}/`}
+            title={article.title}
+            excerpt={article.excerpt}
+            categoryLabel={category?.name}
+            dateMs={article.publishedAt}
+            readingMinutes={readingTime}
+            image={
+              media
+                ? {
+                    mediaId: media.id,
+                    src: `/media/${media.id}.webp`,
+                    width: media.width ?? 640,
+                    height: media.height ?? 360,
+                    alt: media.alt || article.title,
+                  }
+                : undefined
+            }
+          />
+        );
+      })}
+    </div>
+
+    {paginated.totalPages > 1 && (
+      <div class="mt-12">
+        <Pagination
+          page={pageNumber}
+          totalPages={paginated.totalPages}
+          hrefFor={(p) =>
+            p === 1 ? `/authors/${author.slug}/` : `/authors/${author.slug}/page/${p}/`
+          }
+        />
+      </div>
+    )}
+  </div>
+</BaseLayout>

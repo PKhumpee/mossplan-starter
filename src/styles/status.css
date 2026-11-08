@@ -1,0 +1,10 @@
+/*
+ * Semantic status color aliases for Mossplan.
+ * Brand kit does not yet define status tokens; mapped to closest tokens per coordinator.
+ * Every status must include text or icon per WCAG 1.4.1 (do not convey status with color alone).
+ */
+:root {
+  --moss-status-success: var(--moss-primary);
+  --moss-status-warning: var(--moss-secondary);
+  --moss-status-danger: var(--moss-text);
+}

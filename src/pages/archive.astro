@@ -1,0 +1,124 @@
+﻿---
+// Archive page (DESIGN §5.7, D31, CONTRACTS §7):
+// HTML sitemap listing every published article grouped by category (ordered by sortOrder).
+// Keeps every article within 3 clicks of the home page.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
+import {
+  getAllCategories,
+  getArticlesByCategory,
+  getPublishedArticles,
+  getSiteInfo,
+} from '../lib/content/queries';
+import { formatThaiDate } from '../lib/format/date';
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+const allArticles = getPublishedArticles();
+
+// Group articles by category
+const categoryGroups = categories.map((cat) => ({
+  category: cat,
+  articles: getArticlesByCategory(cat.id),
+}));
+
+// Uncategorized articles
+const uncategorizedArticles = allArticles.filter((a) => !a.categoryId);
+
+const canonical = '/archive/';
+const title = `บทความทั้งหมด — ${site.name}`;
+const description = `รวมสารบัญบทความทั้งหมดของ ${site.name} แยกตามหมวดหมู่ เข้าถึงเนื้อหาทุกเรื่องได้โดยตรง`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
+    <!-- Breadcrumbs -->
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'บทความทั้งหมด' }]} />
+    </div>
+
+    <!-- Header -->
+    <header class="mb-12 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">บทความทั้งหมด</h1>
+      <p class="mt-2 text-body text-text-secondary">
+        สารบัญรวมบทความที่เผยแพร่แล้วทั้งหมด {allArticles.length} เรื่อง แยกตามหมวดหมู่
+      </p>
+    </header>
+
+    <!-- Categories and Articles List -->
+    <div class="space-y-12">
+      {categoryGroups.map(({ category, articles }) => (
+        <section aria-labelledby={`cat-${category.slug}`}>
+          <div class="flex items-baseline justify-between border-b border-border pb-2.5 mb-4">
+            <h2 id={`cat-${category.slug}`} class="text-h2 md:text-[1.5rem] font-bold text-text">
+              <a href={`/category/${category.slug}/`} class="hover:text-brand">
+                {category.name}
+              </a>
+            </h2>
+            <span class="text-caption text-muted tabular-nums">{articles.length} เรื่อง</span>
+          </div>
+          {articles.length > 0 ? (
+            <ul class="divide-y divide-border/60">
+              {articles.map((art) => (
+                <li class="py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                  <a
+                    href={`/${art.slug}/`}
+                    class="text-body-sm font-medium text-text hover:text-brand"
+                  >
+                    {art.title}
+                  </a>
+                  <time
+                    datetime={new Date(art.publishedAt).toISOString()}
+                    class="text-caption text-muted tabular-nums shrink-0"
+                  >
+                    {formatThaiDate(art.publishedAt)}
+                  </time>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="text-caption text-muted py-2">ยังไม่มีบทความในหมวดหมู่นี้</p>
+          )}
+        </section>
+      ))}
+
+      {uncategorizedArticles.length > 0 && (
+        <section aria-labelledby="cat-other">
+          <div class="flex items-baseline justify-between border-b border-border pb-2.5 mb-4">
+            <h2 id="cat-other" class="text-h2 md:text-[1.5rem] font-bold text-text">
+              อื่น ๆ
+            </h2>
+            <span class="text-caption text-muted tabular-nums">
+              {uncategorizedArticles.length} เรื่อง
+            </span>
+          </div>
+          <ul class="divide-y divide-border/60">
+            {uncategorizedArticles.map((art) => (
+              <li class="py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <a
+                  href={`/${art.slug}/`}
+                  class="text-body-sm font-medium text-text hover:text-brand"
+                >
+                  {art.title}
+                </a>
+                <time
+                  datetime={new Date(art.publishedAt).toISOString()}
+                  class="text-caption text-muted tabular-nums shrink-0"
+                >
+                  {formatThaiDate(art.publishedAt)}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </div>
+</BaseLayout>

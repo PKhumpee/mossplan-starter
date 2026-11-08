@@ -1,0 +1,114 @@
+---
+// Disclosure page (DESIGN §5.5, D28, CONTRACTS §7):
+// Discloses site monetization, independence of reviews, affiliate links.
+// Draft Thai copy awaiting owner review before launch (T20).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
+import Prose from '../components/public/ui/Prose.astro';
+import { getAllCategories, getSiteInfo } from '../lib/content/queries';
+
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+export const LAST_UPDATED = '14 ต.ค. 2569';
+
+const canonical = '/disclosure/';
+const title = `การเปิดเผยข้อมูล — ${site.name}`;
+const description = `นโยบายความโปร่งใสและการเปิดเผยข้อมูลการหารายได้ของ ${site.name}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: 'การเปิดเผยข้อมูล' }]} />
+    </div>
+
+    <header class="mb-8 border-b border-border pb-6">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">การเปิดเผยข้อมูล (Disclosure)</h1>
+      <p class="mt-2 text-caption text-muted tabular-nums">ปรับปรุงล่าสุด {LAST_UPDATED}</p>
+    </header>
+
+    <Prose>
+      <p>
+        <strong>{site.name}</strong> ยึดมั่นในความโปร่งใสต่อผู้อ่านสูงสุด
+        เราต้องการให้คุณทราบอย่างชัดเจนเกี่ยวกับรูปแบบการดำเนินงานและแนวทางการสร้างรายได้ของเว็บไซต์เรา
+      </p>
+
+      <h2>การหารายได้ของเว็บไซต์ (Monetization)</h2>
+      <p>
+        เว็บไซต์ของเราดำเนินงานโดยมีรายได้จาก <strong>ลิงก์พันธมิตร (Affiliate Links)</strong>{' '}
+        เป็นหลัก เมื่อคุณคลิกไปยังเว็บไซต์ผู้ค้าและตัดสินใจซื้อสินค้าหรือสมัครบริการ
+        เราอาจได้รับค่าตอบแทนส่วนแบ่งเล็กน้อยจากผู้ค้าดังกล่าว
+        <strong>โดยที่คุณไม่ต้องจ่ายเงินเพิ่มขึ้นแม้แต่บาทเดียว</strong>
+      </p>
+
+      <h2>การระบุและแสดงผลลิงก์ Affiliate (How Affiliate Links are Marked)</h2>
+      <p>เราต้องการให้ผู้อ่านทราบเสมอเมื่อมีเนื้อหาที่เชื่อมโยงกับโปรแกรมพันธมิตร:</p>
+      <ul>
+        <li>
+          <strong>กล่องเปิดเผยข้อมูล (Disclosure Box):</strong> บทความใดก็ตามที่มีลิงก์ affiliate
+          จะแสดงกล่องข้อความเปิดเผยข้อมูลอย่างชัดเจนก่อนเริ่มต้นเนื้อหาบทความเสมอ
+        </li>
+        <li>
+          <strong>การเชื่อมโยงผ่านระบบเปลี่ยนเส้นทาง:</strong> ลิงก์ affiliate
+          บนเว็บไซต์จะนำทางผ่านระบบเปลี่ยนเส้นทางภายใน <code>/go/&lt;slug&gt;/</code>{' '}
+          โดยไม่ส่งต่อข้อมูลส่วนบุคคลใด ๆ ไปยังภายนอก
+        </li>
+        <li>
+          <strong>คุณสมบัติลิงก์ตามมาตรฐาน SEO:</strong> ทุกทุกลิงก์ affiliate
+          จะกำกับด้วยแอตทริบิวต์ <code>rel="sponsored nofollow noopener"</code>{' '}
+          เพื่อให้เป็นไปตามแนวทางปฏิบัติของ Search Engine สากล
+          และเปิดในหน้าต่างเดิมเพื่อความสะดวกและความเป็นส่วนตัวของผู้อ่าน
+        </li>
+      </ul>
+
+      <h2>การทดสอบเครื่องมือและผลิตภัณฑ์ (How We Test Tools)</h2>
+      <p>
+        ทีมงานของเราทดสอบผลิตภัณฑ์ ซอฟต์แวร์ และบริการต่าง ๆ
+        ด้วยตนเองจากประสบการณ์ใช้งานจริงก่อนเขียนแนะนำเสมอ เราเน้นอธิบายขั้นตอนการทำงาน จุดเด่น
+        ตลอดจนข้อจำกัดที่พบอย่างตรงไปตรงมา เพื่อให้ผู้อ่านได้ข้อมูลรอบด้านที่สุดในการตัดสินใจ
+        ค่าตอบแทนจากลิงก์พันธมิตรไม่มีอิทธิพลต่อคะแนน ผลการทดสอบ หรือบทสรุปของกองบรรณาธิการ
+      </p>
+
+      <h2>ความเป็นอิสระของกองบรรณาธิการ (Editorial Independence)</h2>
+      <p>
+        การจัดอันดับ การรีวิวสินค้า และการให้คะแนนในบทความของเรา{' '}
+        <strong>ไม่ได้มีไว้เพื่อขาย</strong>
+        ทีมงานของเราเลือกแนะนำเฉพาะผลิตภัณฑ์และบริการที่เราเห็นว่ามีประโยชน์ต่อผู้อ่านจริงเท่านั้น
+        ค่าตอบแทนจากลิงก์พันธมิตรไม่มีอิทธิพลต่อบทสรุปหรือข้อเสนอแนะในบทความของเราอย่างเด็ดขาด
+      </p>
+
+      <h2>นโยบายไม่ส่งเสริมการซื้อขายบัญชีและยอดมีส่วนร่วมปลอม (Policy Invariant)</h2>
+      <p>{site.name} มีนโยบายด้านเนื้อหาที่เคร่งครัดและเด็ดขาด:</p>
+      <ul>
+        <li>
+          เรา<strong>ไม่รับเป็นพันธมิตร ไม่เผยแพร่ และไม่เชื่อมโยง</strong>
+          ไปยังเว็บไซต์หรือบริการที่เกี่ยวข้องกับการซื้อขายบัญชีผู้ใช้งาน (Account Trading)
+          ทุกรูปแบบ
+        </li>
+        <li>
+          เรา<strong>ไม่โปรโมตหรือสนับสนุน</strong>บริการปั๊มยอดผู้ติดตาม ปั๊มไลก์ ปั๊มวิว
+          หรือการสร้างยอดการมีส่วนร่วมปลอม (Fake Engagement) บนทุกแพลตฟอร์ม
+        </li>
+        <li>
+          ระบบตรวจสอบอัตโนมัติในการสร้างเว็บไซต์ (Build Gates)
+          มีการบล็อกโดเมนต้องห้ามและตรวจสอบลิงก์ทุกจุดเพื่อรับประกันว่าเนื้อหาทั้งหมดปลอดภัยและเป็นไปตามนโยบายอย่างเคร่งครัด
+        </li>
+      </ul>
+
+      <h2>ข้อแนะนำสำหรับผู้อ่าน</h2>
+      <p>
+        แม้เราจะทดสอบและตรวจสอบข้อมูลอย่างเข้มงวด แต่การตัดสินใจซื้อสินค้าหรือใช้บริการใด ๆ
+        ขึ้นอยู่กับความต้องการและความพึงพอใจของคุณ
+        โปรดศึกษาเงื่อนไขของผู้ค้าแต่ละรายก่อนทำธุรกรรมเสมอ
+      </p>
+    </Prose>
+  </div>
+</BaseLayout>

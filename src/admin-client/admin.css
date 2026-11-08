@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+@import '../../design/tokens.css';
+@import '../../design/tokens.tailwind.css';
+@import '../styles/status.css';
+@import '../styles/prose.css';
+
+/* Admin colour tokens mapped to Mossplan design tokens. */
+:root {
+  --bg: var(--moss-bg);
+  --surface: var(--moss-surface);
+  --surface-cream: var(--moss-bg);
+  --border: var(--moss-grid);
+  --border-input: var(--moss-grid);
+  --text: var(--moss-text);
+  --text-secondary: var(--moss-muted);
+  --text-muted: var(--moss-muted);
+  --brand: var(--moss-primary);
+  --brand-deep: var(--moss-primary);
+  --brand-press: var(--moss-secondary);
+  --brand-soft: var(--moss-primary);
+  --brand-subdued: var(--moss-grid);
+  --brand-contrast: var(--moss-surface);
+  --success: var(--moss-status-success);
+  --warning: var(--moss-status-warning);
+  --danger: var(--moss-status-danger);
+
+  --shadow-sm:
+    0 1px 3px color-mix(in srgb, var(--moss-text) 8%, transparent),
+    0 1px 2px color-mix(in srgb, var(--moss-text) 4%, transparent);
+  --shadow-card:
+    0 2px 4px color-mix(in srgb, var(--moss-text) 4%, transparent),
+    0 8px 16px -4px color-mix(in srgb, var(--moss-text) 8%, transparent);
+  --shadow-elevated:
+    0 13px 27px -5px color-mix(in srgb, var(--moss-text) 25%, transparent),
+    0 8px 16px -8px color-mix(in srgb, var(--moss-text) 30%, transparent);
+}
+
+.theme-dark {
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--moss-bg);
+  --color-surface: var(--moss-surface);
+  --color-border: var(--moss-grid);
+  --color-border-input: var(--moss-grid);
+  --color-fg: var(--moss-text);
+  --color-text: var(--moss-text);
+  --color-text-secondary: var(--moss-muted);
+  --color-muted: var(--moss-muted);
+  --color-brand: var(--moss-primary);
+  --color-brand-deep: var(--moss-primary);
+  --color-brand-press: var(--moss-secondary);
+  --color-brand-soft: var(--moss-primary);
+  --color-brand-subdued: var(--moss-grid);
+  --color-brand-contrast: var(--moss-surface);
+  --color-success: var(--moss-status-success);
+  --color-warning: var(--moss-status-warning);
+  --color-danger: var(--moss-status-danger);
+
+  --font-sans: var(--moss-font-sans);
+  --font-mono: var(--moss-font-mono);
+}
+
+/* Admin density: base 15px, compact controls (DESIGN §7.1). */
+html {
+  font-size: 15px;
+}
+
+body {
+  background: var(--moss-bg);
+  color: var(--moss-text);
+  font-family: var(--moss-font-sans);
+  line-height: 1.6;
+}
+
+:focus-visible {
+  outline: 1px solid var(--moss-primary);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 1px solid var(--moss-primary);
+  outline-offset: 0;
+  border-color: var(--moss-primary);
+}
+
+/* Document & Text Editor Selection Highlight */
+::selection {
+  background-color: var(--moss-grid);
+  color: var(--moss-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-spin {
+    animation: none !important;
+  }
+}

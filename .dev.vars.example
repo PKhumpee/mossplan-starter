@@ -1,0 +1,18 @@
+# Copy to .dev.vars (git-ignored) for local `pnpm dev`. Names only here; never store real values in the repo.
+# Generate random secrets locally, e.g.:
+#   node -e "process.stdout.write(require('crypto').randomBytes(32).toString('hex'))"
+BETTER_AUTH_SECRET=
+RESEND_API_KEY=
+TURNSTILE_SECRET_KEY=
+GITHUB_DISPATCH_TOKEN=
+CF_ANALYTICS_API_TOKEN=
+BUILD_CALLBACK_TOKEN=
+CLICK_HASH_SECRET=
+SETUP_TOKEN=
+MOSS_SECRET_KEY=
+# Local-only convenience (not a secret): the first admin's email, read by `pnpm db:seed:local` (T03) and
+# `pnpm admin:invite` (T06) from `.dev.vars` or the shell.
+ADMIN_EMAIL=
+# Optional until T20 sets up Cloudflare Access (D34); empty is allowed. Local overrides of the wrangler.jsonc vars.
+CF_ACCESS_TEAM_DOMAIN=
+CF_ACCESS_AUD=

@@ -1,0 +1,10 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import UiKitDemo from '../../components/admin/ui/UiKitDemo.vue';
+
+export const prerender = false;
+---
+
+<AdminLayout title="ชุดส่วนประกอบ (UI kit)">
+  <UiKitDemo client:only="vue" />
+</AdminLayout>

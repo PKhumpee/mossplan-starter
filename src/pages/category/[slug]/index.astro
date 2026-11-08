@@ -1,0 +1,125 @@
+﻿---
+// Category listing page 1 (DESIGN §5.3, CONTRACTS §7):
+// Full category description as intro, 12 articles per page, self-canonical.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleCard from '../../../components/public/ui/ArticleCard.astro';
+import Pagination from '../../../components/public/ui/Pagination.astro';
+import Breadcrumbs from '../../../components/public/ui/Breadcrumbs.astro';
+import {
+  getAllCategories,
+  getArticlesByCategory,
+  getMediaById,
+  getSiteInfo,
+  paginate,
+  PAGE_SIZE,
+} from '../../../lib/content/queries';
+import { readingTimeMinutes, truncateThai } from '../../../lib/format/thai';
+import { extractNodeText } from '../../../lib/content/render';
+import type { TiptapNode } from '../../../shared/snapshot';
+
+export async function getStaticPaths() {
+  const categories = getAllCategories();
+  return categories.map((category) => ({
+    params: { slug: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const site = getSiteInfo();
+const categories = getAllCategories();
+
+const categoryArticles = getArticlesByCategory(category.id);
+const paginated = paginate(categoryArticles, 1, PAGE_SIZE);
+
+const canonical = `/category/${category.slug}/`;
+const title = `${category.name} — ${site.name}`;
+const description = category.description
+  ? truncateThai(category.description, 155)
+  : `บทความเกี่ยวกับ${category.name} ทั้งหมด รวบรวมข้อมูลและสาระน่ารู้`;
+
+// Split description into paragraphs if multiple lines
+const descParagraphs = category.description ? category.description.split(/\n\s*\n/) : [];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  siteName={site.name}
+  siteDescription={site.description}
+  categories={categories}
+>
+  <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
+    <!-- Breadcrumbs -->
+    <div class="mb-4">
+      <Breadcrumbs items={[{ label: category.name }]} />
+    </div>
+
+    <!-- Category Header & Intro -->
+    <header class="mb-10 border-b border-border pb-8">
+      <h1 class="text-h1 md:text-[2.5rem] font-bold text-text">{category.name}</h1>
+      {descParagraphs.length > 0 ? (
+        <div class="prose mt-4 text-text-secondary">
+          {descParagraphs.map((p) => (
+            <p>{p}</p>
+          ))}
+        </div>
+      ) : (
+        <p class="mt-2 text-body text-muted">รวบรวมบทความและสาระน่ารู้ในหมวดหมู่ {category.name}</p>
+      )}
+      <div class="mt-4 text-caption text-muted tabular-nums">
+        ทั้งหมด {categoryArticles.length} บทความ
+      </div>
+    </header>
+
+    <!-- Articles Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {paginated.items.map((article) => {
+        const media = article.coverMediaId ? getMediaById(article.coverMediaId) : undefined;
+        const readingTime = readingTimeMinutes(
+          `${article.excerpt} ${extractNodeText(article.content as TiptapNode)}`,
+        );
+
+        return (
+          <ArticleCard
+            href={`/${article.slug}/`}
+            title={article.title}
+            excerpt={article.excerpt}
+            categoryLabel={category.name}
+            dateMs={article.publishedAt}
+            readingMinutes={readingTime}
+            image={
+              media
+                ? {
+                    mediaId: media.id,
+                    src: `/media/${media.id}.webp`,
+                    width: media.width ?? 640,
+                    height: media.height ?? 360,
+                    alt: media.alt || article.title,
+                  }
+                : {
+                    src: `/og/${article.slug}.png`,
+                    width: 1200,
+                    height: 630,
+                    alt: article.title,
+                  }
+            }
+          />
+        );
+      })}
+    </div>
+
+    {paginated.totalPages > 1 && (
+      <div class="mt-12">
+        <Pagination
+          page={1}
+          totalPages={paginated.totalPages}
+          hrefFor={(p) =>
+            p === 1 ? `/category/${category.slug}/` : `/category/${category.slug}/page/${p}/`
+          }
+        />
+      </div>
+    )}
+  </div>
+</BaseLayout>
