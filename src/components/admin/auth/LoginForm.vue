@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { turnstileErrorMessage } from './turnstile-error';
 
 const props = defineProps<{
   turnstileSiteKey?: string;
@@ -13,6 +14,7 @@ const otpInputs = ref<HTMLInputElement[]>([]);
 const turnstileContainer = ref<HTMLElement | null>(null);
 let turnstileWidgetId: string | null = null;
 const turnstileToken = ref('');
+let turnstileFailure = '';
 
 const loading = ref(false);
 const error = ref('');
@@ -35,9 +37,14 @@ function renderTurnstile() {
           sitekey: props.turnstileSiteKey,
           callback: (token: string) => {
             turnstileToken.value = token;
+            // A retry can succeed after an earlier failure was shown.
+            if (error.value === turnstileFailure) error.value = '';
+            turnstileFailure = '';
           },
-          'error-callback': () => {
+          'error-callback': (code: string) => {
             turnstileToken.value = '';
+            turnstileFailure = turnstileErrorMessage(code, window.location.hostname);
+            error.value = turnstileFailure;
           },
         });
       }
@@ -117,7 +124,7 @@ async function sendOtp() {
     await nextTick();
     otpInputs.value[0]?.focus();
   } catch (err: any) {
-    error.value = err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
+    error.value = turnstileFailure || err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
   } finally {
     loading.value = false;
   }
