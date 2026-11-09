@@ -6,7 +6,7 @@ import { getAuth } from './server/auth/better-auth';
 import { verifyAccessJwt } from './server/auth/access';
 import { sanitizeNextUrl } from './server/http/next-url';
 import { applySecurityHeaders } from './server/http/security';
-import { setupPageGuard } from './server/http/setup-page-guard';
+import { setupIsPending, setupPageGuard } from './server/http/setup-page-guard';
 import type { Env } from './server/env';
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -87,6 +87,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (isAdminRoute && !isSetupPage) {
     if (!sessionUser && !isLoginPage) {
+      // No one can sign in until setup has created the first administrator.
+      if (await setupIsPending(runtimeEnv?.DB)) return context.redirect('/admin/setup/', 302);
+
       // Unauthenticated user requesting protected admin page: redirect to login
       const nextParam = encodeURIComponent(pathname + url.search);
       return context.redirect(`/admin/login/?next=${nextParam}`, 302);
