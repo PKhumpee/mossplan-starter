@@ -249,7 +249,7 @@ onMounted(() => {
             <input
               v-model="name"
               type="text"
-              placeholder="เช่น ณัฐวุฒิ แสงทอง"
+              placeholder="เช่น พาร์ท ภาคิน"
               class="w-full rounded-xl border border-border-input bg-bg px-4 py-2.5 text-body text-text placeholder:text-muted focus-visible:border-brand shadow-sm transition-colors"
             />
           </div>

@@ -4,20 +4,10 @@ import { defineMiddleware } from 'astro:middleware';
 import { env as workersEnv } from 'cloudflare:workers';
 import { getAuth } from './server/auth/better-auth';
 import { verifyAccessJwt } from './server/auth/access';
+import { sanitizeNextUrl } from './server/http/next-url';
 import { applySecurityHeaders } from './server/http/security';
 import { setupPageGuard } from './server/http/setup-page-guard';
 import type { Env } from './server/env';
-
-/** Sanitizes a next URL to ensure it is a safe site-relative path. */
-function sanitizeNextUrl(next: string | null): string {
-  if (!next) return '/admin/';
-  const trimmed = next.trim();
-  // Must start with a single slash, no protocol-relative // or backslashes
-  if (trimmed.startsWith('/') && !trimmed.startsWith('//') && !trimmed.startsWith('/\\')) {
-    return trimmed;
-  }
-  return '/admin/';
-}
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
@@ -105,7 +95,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     if (sessionUser && isLoginPage) {
       // Already authenticated user visiting login page: redirect to destination
       const nextParam = url.searchParams.get('next');
-      return context.redirect(sanitizeNextUrl(nextParam), 302);
+      return context.redirect(sanitizeNextUrl(nextParam, url.origin), 302);
     }
   }
 
