@@ -27,30 +27,38 @@ function renderTurnstile() {
     typeof window !== 'undefined' &&
     props.turnstileSiteKey &&
     turnstileContainer.value &&
+    !turnstileWidgetId &&
     (window as any).turnstile
   ) {
     try {
-      if (turnstileWidgetId) {
-        (window as any).turnstile.reset(turnstileWidgetId);
-      } else {
-        turnstileWidgetId = (window as any).turnstile.render(turnstileContainer.value, {
-          sitekey: props.turnstileSiteKey,
-          callback: (token: string) => {
-            turnstileToken.value = token;
-            // A retry can succeed after an earlier failure was shown.
-            if (error.value === turnstileFailure) error.value = '';
-            turnstileFailure = '';
-          },
-          'error-callback': (code: string) => {
-            turnstileToken.value = '';
-            turnstileFailure = turnstileErrorMessage(code, window.location.hostname);
-            error.value = turnstileFailure;
-          },
-        });
-      }
+      turnstileWidgetId = (window as any).turnstile.render(turnstileContainer.value, {
+        sitekey: props.turnstileSiteKey,
+        callback: (token: string) => {
+          turnstileToken.value = token;
+          // A retry can succeed after an earlier failure was shown.
+          if (error.value === turnstileFailure) error.value = '';
+          turnstileFailure = '';
+        },
+        'error-callback': (code: string) => {
+          turnstileToken.value = '';
+          turnstileFailure = turnstileErrorMessage(code, window.location.hostname);
+          error.value = turnstileFailure;
+        },
+      });
     } catch (e) {
       console.warn('[turnstile] render warning:', e);
     }
+  }
+}
+
+/** Turnstile accepts a token once, so every send needs a new one. */
+function replaceSpentTurnstileToken() {
+  if (!turnstileToken.value) return;
+  turnstileToken.value = '';
+  try {
+    (window as any).turnstile.reset(turnstileWidgetId);
+  } catch (e) {
+    console.warn('[turnstile] reset warning:', e);
   }
 }
 
@@ -92,6 +100,12 @@ async function sendOtp() {
     return;
   }
 
+  // The server rejects a send without a token, so say why instead of showing its 400.
+  if (props.turnstileSiteKey && !turnstileToken.value) {
+    error.value = turnstileFailure || 'ระบบตรวจสอบความปลอดภัยยังไม่พร้อม รอสักครู่แล้วลองอีกครั้ง';
+    return;
+  }
+
   loading.value = true;
   error.value = '';
 
@@ -124,9 +138,10 @@ async function sendOtp() {
     await nextTick();
     otpInputs.value[0]?.focus();
   } catch (err: any) {
-    error.value = turnstileFailure || err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
+    error.value = err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์';
   } finally {
     loading.value = false;
+    replaceSpentTurnstileToken();
   }
 }
 
@@ -215,9 +230,6 @@ function resetToEmail() {
   error.value = '';
   notice.value = '';
   otpDigits.value = ['', '', '', '', '', ''];
-  nextTick(() => {
-    renderTurnstile();
-  });
 }
 </script>
 
@@ -255,11 +267,6 @@ function resetToEmail() {
           placeholder="yourname@example.com"
           class="w-full rounded-xl border border-border-input bg-bg px-4 py-2.5 text-body text-text placeholder:text-muted focus-visible:border-brand focus-visible:outline-none transition-colors"
         />
-      </div>
-
-      <!-- Turnstile widget mount point -->
-      <div v-if="props.turnstileSiteKey" class="flex justify-center py-1">
-        <div ref="turnstileContainer"></div>
       </div>
 
       <button
@@ -333,5 +340,10 @@ function resetToEmail() {
         </button>
       </div>
     </form>
+
+    <!-- Stays mounted across both steps so a resend can get a new token -->
+    <div v-if="props.turnstileSiteKey" class="flex justify-center">
+      <div ref="turnstileContainer"></div>
+    </div>
   </div>
 </template>
