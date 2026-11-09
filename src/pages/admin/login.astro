@@ -6,6 +6,10 @@ import { env as workersEnv } from 'cloudflare:workers';
 import LoginForm from '../../components/admin/auth/LoginForm.vue';
 import type { Env } from '../../server/env';
 import '../../styles/global.css';
+import { sanitizeNextUrl } from '../../server/http/next-url';
+
+// The Turnstile site key is saved at setup, so this page cannot be built ahead of time.
+export const prerender = false;
 
 const runtimeEnv =
   (workersEnv as unknown as Env | undefined) ??
@@ -23,7 +27,7 @@ if (!runtimeEnv?.PUBLIC_TURNSTILE_SITE_KEY?.trim() && runtimeEnv?.DB) {
 }
 const turnstileSiteKey = runtimeEnv?.PUBLIC_TURNSTILE_SITE_KEY?.trim() || storedTurnstileSiteKey;
 
-const nextParam = Astro.url.searchParams.get('next') || '/admin/';
+const nextParam = sanitizeNextUrl(Astro.url.searchParams.get('next'), Astro.url.origin);
 ---
 
 <!doctype html>

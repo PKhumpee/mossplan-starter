@@ -69,6 +69,7 @@ async function sendOtpEmail(options: {
         text: `รหัสยืนยัน 6 หลักสำหรับการเข้าสู่ระบบคือ: ${otp}\n\nรหัสนี้จะหมดอายุภายใน 5 นาที หากคุณไม่ได้ส่งคำขอนี้ สามารถเพิกเฉยต่ออีเมลนี้ได้`,
       }),
     });
+    if (!res.ok) console.error('[auth] Resend rejected the OTP email with status', res.status);
     return res.ok;
   } catch (err) {
     console.error('[auth] failed to send email via Resend:', err);
