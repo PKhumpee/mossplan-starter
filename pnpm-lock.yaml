@@ -21,11 +21,11 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3(@types/node@24.19.2)(astro@7.3.8(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(vue@3.5.44(typescript@6.0.3))(yaml@2.9.1)
       '@mossplan/cli':
-        specifier: ^0.1.0
-        version: 0.1.1
+        specifier: ^0.1.2
+        version: 0.1.2
       '@mossplan/core':
-        specifier: ^0.1.0
-        version: 0.1.1
+        specifier: ^0.1.2
+        version: 0.1.2
       '@resvg/resvg-js':
         specifier: 2.6.2
         version: 2.6.2
@@ -1726,12 +1726,12 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@mossplan/cli@0.1.1':
-    resolution: {integrity: sha512-2QFemn3kR5w8UPrSQiEDt9TnK9e2SBq7O70dsmu/tmxSyt8Lvip6tLRaipdRE8MqfT52TWa4OugcwjG5EpeuFQ==}
+  '@mossplan/cli@0.1.2':
+    resolution: {integrity: sha512-hUgjeMQF4LAXdtGCiB1TFeC6Uxrjmff+2kvJKCS2opNR8cCiJNbDLXRKKeMBNuU5SebfueBPwAeMuOmxA8gbyA==}
     hasBin: true
 
-  '@mossplan/core@0.1.1':
-    resolution: {integrity: sha512-/VifMoi0t2OZxz17hsLzXfQNE2reh1Jr5FOsKq62JyvM4QxDyhbODZ7rrXRDxDJDMkL8osGR5++n2aBlMbqcRg==}
+  '@mossplan/core@0.1.2':
+    resolution: {integrity: sha512-Qz85FSiZsnvlU4gT57zCu6VyymcX5P+oOFKbJAS0s9x70k3+7MZqLGtzXUmZvYKK4UtME3gpd1mrr6tSEJLDQw==}
 
   '@napi-rs/wasm-runtime@1.2.4':
     resolution: {integrity: sha512-AJxoUD2/15ESHbvpcyjU274nsAPLuOtPHCk0vKJM5pj//Fg/B1FXNWjPnXTT9PymCYYiHo4zPj0ZomXBKhoy7g==}
@@ -5772,9 +5772,9 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@mossplan/cli@0.1.1': {}
+  '@mossplan/cli@0.1.2': {}
 
-  '@mossplan/core@0.1.1':
+  '@mossplan/core@0.1.2':
     dependencies:
       zod: 4.6.7
 
