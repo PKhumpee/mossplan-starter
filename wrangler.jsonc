@@ -11,12 +11,12 @@
 
   // Static output is served by the ASSETS binding (adapter-managed directory). Unknown paths get
   // the prerendered 404.html with status 404, never a redirect to home.
-  // run_worker_first routes all requests through the Worker so dynamic headers (X-Robots-Tag) apply.
+  // Keep runtime routes worker-first. Vite's dev modules must be served by Vite itself.
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": true,
+    "run_worker_first": ["/*", "!/@vite/*", "!/@id/*", "!/@fs/*", "!/src/*", "!/node_modules/*"],
   },
 
   "d1_databases": [
