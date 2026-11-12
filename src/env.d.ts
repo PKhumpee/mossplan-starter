@@ -9,6 +9,6 @@ declare const __SNAPSHOT__: import('./shared/snapshot').Snapshot;
 declare namespace App {
   interface Locals {
     /** Set by `src/middleware.ts` (T06). `null` when signed out. */
-    user: { id: string; email: string; name: string; role: 'admin' | 'editor' } | null;
+    user: { id: string; email: string; name: string; role: 'owner' | 'admin' | 'editor' } | null;
   }
 }

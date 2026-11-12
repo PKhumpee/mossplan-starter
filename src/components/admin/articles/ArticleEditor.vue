@@ -128,7 +128,7 @@ const CustomImage = Image.extend({
 
 interface Props {
   initialId?: string;
-  userRole?: 'admin' | 'editor';
+  userRole?: 'owner' | 'admin' | 'editor';
 }
 
 const props = defineProps<Props>();
@@ -1730,7 +1730,7 @@ onBeforeUnmount(() => {
             </p>
             <p class="text-muted">รหัสผู้ตรวจทาน: {{ reviewedBy }}</p>
             <button
-              v-if="reviewedBy === currentUserId || userRole === 'admin'"
+              v-if="reviewedBy === currentUserId || userRole === 'admin' || userRole === 'owner'"
               type="button"
               class="text-danger hover:underline font-medium text-[0.75rem]"
               @click="clearReview"
@@ -2088,7 +2088,10 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- Role Action: Admin Shortcut or Editor Note (AFFILIATE §5, D35) -->
-        <div v-if="props.userRole === 'admin'" class="flex justify-end">
+        <div
+          v-if="props.userRole === 'admin' || props.userRole === 'owner'"
+          class="flex justify-end"
+        >
           <button
             type="button"
             class="inline-flex items-center gap-1.5 text-caption font-semibold text-brand hover:text-brand-deep underline cursor-pointer"

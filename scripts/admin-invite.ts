@@ -3,7 +3,7 @@
 import { execSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { getPlatformProxy } from 'wrangler';
-import { eq } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import { getDb } from '../src/server/db/client';
 import * as schema from '../src/server/db/schema';
 
@@ -35,7 +35,7 @@ async function main(): Promise<void> {
       INSERT INTO invite (id, email, role, created_at)
       VALUES ('${id}', '${escapedEmail}', 'admin', ${now})
       ON CONFLICT(email) DO UPDATE SET role = 'admin', accepted_at = NULL;
-      UPDATE user SET role = 'admin' WHERE email = '${escapedEmail}';
+      UPDATE user SET role = 'admin' WHERE email = '${escapedEmail}' AND role != 'owner';
     `
       .trim()
       .replace(/\n\s*/g, ' ');
@@ -81,7 +81,10 @@ async function main(): Promise<void> {
       }
 
       // Also ensure role='admin' in user table if user already exists
-      await db.update(schema.user).set({ role: 'admin' }).where(eq(schema.user.email, email));
+      await db
+        .update(schema.user)
+        .set({ role: 'admin' })
+        .where(and(eq(schema.user.email, email), ne(schema.user.role, 'owner')));
 
       console.log(
         `[admin-invite] สำเร็จ: บันทึกสิทธิ์ admin สำหรับ ${email} บน Local D1 เรียบร้อย`,

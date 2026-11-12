@@ -13,9 +13,14 @@ import {
   paginate,
   PAGE_SIZE,
 } from '../../../lib/content/queries';
+import { articlePath } from '../../../lib/content/article-path';
 import { readingTimeMinutes, truncateThai } from '../../../lib/format/thai';
 import { extractNodeText } from '../../../lib/content/render';
 import type { TiptapNode } from '../../../shared/snapshot';
+import JsonLd from '../../../components/seo/JsonLd.astro';
+import { buildListingBreadcrumbGraph } from '../../../lib/seo/schema';
+import { pageTitle } from '../../../lib/seo/metadata';
+import { buildSite } from '../../../shared/site';
 
 export async function getStaticPaths() {
   const categories = getAllCategories();
@@ -33,7 +38,9 @@ const categoryArticles = getArticlesByCategory(category.id);
 const paginated = paginate(categoryArticles, 1, PAGE_SIZE);
 
 const canonical = `/category/${category.slug}/`;
-const title = `${category.name} — ${site.name}`;
+const title = pageTitle(site.name, category.name);
+const crumbs = [{ label: category.name }];
+const jsonLdGraph = buildListingBreadcrumbGraph(buildSite().url, crumbs);
 const description = category.description
   ? truncateThai(category.description, 155)
   : `บทความเกี่ยวกับ${category.name} ทั้งหมด รวบรวมข้อมูลและสาระน่ารู้`;
@@ -50,10 +57,11 @@ const descParagraphs = category.description ? category.description.split(/\n\s*\
   siteDescription={site.description}
   categories={categories}
 >
+  <JsonLd slot="jsonld" graph={jsonLdGraph} />
   <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
     <!-- Breadcrumbs -->
     <div class="mb-4">
-      <Breadcrumbs items={[{ label: category.name }]} />
+      <Breadcrumbs items={crumbs} />
     </div>
 
     <!-- Category Header & Intro -->
@@ -83,7 +91,7 @@ const descParagraphs = category.description ? category.description.split(/\n\s*\
 
         return (
           <ArticleCard
-            href={`/${article.slug}/`}
+            href={articlePath(article)}
             title={article.title}
             excerpt={article.excerpt}
             categoryLabel={category.name}

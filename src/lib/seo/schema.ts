@@ -12,7 +12,7 @@ export interface BreadcrumbItem {
   url?: string;
 }
 
-export function buildWebSiteGraph(site: SiteMeta) {
+export function buildWebSiteGraph(site: SiteMeta, lang = 'th') {
   return {
     '@type': 'WebSite',
     '@id': `${site.url}/#website`,
@@ -20,7 +20,7 @@ export function buildWebSiteGraph(site: SiteMeta) {
     name: '__MOSS_SITE_NAME__',
     alternateName: 'Mossplan',
     description: site.description,
-    inLanguage: 'th',
+    inLanguage: lang,
     publisher: {
       '@id': `${site.url}/#organization`,
     },
@@ -55,6 +55,26 @@ export function buildBreadcrumbListGraph(siteUrl: string, items: BreadcrumbItem[
         : {}),
     })),
   };
+}
+
+/** Label of the first crumb that `Breadcrumbs.astro` always prepends. */
+export const HOME_CRUMB_LABEL = 'หน้าแรก';
+
+/**
+ * Listing pages (category, tag, author, archive) output `BreadcrumbList` only
+ * (docs/contracts/seo.md "JSON-LD"). Takes the same items passed to `Breadcrumbs.astro`, so the
+ * structured data matches the trail on screen, home crumb included.
+ */
+export function buildListingBreadcrumbGraph(
+  siteUrl: string,
+  items: { label: string; href?: string }[],
+) {
+  return [
+    buildBreadcrumbListGraph(siteUrl, [
+      { name: HOME_CRUMB_LABEL, url: '/' },
+      ...items.map((item) => ({ name: item.label, url: item.href })),
+    ]),
+  ];
 }
 
 export interface AuthorData {
@@ -97,6 +117,7 @@ export interface ArticleSchemaOptions {
   reviewer?: AuthorData | null;
   reviewedAt?: number | null;
   breadcrumbs: BreadcrumbItem[];
+  lang?: string;
 }
 
 export function buildArticleGraph(opts: ArticleSchemaOptions) {
@@ -114,6 +135,7 @@ export function buildArticleGraph(opts: ArticleSchemaOptions) {
     reviewer,
     reviewedAt,
     breadcrumbs,
+    lang = 'th',
   } = opts;
 
   const ogImageUrl = `${site.url}/og/${slug}.png`;
@@ -137,11 +159,13 @@ export function buildArticleGraph(opts: ArticleSchemaOptions) {
     breadcrumb: {
       '@id': `${canonicalUrl}#breadcrumb`,
     },
-    inLanguage: 'th',
+    inLanguage: lang,
   };
 
-  const blogPosting: Record<string, unknown> = {
-    '@type': 'BlogPosting', // D38: always BlogPosting, never NewsArticle
+  // docs/contracts/seo.md "JSON-LD": article pages output `Article` with `image` as a URL list.
+  // The contract supersedes D38's BlogPosting (AGENTS.md §2: contracts rank above code).
+  const articleNode: Record<string, unknown> = {
+    '@type': 'Article',
     '@id': `${canonicalUrl}#article`,
     isPartOf: {
       '@id': canonicalUrl,
@@ -150,26 +174,21 @@ export function buildArticleGraph(opts: ArticleSchemaOptions) {
     headline: title,
     description,
     url: canonicalUrl,
-    inLanguage: 'th',
+    inLanguage: lang,
     datePublished: publishedAt ? new Date(publishedAt).toISOString() : new Date().toISOString(),
     dateModified: modifiedAt ? new Date(modifiedAt).toISOString() : new Date().toISOString(),
-    image: {
-      '@type': 'ImageObject',
-      url: ogImageUrl,
-      width: 1200,
-      height: 630,
-    },
+    image: [ogImageUrl],
     author: authorPerson,
     publisher: buildOrganizationGraph(site),
   };
 
-  if (categoryName) blogPosting.articleSection = categoryName;
-  if (tagNames.length > 0) blogPosting.keywords = tagNames;
+  if (categoryName) articleNode.articleSection = categoryName;
+  if (tagNames.length > 0) articleNode.keywords = tagNames;
 
   if (reviewer && reviewedAt) {
     const reviewerPerson = buildPersonGraph(site.url, reviewer);
-    blogPosting.reviewedBy = reviewerPerson;
-    blogPosting.lastReviewed = new Date(reviewedAt).toISOString();
+    articleNode.reviewedBy = reviewerPerson;
+    articleNode.lastReviewed = new Date(reviewedAt).toISOString();
   }
 
   const breadcrumbList = {
@@ -178,10 +197,10 @@ export function buildArticleGraph(opts: ArticleSchemaOptions) {
   };
 
   return [
-    buildWebSiteGraph(site),
+    buildWebSiteGraph(site, lang),
     buildOrganizationGraph(site),
     webPage,
-    blogPosting,
+    articleNode,
     breadcrumbList,
   ];
 }

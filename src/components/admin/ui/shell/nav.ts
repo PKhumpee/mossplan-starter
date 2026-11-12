@@ -44,8 +44,12 @@ export const NAV_ITEMS: NavItem[] = [
   },
 ];
 
-export function navFor(role: 'admin' | 'editor' | null): NavItem[] {
-  return NAV_ITEMS.filter((item) => !item.adminOnly || role === 'admin');
+export function navFor(role: 'owner' | 'admin' | 'editor' | null): NavItem[] {
+  return NAV_ITEMS.filter((item) => !item.adminOnly || role === 'admin' || role === 'owner');
 }
 
-export const ROLE_LABEL = { admin: 'ผู้ดูแลระบบ', editor: 'บรรณาธิการ' } as const;
+export const ROLE_LABEL = {
+  owner: 'เจ้าของ',
+  admin: 'ผู้ดูแลระบบ',
+  editor: 'บรรณาธิการ',
+} as const;

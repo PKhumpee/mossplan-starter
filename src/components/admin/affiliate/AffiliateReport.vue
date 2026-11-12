@@ -53,7 +53,7 @@ interface ReportResponse {
 }
 
 interface Props {
-  userRole?: 'admin' | 'editor';
+  userRole?: 'owner' | 'admin' | 'editor';
 }
 
 const props = withDefaults(defineProps<Props>(), {

@@ -10,7 +10,12 @@ import {
   getPublishedArticles,
   getSiteInfo,
 } from '../lib/content/queries';
+import { articlePath } from '../lib/content/article-path';
 import { formatThaiDate } from '../lib/format/date';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { buildListingBreadcrumbGraph } from '../lib/seo/schema';
+import { pageTitle } from '../lib/seo/metadata';
+import { buildSite } from '../shared/site';
 
 const site = getSiteInfo();
 const categories = getAllCategories();
@@ -26,7 +31,9 @@ const categoryGroups = categories.map((cat) => ({
 const uncategorizedArticles = allArticles.filter((a) => !a.categoryId);
 
 const canonical = '/archive/';
-const title = `บทความทั้งหมด — ${site.name}`;
+const title = pageTitle(site.name, 'บทความทั้งหมด');
+const crumbs = [{ label: 'บทความทั้งหมด' }];
+const jsonLdGraph = buildListingBreadcrumbGraph(buildSite().url, crumbs);
 const description = `รวมสารบัญบทความทั้งหมดของ ${site.name} แยกตามหมวดหมู่ เข้าถึงเนื้อหาทุกเรื่องได้โดยตรง`;
 ---
 
@@ -38,10 +45,11 @@ const description = `รวมสารบัญบทความทั้ง�
   siteDescription={site.description}
   categories={categories}
 >
+  <JsonLd slot="jsonld" graph={jsonLdGraph} />
   <div class="mx-auto max-w-prose px-4 py-8 md:px-6 md:py-12">
     <!-- Breadcrumbs -->
     <div class="mb-4">
-      <Breadcrumbs items={[{ label: 'บทความทั้งหมด' }]} />
+      <Breadcrumbs items={crumbs} />
     </div>
 
     <!-- Header -->
@@ -69,7 +77,7 @@ const description = `รวมสารบัญบทความทั้ง�
               {articles.map((art) => (
                 <li class="py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
                   <a
-                    href={`/${art.slug}/`}
+                    href={articlePath(art)}
                     class="text-body-sm font-medium text-text hover:text-brand"
                   >
                     {art.title}
@@ -103,7 +111,7 @@ const description = `รวมสารบัญบทความทั้ง�
             {uncategorizedArticles.map((art) => (
               <li class="py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
                 <a
-                  href={`/${art.slug}/`}
+                  href={articlePath(art)}
                   class="text-body-sm font-medium text-text hover:text-brand"
                 >
                   {art.title}

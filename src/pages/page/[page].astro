@@ -13,6 +13,7 @@ import {
   paginate,
   PAGE_SIZE,
 } from '../../lib/content/queries';
+import { articlePath } from '../../lib/content/article-path';
 import { readingTimeMinutes } from '../../lib/format/thai';
 import { extractNodeText } from '../../lib/content/render';
 import type { TiptapNode } from '../../shared/snapshot';
@@ -38,7 +39,7 @@ const allArticles = getPublishedArticles();
 const paginated = paginate(allArticles, pageNumber, PAGE_SIZE);
 
 const canonical = `/page/${pageNumber}/`;
-const title = `บทความล่าสุด — หน้า ${pageNumber} — ${site.name}`;
+const title = `บทความล่าสุด · หน้า ${pageNumber} · ${site.name}`;
 const description = `${site.description} — หน้า ${pageNumber}`;
 ---
 
@@ -70,7 +71,7 @@ const description = `${site.description} — หน้า ${pageNumber}`;
 
         return (
           <ArticleCard
-            href={`/${article.slug}/`}
+            href={articlePath(article)}
             title={article.title}
             excerpt={article.excerpt}
             categoryLabel={category?.name}

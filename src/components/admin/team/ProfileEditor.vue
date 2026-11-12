@@ -10,7 +10,7 @@ interface ProfileData {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'editor';
+  role: 'owner' | 'admin' | 'editor';
   slug: string | null;
   jobTitle: string | null;
   bio: string | null;
@@ -232,7 +232,9 @@ onMounted(() => {
             <div>
               <h2 class="text-h3 font-bold text-text">ข้อมูลผู้เขียน</h2>
               <p class="text-caption text-muted">
-                อีเมลบัญชี: {{ email }} ({{ role === 'admin' ? 'ผู้ดูแลระบบ' : 'บรรณาธิการ' }})
+                อีเมลบัญชี: {{ email }} ({{
+                  role === 'owner' ? 'เจ้าของ' : role === 'admin' ? 'ผู้ดูแลระบบ' : 'บรรณาธิการ'
+                }})
               </p>
             </div>
             <div>

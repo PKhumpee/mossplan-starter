@@ -32,7 +32,9 @@ const quickLinks = [
   { href: '/admin/media/', label: 'อัปโหลดรูป' },
   { href: '/admin/articles/', label: 'บทความทั้งหมด' },
   { href: '/admin/affiliate/', label: 'ลิงก์ affiliate' },
-  ...(user?.role === 'admin' ? [{ href: '/admin/settings/', label: 'ตั้งค่าเว็บไซต์' }] : []),
+  ...(user?.role === 'admin' || user?.role === 'owner'
+    ? [{ href: '/admin/settings/', label: 'ตั้งค่าเว็บไซต์' }]
+    : []),
 ];
 ---
 
@@ -43,7 +45,7 @@ const quickLinks = [
         ไม่ให้ Search engine เก็บเว็บเข้า index: <strong class="text-red-600">เปิดอยู่</strong> —
         Google และ search engine อื่นจะยังไม่เก็บหน้าเว็บ (ส่ง X-Robots-Tag: noindex, nofollow)
       </p>
-      {user?.role === 'admin' && (
+      {(user?.role === 'admin' || user?.role === 'owner') && (
         <p class="mt-1 text-sm text-muted">
           สามารถเปิดระบบ Indexing ได้ที่{' '}
           <a href="/admin/settings/" class="text-brand underline">
@@ -60,7 +62,10 @@ const quickLinks = [
   </div>
 
   <div class="mb-8">
-    <RecentBuildsList client:only="vue" canTriggerRebuild={user?.role === 'admin'} />
+    <RecentBuildsList
+      client:only="vue"
+      canTriggerRebuild={user?.role === 'admin' || user?.role === 'owner'}
+    />
   </div>
 
   <section aria-labelledby="quick-links">

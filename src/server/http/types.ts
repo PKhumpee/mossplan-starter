@@ -4,7 +4,7 @@ export interface SessionUser {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'editor';
+  role: 'owner' | 'admin' | 'editor';
 }
 
 /** Hono generics shared by every route module. T06's `requireSession` sets `user`. */

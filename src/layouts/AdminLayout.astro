@@ -98,7 +98,7 @@ const isIndexingOff = hardNoindex || isPreviewHost || !indexingAllowed;
                     : 'เว็บไซต์ปิดการเก็บข้อมูลจาก Search Engine อยู่ (Indexing ปิดอยู่) — ระบบส่ง X-Robots-Tag: noindex, nofollow'}
               </span>
             </div>
-            {user?.role === 'admin' && (
+            {(user?.role === 'admin' || user?.role === 'owner') && (
               <a
                 href="/admin/settings/"
                 class="shrink-0 underline hover:text-white/80 text-xs font-semibold px-2 py-1 rounded bg-white/10 transition-colors"

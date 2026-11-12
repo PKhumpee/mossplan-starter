@@ -1,5 +1,13 @@
+/** Title separator from docs/contracts/seo.md "Titles and descriptions". */
+export const TITLE_SEPARATOR = ' · ';
+
+/** `{part} · {part} · {siteName}` for category, tag, author, archive and static pages. */
+export function pageTitle(siteName: string, ...parts: string[]) {
+  return [...parts, siteName].join(TITLE_SEPARATOR);
+}
+
 export function articleTitle(seoTitle: string | null | undefined, title: string, siteName: string) {
-  return `${seoTitle?.trim() || title} · ${siteName}`;
+  return pageTitle(siteName, seoTitle?.trim() || title);
 }
 
 export function articleDescription(

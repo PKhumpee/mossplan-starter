@@ -13,9 +13,14 @@ import {
   paginate,
   PAGE_SIZE,
 } from '../../../../lib/content/queries';
+import { articlePath } from '../../../../lib/content/article-path';
 import { readingTimeMinutes, truncateThai } from '../../../../lib/format/thai';
 import { extractNodeText } from '../../../../lib/content/render';
 import type { TiptapNode } from '../../../../shared/snapshot';
+import JsonLd from '../../../../components/seo/JsonLd.astro';
+import { buildListingBreadcrumbGraph } from '../../../../lib/seo/schema';
+import { pageTitle } from '../../../../lib/seo/metadata';
+import { buildSite } from '../../../../shared/site';
 
 export async function getStaticPaths() {
   const categories = getAllCategories();
@@ -47,7 +52,12 @@ const categoryArticles = getArticlesByCategory(category.id);
 const paginated = paginate(categoryArticles, pageNumber, PAGE_SIZE);
 
 const canonical = `/category/${category.slug}/page/${pageNumber}/`;
-const title = `${category.name} — หน้า ${pageNumber} — ${site.name}`;
+const title = pageTitle(site.name, category.name, `หน้า ${pageNumber}`);
+const crumbs = [
+  { label: category.name, href: `/category/${category.slug}/` },
+  { label: `หน้า ${pageNumber}` },
+];
+const jsonLdGraph = buildListingBreadcrumbGraph(buildSite().url, crumbs);
 
 // Pages ≥ 2 show only the first sentence of the category description (DESIGN §5.3)
 const firstSentence = category.description
@@ -64,15 +74,11 @@ const description = `${truncateThai(firstSentence, 130)} — หน้า ${page
   siteDescription={site.description}
   categories={categories}
 >
+  <JsonLd slot="jsonld" graph={jsonLdGraph} />
   <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
     <!-- Breadcrumbs -->
     <div class="mb-4">
-      <Breadcrumbs
-        items={[
-          { label: category.name, href: `/category/${category.slug}/` },
-          { label: `หน้า ${pageNumber}` },
-        ]}
-      />
+      <Breadcrumbs items={crumbs} />
     </div>
 
     <!-- Category Header -->
@@ -96,7 +102,7 @@ const description = `${truncateThai(firstSentence, 130)} — หน้า ${page
 
         return (
           <ArticleCard
-            href={`/${article.slug}/`}
+            href={articlePath(article)}
             title={article.title}
             excerpt={article.excerpt}
             categoryLabel={category.name}

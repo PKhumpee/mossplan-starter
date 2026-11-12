@@ -9,7 +9,7 @@ import { isIndexingAllowed } from '../../../server/db/settings';
 export const prerender = false;
 
 const user = Astro.locals.user;
-if (!user || user.role !== 'admin') {
+if (!user || (user.role !== 'admin' && user.role !== 'owner')) {
   return Astro.redirect('/admin/');
 }
 

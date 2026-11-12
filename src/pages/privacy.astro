@@ -7,6 +7,7 @@ import Breadcrumbs from '../components/public/ui/Breadcrumbs.astro';
 import Prose from '../components/public/ui/Prose.astro';
 import { getAllCategories, getSiteInfo } from '../lib/content/queries';
 import { buildSite } from '../shared/site';
+import { pageTitle } from '../lib/seo/metadata';
 
 const site = getSiteInfo();
 const categories = getAllCategories();
@@ -15,7 +16,7 @@ const siteConfig = buildSite();
 export const LAST_UPDATED = '14 ต.ค. 2569';
 
 const canonical = '/privacy/';
-const title = `นโยบายความเป็นส่วนตัว — ${site.name}`;
+const title = pageTitle(site.name, 'นโยบายความเป็นส่วนตัว');
 const description = `นโยบายความเป็นส่วนตัวและการคุ้มครองข้อมูลส่วนบุคคลของ ${site.name} ตามมาตรฐาน PDPA`;
 ---
 

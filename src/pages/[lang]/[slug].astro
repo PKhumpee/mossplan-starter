@@ -27,6 +27,7 @@ import type { TiptapNode } from '../../shared/snapshot';
 import JsonLd from '../../components/seo/JsonLd.astro';
 import Disclosure from '../../components/public/affiliate/Disclosure.astro';
 import { buildArticleGraph } from '../../lib/seo/schema';
+import { articlePath } from '../../lib/content/article-path';
 import { buildSite } from '../../shared/site';
 import { articleAlternates, articleDescription, articleTitle } from '../../lib/seo/metadata';
 
@@ -137,6 +138,7 @@ const jsonLdGraph = author
         : null,
       reviewedAt: article.reviewedAt,
       breadcrumbs,
+      lang: article.lang,
     })
   : [];
 ---
@@ -352,7 +354,7 @@ const jsonLdGraph = author
         <div>
           {prev && (
             <a
-              href={`/${prev.slug}/`}
+              href={articlePath(prev)}
               class="group block p-3 rounded-lg border border-border/80 bg-bg hover:border-brand transition-colors"
             >
               <span class="text-[0.75rem] font-semibold text-muted uppercase">
@@ -367,7 +369,7 @@ const jsonLdGraph = author
         <div class="text-right">
           {next && (
             <a
-              href={`/${next.slug}/`}
+              href={articlePath(next)}
               class="group block p-3 rounded-lg border border-border/80 bg-bg hover:border-brand transition-colors"
             >
               <span class="text-[0.75rem] font-semibold text-muted uppercase">บทความถัดไป »</span>
@@ -397,7 +399,7 @@ const jsonLdGraph = author
             );
             return (
               <ArticleCard
-                href={`/${rel.slug}/`}
+                href={articlePath(rel)}
                 title={rel.title}
                 excerpt={rel.excerpt}
                 categoryLabel={relCat?.name}
