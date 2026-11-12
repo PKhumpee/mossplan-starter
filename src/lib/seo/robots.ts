@@ -1,6 +1,2 @@
-export function robotsContentForRuntime(content: string | null, indexing: boolean): string | null {
-  if (content === null || (indexing && content.toLowerCase().includes('noindex'))) return content;
-  return indexing
-    ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-    : 'noindex, nofollow';
-}
+// Moved to @mossplan/core. Keep this compatibility entry for existing application imports.
+export * from '@mossplan/core/seo/robots';
