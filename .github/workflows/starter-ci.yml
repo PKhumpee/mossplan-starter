@@ -1,0 +1,25 @@
+name: Starter CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    # Copied into the starter and into sites made from it. The source repository already runs
+    # the full CI (ci.yml, quality.yml), so skip the duplicate build there.
+    if: github.repository != 'PKhumpee/mossplan'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
