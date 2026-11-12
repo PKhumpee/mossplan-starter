@@ -64,6 +64,7 @@ const articleHtmlPaths = new Set(
 );
 const indexableUrls = new Set<string>();
 const sitemapUrls = new Set<string>();
+const noindexUrls = new Set<string>();
 const titleMap = new Map<string, string>();
 const descMap = new Map<string, string>();
 
@@ -120,8 +121,11 @@ for (const file of htmlFiles) {
   doc.write(rawHtml);
 
   // Check robots
-  const robotsMeta = doc.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '';
+  const robotsEl = doc.querySelector('meta[name="robots"]');
+  const robotsMeta = robotsEl?.getAttribute('content') ?? '';
   const isNoindex = robotsMeta.includes('noindex');
+  // Only page-level exclusions: the site-wide PUBLIC_NOINDEX lock marks every page noindex.
+  if (robotsEl?.hasAttribute('data-moss-noindex')) noindexUrls.add(urlPath);
 
   // Check 404 page
   if (relPath === '404.html') {
@@ -260,6 +264,17 @@ for (const file of htmlFiles) {
 }
 
 // -------------------------------- Sitemap ↔ Noindex Consistency
+for (const noindexUrl of noindexUrls) {
+  const absoluteUrl = new URL(noindexUrl, site.url).href;
+  if (sitemapUrls.has(absoluteUrl)) {
+    fails.push({
+      rule: 'noindex-in-sitemap',
+      file: 'sitemap',
+      message: `Noindex page must not appear in sitemap: ${noindexUrl}`,
+    });
+  }
+}
+
 for (const indexable of indexableUrls) {
   if (sitemapUrls.size > 0 && !sitemapUrls.has(indexable)) {
     // If not in sitemap

@@ -30,7 +30,7 @@ export const user = sqliteTable(
       .$defaultFn(now)
       .$onUpdateFn(now),
     // Additional fields (D25); Better Auth declares them `input: false`.
-    role: text('role', { enum: ['admin', 'editor'] })
+    role: text('role', { enum: ['owner', 'admin', 'editor'] })
       .notNull()
       .default('editor'),
     slug: text('slug'),
@@ -121,7 +121,7 @@ export const invite = sqliteTable('invite', {
   id: text('id').primaryKey(),
   /** Stored lowercase. */
   email: text('email').notNull().unique(),
-  role: text('role', { enum: ['admin', 'editor'] })
+  role: text('role', { enum: ['owner', 'admin', 'editor'] })
     .notNull()
     .default('editor'),
   invitedBy: text('invited_by').references(() => user.id, { onDelete: 'set null' }),

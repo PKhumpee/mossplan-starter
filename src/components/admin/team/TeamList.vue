@@ -12,7 +12,7 @@ interface UserItem {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'editor';
+  role: 'owner' | 'admin' | 'editor';
   slug: string | null;
   jobTitle: string | null;
   bio: string | null;
@@ -41,7 +41,7 @@ const invites = ref<InviteItem[]>([]);
 
 // Filter and search
 const searchQuery = ref('');
-const roleFilter = ref<'all' | 'admin' | 'editor'>('all');
+const roleFilter = ref<'all' | 'owner' | 'admin' | 'editor'>('all');
 
 // Modals
 const showInviteModal = ref(false);
@@ -224,7 +224,7 @@ onMounted(() => {
           ]"
           @click="roleFilter = 'admin'"
         >
-          ผู้ดูแลระบบ ({{ users.filter((u) => u.role === 'admin').length }})
+          ผู้ดูแลระบบ ({{ users.filter((u) => u.role === 'admin' || u.role === 'owner').length }})
         </button>
         <button
           type="button"
@@ -334,11 +334,14 @@ onMounted(() => {
                 <select
                   :value="user.role"
                   class="rounded-lg border border-border bg-bg px-2.5 py-1 text-caption font-semibold text-text focus-visible:border-brand cursor-pointer shadow-sm"
-                  :disabled="user.id === currentUserId && user.role === 'admin'"
+                  :disabled="
+                    user.role === 'owner' || (user.id === currentUserId && user.role === 'admin')
+                  "
                   @change="
                     handleRoleChange(user, ($event.target as HTMLSelectElement).value as any)
                   "
                 >
+                  <option value="owner" disabled>เจ้าของ</option>
                   <option value="editor">บรรณาธิการ (Editor)</option>
                   <option value="admin">ผู้ดูแลระบบ (Admin)</option>
                 </select>

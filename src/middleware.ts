@@ -56,8 +56,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // 2. Session verification via Better Auth
-  let sessionUser: { id: string; email: string; name: string; role: 'admin' | 'editor' } | null =
-    null;
+  let sessionUser: {
+    id: string;
+    email: string;
+    name: string;
+    role: 'owner' | 'admin' | 'editor';
+  } | null = null;
 
   if (runtimeEnv) {
     try {
@@ -71,7 +75,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
           id: session.user.id,
           email: session.user.email,
           name: session.user.name,
-          role: (session.user as { role?: string }).role === 'admin' ? 'admin' : 'editor',
+          role:
+            (session.user as { role?: string }).role === 'owner'
+              ? 'owner'
+              : (session.user as { role?: string }).role === 'admin'
+                ? 'admin'
+                : 'editor',
         };
       }
     } catch (err) {

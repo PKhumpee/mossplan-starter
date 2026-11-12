@@ -12,6 +12,7 @@ import { staticRedirects } from './server/redirects-data';
 import { goRoutes } from './server/routes/go';
 import { ensureMigrationsOnce } from './server/routes/health';
 import { handleScheduled } from './server/scheduled';
+import { robotsContentForRuntime } from './lib/seo/robots';
 
 /**
  * Determines whether X-Robots-Tag: noindex, nofollow should be added to the response.
@@ -41,21 +42,25 @@ class RuntimeSiteRewriter {
   element(el: Element): void {
     if (el.tagName === 'html') el.setAttribute('lang', this.lang);
     if (el.tagName === 'meta' && el.getAttribute('name')?.toLowerCase() === 'robots') {
-      el.setAttribute(
-        'content',
-        this.indexing
-          ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-          : 'noindex, nofollow',
-      );
+      // Preserve page-level exclusions authored at build time.
+      const content = robotsContentForRuntime(el.getAttribute('content'), this.indexing);
+      if (content) el.setAttribute('content', content);
     }
     if (el.getAttribute('property')?.toLowerCase() === 'og:site_name' && this.siteName) {
       el.setAttribute('content', this.siteName);
+    }
+    if (el.getAttribute('property')?.toLowerCase() === 'og:locale') {
+      el.setAttribute('content', this.lang === 'en' ? 'en_US' : 'th_TH');
     }
     for (const key of ['href', 'src', 'content', 'action', 'poster']) {
       let value = el.getAttribute(key);
       if (!value) continue;
       value = value.replaceAll('__MOSS_SITE_NAME__', this.siteName ?? 'Mossplan');
       value = value.replaceAll('https://moss-origin.invalid', this.origin);
+      value = value.replaceAll(
+        'contact@moss-origin.invalid',
+        `contact@${new URL(this.origin).hostname}`,
+      );
       el.setAttribute(key, value);
     }
   }
@@ -83,6 +88,10 @@ class RuntimeTextRewriter {
     let value = this.pending.replaceAll(
       'https://moss-origin.invalid',
       this.mode === 'json' ? this.origin : escapeHtmlText(this.origin),
+    );
+    value = value.replaceAll(
+      'contact@moss-origin.invalid',
+      `contact@${new URL(this.origin).hostname}`,
     );
     value = value.replaceAll('__MOSS_SITE_NAME__', escapedName);
     this.pending = '';
@@ -160,6 +169,17 @@ export default {
       return finalizeSecurity(createRedirectResponse(targetUrl, applyNoindex), request.url, env);
     }
 
+    // Canonical article routes always include a trailing slash. Resolve only known article
+    // destinations so API, static, and unknown routes keep their existing behavior.
+    const articleSlashTarget = staticRedirects.find(
+      (rule) => rule.from.startsWith('/articles/') && rule.to === `${pathname}/`,
+    )?.to;
+    if (articleSlashTarget) {
+      const applyNoindex = await shouldApplyNoindex(env, request.url);
+      const targetUrl = url.search ? `${articleSlashTarget}${url.search}` : articleSlashTarget;
+      return finalizeSecurity(createRedirectResponse(targetUrl, applyNoindex), request.url, env);
+    }
+
     // 2. `/api` goes straight to Hono, so slashless URLs such as `/api/admin/articles` work even though
     // Astro's `trailingSlash: 'always'` would 404 them. `src/pages/api/[...path].ts` still forwards the
     // slashed form for Astro's own router.
@@ -195,6 +215,21 @@ export default {
 
     const response = await astro.fetch(stripConditionalForPages(request), env, ctx);
 
+    // Runtime noindex must also suppress the build-time llms documents when D1 indexing is off.
+    const applyNoindex = await shouldApplyNoindex(env, request.url);
+    if (applyNoindex && (pathname === '/llms.txt' || pathname === '/llms-full.txt')) {
+      return finalizeSecurity(
+        new Response(`# ${settings?.site_name ?? 'Mossplan'}\n`, {
+          headers: {
+            'Content-Type': 'text/plain; charset=utf-8',
+            'X-Robots-Tag': 'noindex, nofollow',
+          },
+        }),
+        request.url,
+        env,
+      );
+    }
+
     // 4. If Astro 404s, check D1 redirect table for recent slug changes not yet in static build (CONTRACTS §3)
     if (response.status === 404 && env.DB) {
       try {
@@ -215,7 +250,6 @@ export default {
     }
 
     // 5. Apply X-Robots-Tag: noindex, nofollow at request time when indexing is off
-    const applyNoindex = await shouldApplyNoindex(env, request.url);
     let final = response;
     const headers = new Headers(response.headers);
     if (applyNoindex) headers.set('X-Robots-Tag', 'noindex, nofollow');
@@ -229,22 +263,18 @@ export default {
       const type = headers.get('Content-Type') ?? '';
       const site = settings;
       if (type.includes('text/html')) {
+        const routeLang = pathname.match(/^\/(en|th)(?:\/|$)/)?.[1] ?? site?.default_lang ?? 'th';
         final = new HTMLRewriter()
           .on(
             '*',
-            new RuntimeSiteRewriter(
-              siteOrigin,
-              !applyNoindex,
-              site?.default_lang ?? 'th',
-              site?.site_name ?? null,
-            ),
+            new RuntimeSiteRewriter(siteOrigin, !applyNoindex, routeLang, site?.site_name ?? null),
           )
           .on(
             'script[type="application/ld+json"]',
             new RuntimeTextRewriter(siteOrigin, site?.site_name ?? null, 'json'),
           )
           .on('title', new RuntimeTextRewriter(siteOrigin, site?.site_name ?? null))
-          .on('header, footer', new RuntimeTextRewriter(siteOrigin, site?.site_name ?? null))
+          .on('body', new RuntimeTextRewriter(siteOrigin, site?.site_name ?? null))
           .transform(final);
       } else if (type.includes('xml') || type.startsWith('text/')) {
         const body = (await final.text())

@@ -9,7 +9,7 @@ import { ROLE_LABEL } from './nav';
 interface Props {
   name: string;
   email: string;
-  userRole: 'admin' | 'editor';
+  userRole: 'owner' | 'admin' | 'editor';
   /** Shows a dot while the author profile is incomplete (DESIGN §10.5). */
   profileIncomplete?: boolean;
 }

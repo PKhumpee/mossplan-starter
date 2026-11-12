@@ -8,10 +8,10 @@
     "node": ">=24"
   },
   "scripts": {
-    "moss": "node packages/cli/src/index.js",
+    "moss": "moss",
     "dev": "astro dev",
     "build:og": "tsx scripts/build-og.ts",
-    "build": "tsx scripts/build-content.ts start && pnpm fetch-media && pnpm build:og && astro build && pnpm redirects && pnpm well-known && pnpm pagefind && pnpm check:seo && pnpm check:assets && pnpm check:affiliate && pnpm check:media && tsx scripts/build-content.ts done",
+    "build": "tsx scripts/build-content.ts start && pnpm fetch-media && pnpm build:og && pnpm redirects && astro build && pnpm redirects && pnpm well-known && pnpm pagefind && pnpm check:seo && pnpm check:assets && pnpm check:affiliate && pnpm check:media && tsx scripts/build-content.ts done",
     "preview": "astro preview",
     "typecheck": "astro check",
     "lint": "oxlint && prettier --check .",
@@ -33,7 +33,9 @@
     "backup": "tsx scripts/backup.ts backup",
     "backup:list": "tsx scripts/backup.ts list",
     "backup:restore": "tsx scripts/backup.ts restore",
-    "e2e": "playwright test",
+    "e2e": "node scripts/run-e2e.mjs",
+    "e2e:server": "node scripts/e2e-preview-server.mjs",
+    "e2e:api-server": "node scripts/e2e-api-server.mjs",
     "check:csp-nonce": "tsx scripts/check-csp-nonce.ts"
   },
   "dependencies": {
@@ -41,6 +43,7 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@astrojs/vue": "^7.0.3",
+    "@mossplan/core": "^0.1.0",
     "@resvg/resvg-js": "2.6.2",
     "@tailwindcss/vite": "^4.3.3",
     "@tiptap/core": "^3.31.4",
@@ -59,7 +62,8 @@
     "sharp": "0.35.5",
     "tailwindcss": "^4.3.3",
     "vue": "^3.5.43",
-    "zod": "^4.6.7"
+    "zod": "^4.6.7",
+    "@mossplan/cli": "^0.1.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

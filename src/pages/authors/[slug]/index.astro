@@ -17,10 +17,15 @@ import {
   paginate,
   PAGE_SIZE,
 } from '../../../lib/content/queries';
+import { articlePath } from '../../../lib/content/article-path';
 import { formatThaiDate } from '../../../lib/format/date';
 import { readingTimeMinutes, truncateThai } from '../../../lib/format/thai';
 import { extractNodeText } from '../../../lib/content/render';
 import type { TiptapNode } from '../../../shared/snapshot';
+import JsonLd from '../../../components/seo/JsonLd.astro';
+import { buildListingBreadcrumbGraph } from '../../../lib/seo/schema';
+import { pageTitle } from '../../../lib/seo/metadata';
+import { buildSite } from '../../../shared/site';
 
 export async function getStaticPaths() {
   const authors = getAllAuthors();
@@ -41,7 +46,9 @@ const reviewedArticles = getArticlesReviewedByAuthor(author.id).slice(0, 6);
 const avatar = author.avatarMediaId ? getMediaById(author.avatarMediaId) : undefined;
 
 const canonical = `/authors/${author.slug}/`;
-const title = `${author.name} — ทีมผู้เขียน — ${site.name}`;
+const title = pageTitle(site.name, author.name);
+const crumbs = [{ label: 'ทีมผู้เขียน', href: '/authors/' }, { label: author.name }];
+const jsonLdGraph = buildListingBreadcrumbGraph(buildSite().url, crumbs);
 const description = truncateThai(author.bio, 155);
 ---
 
@@ -53,10 +60,11 @@ const description = truncateThai(author.bio, 155);
   siteDescription={site.description}
   categories={categories}
 >
+  <JsonLd slot="jsonld" graph={jsonLdGraph} />
   <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
     <!-- Breadcrumbs -->
     <div class="mb-4">
-      <Breadcrumbs items={[{ label: 'ทีมผู้เขียน', href: '/authors/' }, { label: author.name }]} />
+      <Breadcrumbs items={crumbs} />
     </div>
 
     <!-- Author Profile Header -->
@@ -131,7 +139,7 @@ const description = truncateThai(author.bio, 155);
 
           return (
             <ArticleCard
-              href={`/${article.slug}/`}
+              href={articlePath(article)}
               title={article.title}
               excerpt={article.excerpt}
               categoryLabel={category?.name}
@@ -177,7 +185,7 @@ const description = truncateThai(author.bio, 155);
             {reviewedArticles.map((art) => (
               <li class="py-3.5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <a
-                  href={`/${art.slug}/`}
+                  href={articlePath(art)}
                   class="text-body-sm font-semibold text-text hover:text-brand"
                 >
                   {art.title}

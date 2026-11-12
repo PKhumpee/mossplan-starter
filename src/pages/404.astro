@@ -11,6 +11,7 @@ import {
   getPublishedArticles,
   getSiteInfo,
 } from '../lib/content/queries';
+import { articlePath } from '../lib/content/article-path';
 import { readingTimeMinutes } from '../lib/format/thai';
 import { extractNodeText } from '../lib/content/render';
 import type { TiptapNode } from '../shared/snapshot';
@@ -19,7 +20,7 @@ const site = getSiteInfo();
 const categories = getAllCategories();
 const latestArticles = getPublishedArticles().slice(0, 6);
 
-const title = `ไม่พบหน้าที่คุณต้องการ — ${site.name}`;
+const title = `ไม่พบหน้าที่คุณต้องการ · ${site.name}`;
 const description = `หน้าที่คุณกำลังค้นหาอาจถูกย้าย ลบ หรือไม่มีอยู่แล้ว ค้นหาบทความอื่น ๆ หรือกลับไปยังหน้าแรก`;
 ---
 
@@ -81,7 +82,7 @@ const description = `หน้าที่คุณกำลังค้นห�
 
           return (
             <ArticleCard
-              href={`/${article.slug}/`}
+              href={articlePath(article)}
               title={article.title}
               excerpt={article.excerpt}
               categoryLabel={category?.name}

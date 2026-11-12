@@ -33,14 +33,14 @@ interface AffiliateLinkItem {
 }
 
 interface Props {
-  userRole?: 'admin' | 'editor';
+  userRole?: 'owner' | 'admin' | 'editor';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   userRole: 'admin',
 });
 
-const isAdmin = computed(() => props.userRole === 'admin');
+const isAdmin = computed(() => props.userRole === 'admin' || props.userRole === 'owner');
 
 const loading = ref(true);
 const error = ref<string | null>(null);

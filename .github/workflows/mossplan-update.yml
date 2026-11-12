@@ -1,0 +1,33 @@
+name: Mossplan update
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Update Mossplan packages
+        run: pnpm moss update
+      - name: Open update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: mossplan/update-packages
+          delete-branch: true
+          title: 'chore: update Mossplan packages'
+          commit-message: 'chore: update Mossplan packages'
+          body: |
+            Automated Mossplan package update. Review any package changelog and migration requirements before merging.

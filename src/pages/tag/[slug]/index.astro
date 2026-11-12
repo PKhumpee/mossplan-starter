@@ -15,9 +15,14 @@ import {
   paginate,
   PAGE_SIZE,
 } from '../../../lib/content/queries';
+import { articlePath } from '../../../lib/content/article-path';
 import { readingTimeMinutes } from '../../../lib/format/thai';
 import { extractNodeText } from '../../../lib/content/render';
 import type { TiptapNode } from '../../../shared/snapshot';
+import JsonLd from '../../../components/seo/JsonLd.astro';
+import { buildListingBreadcrumbGraph } from '../../../lib/seo/schema';
+import { pageTitle } from '../../../lib/seo/metadata';
+import { buildSite } from '../../../shared/site';
 
 export async function getStaticPaths() {
   const tags = getAllTags();
@@ -38,7 +43,10 @@ const paginated = paginate(tagArticles, 1, PAGE_SIZE);
 const isThin = tagArticles.length < 2;
 
 const canonical = `/tag/${tag.slug}/`;
-const title = `#${tag.name} — ${site.name}`;
+// `#` keeps a tag title distinct from a category with the same name (seo-audit title-unique).
+const title = pageTitle(site.name, `#${tag.name}`);
+const crumbs = [{ label: `#${tag.name}` }];
+const jsonLdGraph = buildListingBreadcrumbGraph(buildSite().url, crumbs);
 const description = `รวมบทความทั้งหมดที่ติดแท็ก #${tag.name} ข้อมูลและสาระน่ารู้`;
 ---
 
@@ -51,10 +59,11 @@ const description = `รวมบทความทั้งหมดที่�
   siteDescription={site.description}
   categories={categories}
 >
+  <JsonLd slot="jsonld" graph={jsonLdGraph} />
   <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
     <!-- Breadcrumbs -->
     <div class="mb-4">
-      <Breadcrumbs items={[{ label: `#${tag.name}` }]} />
+      <Breadcrumbs items={crumbs} />
     </div>
 
     <!-- Tag Header -->
@@ -77,7 +86,7 @@ const description = `รวมบทความทั้งหมดที่�
 
         return (
           <ArticleCard
-            href={`/${article.slug}/`}
+            href={articlePath(article)}
             title={article.title}
             excerpt={article.excerpt}
             categoryLabel={category?.name}

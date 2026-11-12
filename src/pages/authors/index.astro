@@ -11,13 +11,19 @@ import {
   getMediaById,
   getSiteInfo,
 } from '../../lib/content/queries';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import { buildListingBreadcrumbGraph } from '../../lib/seo/schema';
+import { pageTitle } from '../../lib/seo/metadata';
+import { buildSite } from '../../shared/site';
 
 const site = getSiteInfo();
 const categories = getAllCategories();
 const authors = getAllAuthors();
 
 const canonical = '/authors/';
-const title = `ทีมผู้เขียน — ${site.name}`;
+const title = pageTitle(site.name, 'ทีมผู้เขียน');
+const crumbs = [{ label: 'ทีมผู้เขียน' }];
+const jsonLdGraph = buildListingBreadcrumbGraph(buildSite().url, crumbs);
 const description = `ทำความรู้จักกับทีมผู้เขียนและกองบรรณาธิการของ ${site.name} ผู้สร้างสรรค์บทความคุณภาพที่ตรวจสอบได้`;
 ---
 
@@ -29,10 +35,11 @@ const description = `ทำความรู้จักกับทีมผ�
   siteDescription={site.description}
   categories={categories}
 >
+  <JsonLd slot="jsonld" graph={jsonLdGraph} />
   <div class="mx-auto max-w-listing px-4 py-8 md:px-6 md:py-12">
     <!-- Breadcrumbs -->
     <div class="mb-4">
-      <Breadcrumbs items={[{ label: 'ทีมผู้เขียน' }]} />
+      <Breadcrumbs items={crumbs} />
     </div>
 
     <!-- Header -->

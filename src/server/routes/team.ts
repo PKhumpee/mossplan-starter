@@ -1,6 +1,6 @@
 // Team management & Audit log routes (CONTRACTS §5, DESIGN §10.5).
 // GET/POST/PATCH/DELETE /api/admin/team/*, GET /api/admin/audit (admin only).
-import { and, count, desc, eq, gte, isNull, lte } from 'drizzle-orm';
+import { and, count, desc, eq, gte, inArray, isNull, lte } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { requireRole, requireSession } from '../auth/guard';
@@ -280,11 +280,18 @@ export const teamRoutes = new Hono<AppEnv>()
     const newRole = parsed.data.role;
 
     // Guard: Cannot demote the last admin
+    if (targetUser.role === 'owner') {
+      return c.json(
+        { error: { code: 'OWNER_PROTECTED', message: 'เปลี่ยนบทบาท owner ไม่ได้' } },
+        422,
+      );
+    }
+
     if (targetUser.role === 'admin' && newRole === 'editor') {
       const [adminCount] = await db
         .select({ total: count() })
         .from(schema.user)
-        .where(eq(schema.user.role, 'admin'));
+        .where(inArray(schema.user.role, ['admin', 'owner']));
 
       if (Number(adminCount?.total ?? 0) <= 1) {
         return c.json(
@@ -331,6 +338,14 @@ export const teamRoutes = new Hono<AppEnv>()
 
     // Guard 1: Cannot remove yourself
     if (targetUserId === sessionUser.id) {
+      const [self] = await db
+        .select({ role: schema.user.role })
+        .from(schema.user)
+        .where(eq(schema.user.id, targetUserId))
+        .limit(1);
+      if (self?.role === 'owner') {
+        return c.json({ error: { code: 'OWNER_PROTECTED', message: 'ลบ owner ไม่ได้' } }, 422);
+      }
       return c.json(
         {
           error: {
@@ -352,12 +367,16 @@ export const teamRoutes = new Hono<AppEnv>()
       return c.json({ error: { code: 'NOT_FOUND', message: 'ไม่พบผู้ใช้ที่ระบุ' } }, 404);
     }
 
+    if (targetUser.role === 'owner') {
+      return c.json({ error: { code: 'OWNER_PROTECTED', message: 'ลบ owner ไม่ได้' } }, 422);
+    }
+
     // Guard 2: Cannot remove the last admin
     if (targetUser.role === 'admin') {
       const [adminCount] = await db
         .select({ total: count() })
         .from(schema.user)
-        .where(eq(schema.user.role, 'admin'));
+        .where(inArray(schema.user.role, ['admin', 'owner']));
 
       if (Number(adminCount?.total ?? 0) <= 1) {
         return c.json(

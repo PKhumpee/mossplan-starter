@@ -6,12 +6,10 @@ import tailwindcss from '@tailwindcss/vite';
 import { readSiteConfig } from './scripts/lib/site';
 import { loadSnapshot } from './src/lib/content/loader';
 import { findMatchingRedirect } from './src/shared/redirects';
+import { isSitemapUrl } from './src/lib/seo/sitemap';
 
 const siteConfig = readSiteConfig();
 const snapshot = loadSnapshot();
-
-// Paths that must never appear in the sitemap.
-const SITEMAP_EXCLUDED = ['/admin', '/api', '/styleguide', '/go'];
 
 export default defineConfig({
   site: 'https://moss-origin.invalid',
@@ -26,8 +24,7 @@ export default defineConfig({
     vue(),
     sitemap({
       filter: (page) => {
-        const { pathname } = new URL(page);
-        return !SITEMAP_EXCLUDED.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+        return isSitemapUrl(new URL(page).pathname);
       },
     }),
   ],

@@ -1040,7 +1040,7 @@ export const affiliateRoutes = new Hono<AppEnv>()
   .get('/admin/affiliate/links', requireSession, async (c) => {
     const db = getDb(c.env);
     const user = c.get('user') as SessionUser;
-    const isAdmin = user.role === 'admin';
+    const isAdmin = user.role === 'admin' || user.role === 'owner';
 
     const querySchema = paginationSchema.extend({
       status: z.enum(['active', 'paused', 'broken']).optional(),
@@ -1162,7 +1162,7 @@ export const affiliateRoutes = new Hono<AppEnv>()
   .get('/admin/affiliate/links/:id', requireSession, async (c) => {
     const db = getDb(c.env);
     const user = c.get('user') as SessionUser;
-    const isAdmin = user.role === 'admin';
+    const isAdmin = user.role === 'admin' || user.role === 'owner';
     const { id } = parseParams(c, z.object({ id: z.string().min(1) }));
 
     const [row] = await db

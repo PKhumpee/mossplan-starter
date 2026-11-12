@@ -33,14 +33,14 @@ interface ImportResponse {
 }
 
 interface Props {
-  userRole?: 'admin' | 'editor';
+  userRole?: 'owner' | 'admin' | 'editor';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   userRole: 'admin',
 });
 
-const isAdmin = computed(() => props.userRole === 'admin');
+const isAdmin = computed(() => props.userRole === 'admin' || props.userRole === 'owner');
 
 const file = ref<File | null>(null);
 const fileContent = ref<string>('');

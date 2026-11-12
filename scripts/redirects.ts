@@ -56,20 +56,32 @@ export function generateRedirectsData(redirects: Snapshot['redirects']): StaticR
 
 /** Drop redirects whose source URL is now owned by a live article (the article wins). */
 export function liveRedirects(snapshot: Snapshot): Snapshot['redirects'] {
-  const live = new Set(snapshot.articles.map((a) => `/articles/${a.slug}/`));
+  const defaultLang = snapshot.site?.defaultLang ?? 'th';
+  const live = new Set(
+    snapshot.articles.map((a) => {
+      const lang = a.lang ?? defaultLang;
+      return lang === defaultLang ? `/articles/${a.slug}/` : `/articles/${lang}/${a.slug}/`;
+    }),
+  );
   return snapshot.redirects.filter(
     (r) => !live.has(r.from.startsWith('/') ? r.from : `/${r.from}`),
   );
 }
 
+export function articleRedirects(snapshot: Snapshot): Snapshot['redirects'] {
+  const defaultLang = snapshot.site?.defaultLang ?? 'th';
+  return snapshot.articles.map((article) => {
+    const lang = article.lang ?? defaultLang;
+    return {
+      from:
+        lang === defaultLang ? `/articles/${article.slug}/` : `/articles/${lang}/${article.slug}/`,
+      to: lang === defaultLang ? `/${article.slug}/` : `/${lang}/${article.slug}/`,
+    };
+  });
+}
+
 export function writeRedirects(snapshot: Snapshot): void {
-  const redirects = [
-    ...liveRedirects(snapshot),
-    ...snapshot.articles.map((article) => ({
-      from: `/articles/${article.slug}/`,
-      to: `/${article.slug}/`,
-    })),
-  ];
+  const redirects = [...liveRedirects(snapshot), ...articleRedirects(snapshot)];
   const content = generateRedirects(redirects);
   const dataList = generateRedirectsData(redirects);
 

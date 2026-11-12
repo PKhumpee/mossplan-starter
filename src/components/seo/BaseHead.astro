@@ -38,6 +38,10 @@ const {
 } = Astro.props;
 const site = buildSite();
 const runtimeSiteName = siteName ? '__MOSS_SITE_NAME__' : 'Mossplan';
+const runtimeTitle = siteName ? title.replaceAll(siteName, '__MOSS_SITE_NAME__') : title;
+const runtimeDescription = siteName
+  ? description.replaceAll(siteName, '__MOSS_SITE_NAME__')
+  : description;
 
 // While "ไม่ให้ Search engine เก็บเว็บเข้า index" is on, every page is noindex, nofollow.
 // Otherwise indexable pages carry the Discover-friendly directives; noindex pages say noindex only.
@@ -52,13 +56,14 @@ const canonicalUrl = canonical === null ? null : site.absolute(canonical);
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{title}</title>
-<meta name="description" content={description} />
+<title>{runtimeTitle}</title>
+<meta name="description" content={runtimeDescription} />
 {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 {alternateLinks.map((alternate) => (
   <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />
 ))}
-<meta name="robots" content={robots} />
+{/* data-moss-noindex marks a page-level exclusion, even when the site-wide lock hides it. */}
+<meta name="robots" content={robots} data-moss-noindex={noindex ? 'page' : undefined} />
 <meta name="theme-color" media="(prefers-color-scheme: light)" content={tokens.color.light.bg} />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content={tokens.color.dark.bg} />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -81,8 +86,8 @@ const canonicalUrl = canonical === null ? null : site.absolute(canonical);
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={runtimeSiteName} />
 <meta property="og:locale" content="th_TH" />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+<meta property="og:title" content={runtimeTitle} />
+<meta property="og:description" content={runtimeDescription} />
 {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
 {ogImage && (
   <>

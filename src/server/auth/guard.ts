@@ -25,7 +25,8 @@ export const requireSession: MiddlewareHandler<AppEnv> = async (c, next) => {
     );
   }
 
-  const role = (session.user as { role?: string }).role === 'admin' ? 'admin' : 'editor';
+  const sessionRole = (session.user as { role?: string }).role;
+  const role = sessionRole === 'owner' || sessionRole === 'admin' ? sessionRole : 'editor';
   const user: SessionUser = {
     id: session.user.id,
     email: session.user.email,
@@ -41,7 +42,7 @@ export const requireSession: MiddlewareHandler<AppEnv> = async (c, next) => {
  * Middleware ensuring the authenticated user has the specified role.
  * Requires `requireSession` to run first. Returns 403 FORBIDDEN on mismatch.
  */
-export function requireRole(requiredRole: 'admin' | 'editor'): MiddlewareHandler<AppEnv> {
+export function requireRole(requiredRole: 'owner' | 'admin' | 'editor'): MiddlewareHandler<AppEnv> {
   return async (c, next) => {
     const user = c.get('user');
     if (!user) {
@@ -56,7 +57,10 @@ export function requireRole(requiredRole: 'admin' | 'editor'): MiddlewareHandler
       );
     }
 
-    if (requiredRole === 'admin' && user.role !== 'admin') {
+    if (
+      (requiredRole === 'owner' && user.role !== 'owner') ||
+      (requiredRole === 'admin' && user.role !== 'admin' && user.role !== 'owner')
+    ) {
       return c.json(
         {
           error: {

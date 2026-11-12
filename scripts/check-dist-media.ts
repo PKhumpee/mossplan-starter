@@ -2,6 +2,7 @@
 // to /api/admin and zero <img> tags with src starting with /api/.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { loadSnapshot } from '../src/lib/content/loader';
 
 export interface DistMediaViolation {
   file: string;
@@ -31,7 +32,20 @@ function getAllFiles(dir: string): string[] {
   return files;
 }
 
-export function checkDistMedia(distDir?: string): CheckDistMediaResult {
+/** Article HTML paths under dist, relative with forward slashes: `/{slug}/index.html` for the
+ * default language and `/{lang}/{slug}/index.html` for the other one (D-003). */
+export function articleHtmlPaths(): Set<string> {
+  const snapshot = loadSnapshot();
+  return new Set(
+    snapshot.articles.map((article) =>
+      article.lang === snapshot.site.defaultLang
+        ? `/${article.slug}/index.html`
+        : `/${article.lang}/${article.slug}/index.html`,
+    ),
+  );
+}
+
+export function checkDistMedia(distDir?: string, articlePaths?: Set<string>): CheckDistMediaResult {
   const root = process.cwd();
   const targetDir = distDir ?? resolve(root, 'dist/client');
 
@@ -96,10 +110,11 @@ export function checkDistMedia(distDir?: string): CheckDistMediaResult {
     }
   }
 
-  // 3. Article pages must ship JSON-LD (P2-01 C)
+  // 3. Article pages must ship JSON-LD (P2-01 C). Articles live at the root, not /articles/.
+  const articles = articlePaths ?? articleHtmlPaths();
   for (const file of htmlFiles) {
     const rel = file.slice(targetDir.length).replace(/\\/g, '/');
-    if (/^\/articles\/[^/]+\/index\.html$/.test(rel)) {
+    if (articles.has(rel)) {
       if (!readFileSync(file, 'utf8').includes('application/ld+json')) {
         violations.push({
           file,

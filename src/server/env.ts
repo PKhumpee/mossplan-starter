@@ -22,6 +22,8 @@ export interface Env {
   // secrets (`wrangler secret put`, `.dev.vars` locally)
   BETTER_AUTH_SECRET?: string;
   RESEND_API_KEY?: string;
+  /** Local test endpoint override. Leave unset in production. */
+  RESEND_API_URL?: string;
   TURNSTILE_SECRET_KEY?: string;
   GITHUB_DISPATCH_TOKEN?: string;
   CF_ANALYTICS_API_TOKEN?: string;
@@ -54,6 +56,7 @@ export const envSchema = z.object({
   EMAIL_FROM: optionalString,
   BETTER_AUTH_SECRET: optionalString,
   RESEND_API_KEY: optionalString,
+  RESEND_API_URL: optionalString,
   TURNSTILE_SECRET_KEY: optionalString,
   GITHUB_DISPATCH_TOKEN: optionalString,
   CF_ANALYTICS_API_TOKEN: optionalString,

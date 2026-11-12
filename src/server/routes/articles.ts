@@ -14,7 +14,7 @@ import type { AppEnv } from '../http/types';
 import { requestBuild } from '../services/builds';
 import policyConfig from '../../../config/content-policy.json';
 import { getSiteSettings } from '../db/site-settings';
-import { isReservedSlug } from '../../shared/reserved-slugs';
+import { isReservedSlug } from '@mossplan/core';
 
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -385,10 +385,13 @@ export const articlesRoutes = new Hono<AppEnv>()
 
       // If already published, record a single-hop 301 redirect (D30, CONTRACTS §3)
       if (isPublished) {
+        const currentSiteSettings = await getSiteSettings(c.env);
+        const prefix =
+          existing.lang !== (currentSiteSettings?.default_lang ?? 'th') ? `/${existing.lang}` : '';
         await recordSlugRedirect(db, {
           reason: 'article',
-          from: `/${existing.slug}/`,
-          to: `/${body.slug}/`,
+          from: `${prefix}/${existing.slug}/`,
+          to: `${prefix}/${body.slug}/`,
         });
       } else {
         // The article now owns this URL; any old redirect from it must go (no shadowing, no loops).
@@ -748,7 +751,7 @@ export const articlesRoutes = new Hono<AppEnv>()
     }
 
     // Only reviewer or admin can clear review
-    if (user.role !== 'admin' && user.id !== art.reviewedBy) {
+    if (user.role !== 'admin' && user.role !== 'owner' && user.id !== art.reviewedBy) {
       return c.json(
         {
           error: {

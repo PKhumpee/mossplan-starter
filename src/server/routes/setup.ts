@@ -29,6 +29,20 @@ const COOKIE = 'moss_setup';
 const OTP_TTL_MS = 10 * 60 * 1000;
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 const RESEND_TEST_FROM = 'onboarding@resend.dev';
+const RESEND_API_URL = 'https://api.resend.com/emails';
+
+function resendEndpoint(localOverride?: string): string {
+  if (!localOverride) return RESEND_API_URL;
+  try {
+    const url = new URL(localOverride);
+    if (url.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname)) {
+      return url.toString();
+    }
+  } catch {
+    // Invalid overrides fall back to the official Resend endpoint.
+  }
+  return RESEND_API_URL;
+}
 
 const draftSchema = z.object({
   siteName: z.string().trim().min(1).max(120),
@@ -118,8 +132,8 @@ async function getRateLimit(
   };
 }
 
-async function sendOtp(draft: SetupDraft, otp: string): Promise<boolean> {
-  const response = await fetch('https://api.resend.com/emails', {
+async function sendOtp(draft: SetupDraft, otp: string, endpoint?: string): Promise<boolean> {
+  const response = await fetch(resendEndpoint(endpoint), {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${draft.resendApiKey}`,
@@ -241,7 +255,7 @@ export const setupRoutes = new Hono<AppEnv>()
       otp: String(crypto.getRandomValues(new Uint32Array(1))[0]! % 1_000_000).padStart(6, '0'),
     };
     try {
-      const sent = await sendOtp(draft, draft.otp);
+      const sent = await sendOtp(draft, draft.otp, c.env.RESEND_API_URL);
       if (!sent)
         return errorResponse(
           c,
@@ -321,7 +335,7 @@ export const setupRoutes = new Hono<AppEnv>()
       ),
       c.env.DB.prepare(
         `INSERT INTO user (id, name, email, email_verified, created_at, updated_at, role)
-         SELECT ?, ?, ?, 1, ?, ?, 'admin' WHERE EXISTS (SELECT 1 FROM setup_state WHERE id = 1 AND consumed_at = ?)`,
+         SELECT ?, ?, ?, 1, ?, ?, 'owner' WHERE EXISTS (SELECT 1 FROM setup_state WHERE id = 1 AND consumed_at = ?)`,
       ).bind(userId, draft.siteName, draft.adminEmail, now, now, consumeNonce),
       c.env.DB.prepare(
         'DELETE FROM setup_sessions WHERE session_hash = ? AND EXISTS (SELECT 1 FROM setup_state WHERE id = 1 AND consumed_at = ?)',

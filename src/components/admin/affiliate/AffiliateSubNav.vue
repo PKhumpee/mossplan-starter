@@ -3,7 +3,7 @@ import Badge from '../ui/Badge.vue';
 
 interface Props {
   active: 'links' | 'merchants' | 'import' | 'report';
-  userRole?: 'admin' | 'editor';
+  userRole?: 'owner' | 'admin' | 'editor';
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,7 +22,7 @@ const navItems = [
   <nav class="mb-6 border-b border-border" aria-label="เมนูระบบ Affiliate">
     <ul class="flex flex-wrap gap-2 -mb-px">
       <template v-for="item in navItems" :key="item.id">
-        <li v-if="!item.adminOnly || props.userRole === 'admin'">
+        <li v-if="!item.adminOnly || props.userRole === 'admin' || props.userRole === 'owner'">
           <a
             :href="item.href"
             :class="[
