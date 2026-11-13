@@ -22,6 +22,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Update Mossplan packages
         run: pnpm moss update
+      - name: Install updated dependencies and verify build
+        run: |
+          pnpm install --frozen-lockfile
+          if ! pnpm build; then
+            echo "::error::The Mossplan update was not opened as a pull request because the updated dependencies failed to build. Check the build log, then rerun this workflow."
+            exit 1
+          fi
       - name: Open update pull request
         uses: peter-evans/create-pull-request@v7
         with:
@@ -31,3 +38,5 @@ jobs:
           commit-message: 'chore: update Mossplan packages'
           body: |
             Automated Mossplan package update. Review any package changelog and migration requirements before merging.
+
+            Build verification passed for the proposed dependency updates based on source commit `${{ github.sha }}`.
